@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=3 uid="uid://x4qq2j3l7nvb"]
+
+[ext_resource type="Script" path="res://game_board/GameBoard.gd" id="1_8mgoe"]
+[ext_resource type="PackedScene" uid="uid://bh2knk60qbton" path="res://game_board/board_square_0.tscn" id="2_o5ud0"]
+[ext_resource type="PackedScene" uid="uid://cry3vnlah6fkx" path="res://game_board/board_square_1.tscn" id="3_a576l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yj5kd"]
+bg_color = Color(0, 0, 0, 0.411765)
+
+[node name="Board" type="Node2D"]
+script = ExtResource("1_8mgoe")
+
+[node name="Background" type="Panel" parent="."]
+offset_right = 512.0
+offset_bottom = 512.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_yj5kd")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+offset_right = 512.0
+offset_bottom = 512.0
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 8
+
+[node name="BoardSquare0" parent="GridContainer" instance=ExtResource("2_o5ud0")]
+visible = false
+layout_mode = 2
+
+[node name="BoardSquare1" parent="GridContainer" instance=ExtResource("3_a576l")]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(512, 512)
+offset_right = 512.0
+offset_bottom = 512.0
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer0" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer1" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer6" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="VBoxContainer7" type="VBoxContainer" parent="HBoxContainer"]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_constants/separation = 0

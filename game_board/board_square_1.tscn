@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://cry3vnlah6fkx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xixw6"]
+bg_color = Color(1, 1, 1, 0.188235)
+
+[node name="BoardSquare1" type="Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 64.0
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xixw6")

@@ -1,0 +1,110 @@
+[gd_scene load_steps=8 format=3 uid="uid://b5bfm2244ywxk"]
+
+[ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
+[ext_resource type="PackedScene" uid="uid://x4qq2j3l7nvb" path="res://game_board/board.tscn" id="2_2ltbx"]
+[ext_resource type="Texture2D" uid="uid://b8biy2iputyhe" path="res://assets/gems/characters_0002.png" id="3_qywvx"]
+[ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="3_sh4xh"]
+[ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/characters_0003.png" id="4_2reex"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
+bg_color = Color(0, 0, 0, 0.2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_imdoc"]
+bg_color = Color(0, 0, 0, 0.411765)
+
+[node name="Game" type="Node2D"]
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_h8otn")
+
+[node name="debug-bkgd" type="Panel" parent="."]
+offset_left = 50.0
+offset_top = 72.0
+offset_right = 200.0
+offset_bottom = 584.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 56.0
+offset_top = 72.0
+offset_right = 214.0
+offset_bottom = 571.0
+theme_override_constants/separation = 30
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer1"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer1/Control"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_sh4xh")
+centered = false
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.223529, 0.223529, 0.223529, 1)
+theme_override_font_sizes/font_size = 32
+text = "999"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer2/Control"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("3_qywvx")
+centered = false
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.223529, 0.223529, 0.223529, 1)
+theme_override_font_sizes/font_size = 32
+text = "999"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer3/Control"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_2reex")
+centered = false
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.223529, 0.223529, 0.223529, 1)
+theme_override_font_sizes/font_size = 32
+text = "999"
+
+[node name="Board" parent="." instance=ExtResource("2_2ltbx")]
+position = Vector2(338, 73)
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 523.0
+offset_top = 69.0
+offset_right = 1046.0
+offset_bottom = 582.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_imdoc")
