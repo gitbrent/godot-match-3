@@ -47,6 +47,29 @@ func _on_cell_click(gem_cell:GemCell):
 		selected_cell_1 = selected_cell_2
 		selected_cell_2 = null
 
+# =========================================================
+
+func find_gem_indices(gem_cell:GemCell) -> Dictionary:
+	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
+	var hbox = parent_vbox.get_parent()      # Assuming direct parent of VBox is the HBoxContainer
+	
+	var vbox_index = -1
+	var gem_index = -1
+	
+	# Get the index of the VBoxContainer in the HBoxContainer
+	for i in range(hbox.get_child_count()):
+		if hbox.get_child(i) == parent_vbox:
+			vbox_index = i
+			break
+	
+	# Get the index of the GemCell in the VBoxContainer
+	for j in range(parent_vbox.get_child_count()):
+		if parent_vbox.get_child(j) == gem_cell:
+			gem_index = j
+			break
+	
+	return {"column": vbox_index, "row": gem_index}
+
 func swap_gem_cells():
 	emit_signal("gem_swapped") # play sound
 	# A: turn off anim/effects before moving
@@ -101,6 +124,8 @@ func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
 	# Cells are not adjacent
 	return false
 
+# =========================================================
+
 func fill_grid():
 	var size = 8  # This is the size of your grid, 8x8 in this case
 	for i in range(size):
@@ -136,24 +161,3 @@ func fill_hbox():
 			#control_node.connect("drag_start", self._on_cell_click)
 			control_node.connect("cell_click", self._on_cell_click)
 			#control_node.connect("drag_ended", self._on_cell_click)
-
-func find_gem_indices(gem_cell:GemCell) -> Dictionary:
-	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
-	var hbox = parent_vbox.get_parent()      # Assuming direct parent of VBox is the HBoxContainer
-	
-	var vbox_index = -1
-	var gem_index = -1
-	
-	# Get the index of the VBoxContainer in the HBoxContainer
-	for i in range(hbox.get_child_count()):
-		if hbox.get_child(i) == parent_vbox:
-			vbox_index = i
-			break
-	
-	# Get the index of the GemCell in the VBoxContainer
-	for j in range(parent_vbox.get_child_count()):
-		if parent_vbox.get_child(j) == gem_cell:
-			gem_index = j
-			break
-	
-	return {"column": vbox_index, "row": gem_index}
