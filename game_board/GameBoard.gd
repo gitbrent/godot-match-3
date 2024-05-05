@@ -16,7 +16,7 @@ func _ready():
 	fill_hbox()
 
 func _on_cell_click(gem_cell:GemCell):
-	print("[_on_cell_click] gem_cell:", find_gem_indices(gem_cell))
+	#print("[_on_cell_click] gem_cell:", find_gem_indices(gem_cell))
 	
 	# Clear first, we'll set later
 	if selected_cell_1:
@@ -68,10 +68,45 @@ func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
 	# Cells are not adjacent
 	return false
 
-func check_for_matches():
-	# Implement logic to check for matches
-	# Return true if a match is found, false otherwise
-	return false  # Placeholder
+# Check entire board for any matches (not needed yet, will show "NO MATCHES" and reload grid)
+func check_for_matches() -> bool:
+	var num_columns: int = hbox_container.get_child_count()
+	var num_rows: int = hbox_container.get_child_count()
+	
+	# Horizontal Check (check each row)
+	for row in range(num_rows):
+		var last_color = null
+		var streak = 0
+		for column in range(num_columns):
+			print("[check_for_matches]: [" + str(row) + "/" + str(column) + "]")
+			var gem_cell = $HBoxContainer.get_child(column).get_child(row) as GemCell
+			if gem_cell.gem_color == last_color:
+				streak += 1
+			else:
+				if streak >= 3:
+					return true  # Found a horizontal match
+				streak = 1
+				last_color = gem_cell.gem_color
+		if streak >= 3:
+			return true  # Check if the last streak in the row was a match
+	
+	# Vertical Check (check each column)
+	for column in range(num_columns):
+		var last_color = null
+		var streak = 0
+		for row in range(num_rows):
+			var gem_cell = $HBoxContainer.get_child(column).get_child(row) as GemCell
+			if gem_cell.gem_color == last_color:
+				streak += 1
+			else:
+				if streak >= 3:
+					return true  # Found a vertical match
+				streak = 1
+				last_color = gem_cell.gem_color
+		if streak >= 3:
+			return true  # Check if the last streak in the column was a match
+	
+	return false  # No matches found
 
 func find_gem_indices(gem_cell:GemCell) -> Dictionary:
 	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
