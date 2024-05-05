@@ -26,39 +26,50 @@ func _on_cell_click(gem_cell:GemCell):
 	#print("[_on_cell_click] selected_cell_1: ", selected_cell_1)
 	#print("[_on_cell_click] selected_cell_2: ", selected_cell_2)
 	
+	# STEP 2: effect
+	if selected_cell_1:
+		selected_cell_1.play_selected_anim(true)
+	
 	# STEP 2: check selection
 	# 2A: if cells not adjecent, swap old selected-1
 	# 2B: tween cells if valid
 	if selected_cell_1 and selected_cell_2 and are_cells_adjacent(selected_cell_1, selected_cell_2):
-		print("TODO: tween")
-		#
+		print("WIP: tween")
+		# A:
+		selected_cell_1.play_selected_anim(false)
+		# B: get position to restore to after move so tween flows
 		var orig_pos_cell_1 = selected_cell_1.global_position
-		var orig_pos_cell_2 = selected_cell_2.global_position
 		var orig_col_cell_1 = selected_cell_1.get_parent()
-		var orig_col_cell_2 = selected_cell_2.get_parent()
 		var orig_row_cell_1 = find_gem_indices(selected_cell_1).row
+		var orig_pos_cell_2 = selected_cell_2.global_position
+		var orig_col_cell_2 = selected_cell_2.get_parent()
 		var orig_row_cell_2 = find_gem_indices(selected_cell_2).row
 		# move card-1
 		orig_col_cell_1.remove_child(selected_cell_1)
 		orig_col_cell_2.add_child(selected_cell_1)
 		orig_col_cell_2.move_child(selected_cell_1, orig_row_cell_1)
+		print("selected_cell_1.orig_pos_cell_1: ", orig_pos_cell_1)
+		print("selected_cell_1.global_position: ", selected_cell_1.global_position)
+		selected_cell_1.global_position = orig_pos_cell_1
+		print("selected_cell_1.global_position: ", selected_cell_1.global_position)
 		# move card-2
 		orig_col_cell_2.remove_child(selected_cell_2)
 		orig_col_cell_1.add_child(selected_cell_2)
 		orig_col_cell_1.move_child(selected_cell_2, orig_row_cell_2)
-		#
-		selected_cell_1.global_position = orig_pos_cell_1
-		selected_cell_1.global_position = orig_pos_cell_2
-		var tween = get_tree().create_tween()
-		tween.tween_property(selected_cell_1, "global_position", orig_pos_cell_2, 0.25)
-		tween.tween_property(selected_cell_2, "global_position", orig_pos_cell_1, 0.25)
-		tween.tween_callback(tween_completed.bind(selected_cell_1))
+		selected_cell_2.global_position = orig_pos_cell_2
+		
+		var tween1 = get_tree().create_tween()
+		tween1.tween_property(selected_cell_1, "global_position", orig_pos_cell_2, 0.25)
+		tween1.tween_callback(tween_completed.bind(selected_cell_1))
+		var tween2 = get_tree().create_tween()
+		tween2.tween_property(selected_cell_2, "global_position", orig_pos_cell_1, 0.25)
+		tween2.tween_callback(tween_completed.bind(selected_cell_2))
 	elif selected_cell_2:
 		selected_cell_1 = selected_cell_2
 		selected_cell_2 = null
 
 func tween_completed(gem_cell:GemCell):
-	print("[TWEEN-COMPLETE]: ", gem_cell)
+	#print("[TWEEN-COMPLETE]: ", gem_cell)
 	selected_cell_1 = null
 	selected_cell_2 = null
 
@@ -86,7 +97,7 @@ func fill_grid():
 	for i in range(size):
 		for j in range(size):
 			# Calculate index from row and column
-			var index = i * size + j
+			#var index = i * size + j
 			
 			# Load the appropriate scene based on the checkerboard pattern
 			var brdsq_scene_path = "res://game_board/board_square_1.tscn"  # Assume light square

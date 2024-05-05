@@ -11,6 +11,7 @@ bg_color = Color(0, 0, 0, 0.411765)
 script = ExtResource("1_8mgoe")
 
 [node name="Background" type="Panel" parent="."]
+visible = false
 offset_right = 512.0
 offset_bottom = 512.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_yj5kd")
@@ -27,6 +28,14 @@ visible = false
 layout_mode = 2
 
 [node name="BoardSquare1" parent="GridContainer" instance=ExtResource("3_a576l")]
+visible = false
+layout_mode = 2
+
+[node name="BoardSquare2" parent="GridContainer" instance=ExtResource("2_o5ud0")]
+visible = false
+layout_mode = 2
+
+[node name="BoardSquare3" parent="GridContainer" instance=ExtResource("3_a576l")]
 visible = false
 layout_mode = 2
 

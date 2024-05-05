@@ -1,7 +1,8 @@
 extends Control
 class_name GemCell
 # VARS
-@onready var sprite : Sprite2D = $Sprite2D
+@onready var sprite:Sprite2D = $Sprite2D
+@onready var anim_player:AnimationPlayer = $AnimationPlayer
 # PROPS
 var gem_color : Enums.GemColor
 
@@ -32,3 +33,11 @@ func load_texture():
 	# Load and assign texture
 	sprite.texture = ResourceLoader.load(texture_path)
 	#print("[gem_cell] loaded sprite.texture: ", texture_path)
+
+func play_selected_anim(selected:bool):
+	if selected:
+		anim_player.play("selected")
+	else:
+		anim_player.stop(false)
+		sprite.scale.x = 0.25
+		sprite.scale.y = 0.25
