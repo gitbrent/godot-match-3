@@ -18,7 +18,8 @@ func _ready():
 	fill_hbox()
 
 func _on_cell_click(gem_cell:GemCell):
-	#print("[_on_cell_click] gem_cell:", find_gem_indices(gem_cell))
+	print("[_on_cell_click] -------------------------------------")
+	print("[_on_cell_click] gem_cell:", find_gem_indices(gem_cell))
 	
 	# Clear first, we'll set later
 	if selected_cell_1:
@@ -26,15 +27,21 @@ func _on_cell_click(gem_cell:GemCell):
 	if selected_cell_2:
 		selected_cell_2.play_selected_anim(false)
 	
-	# STEP 1: Select GemCell
+	# STEP 1: Select GemCell logic
 	if not selected_cell_1:
 		selected_cell_1 = gem_cell
 	elif selected_cell_1 != gem_cell:
-		selected_cell_2 = gem_cell
+		if are_cells_adjacent(selected_cell_1, gem_cell):
+			selected_cell_2 = gem_cell
+		else:
+			selected_cell_1 = gem_cell
+			selected_cell_2 = null
 	
 	# DEBUG
-	#print("[_on_cell_click] selected_cell_1: ", selected_cell_1)
-	#print("[_on_cell_click] selected_cell_2: ", selected_cell_2)
+	if selected_cell_1:
+		print("[_on_cell_click] selected_cell_1: ", find_gem_indices(selected_cell_1))
+	if selected_cell_2:
+		print("[_on_cell_click] selected_cell_2: ", find_gem_indices(selected_cell_2))
 	
 	# STEP 2: effect
 	if selected_cell_1:
@@ -223,17 +230,6 @@ func check_match_at_position(col: int, row: int, hbox: HBoxContainer) -> bool:
 
 	return false  # No matches found
 
-func explode_gems(gem_cells: Array):
-	# Function to handle removal of gems and other effects
-	print("Explode gems: ", gem_cells)
-	for gem_cell in gem_cells:
-		gem_cell.get_parent().remove_child(gem_cell)
-		gem_cell.queue_free()
-		print("BOOM!!")
-	selected_cell_1 = null
-	selected_cell_2 = null
-	explode_me_matched_gems.clear()
-
 func find_gem_indices(gem_cell:GemCell) -> Dictionary:
 	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
 	var hbox = parent_vbox.get_parent()      # Assuming direct parent of VBox is the HBoxContainer
@@ -321,6 +317,19 @@ func tween_completed(gem_cell:GemCell):
 	# This method w/b called twice - after each gem is moved, only run after BOTH done
 	if not selected_cell_1 and not selected_cell_2 and explode_me_matched_gems.size() > 0:
 		explode_gems(explode_me_matched_gems)
+
+func explode_gems(gem_cells: Array):
+	# Function to handle removal of gems and other effects
+	print("Explode gems: ", gem_cells)
+	for gem_cell in gem_cells:
+		gem_cell.play_anim_explode()
+		await get_tree().create_timer(TWEEN_TIME).timeout
+		gem_cell.get_parent().remove_child(gem_cell)
+		gem_cell.queue_free()
+		print("BOOM!!")
+	selected_cell_1 = null
+	selected_cell_2 = null
+	explode_me_matched_gems.clear()
 
 # =========================================================
 

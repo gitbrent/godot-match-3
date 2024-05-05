@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://clfnptdc2tu5l"]
+[gd_scene load_steps=8 format=3 uid="uid://clfnptdc2tu5l"]
 
 [ext_resource type="Script" path="res://game_board/GemCell.gd" id="1_rhspx"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="2_33s7h"]
@@ -47,8 +47,25 @@ tracks/2/keys = {
 "values": [-0.261799, 0.261799]
 }
 
+[sub_resource type="Animation" id="Animation_3mn62"]
+resource_name = "explode"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.25, 0.25), Vector2(1e-05, 1e-05)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u2ci8"]
 _data = {
+"explode": SubResource("Animation_3mn62"),
 "selected": SubResource("Animation_xkhqk")
 }
 

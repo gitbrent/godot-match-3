@@ -41,3 +41,6 @@ func play_selected_anim(selected:bool):
 		anim_player.stop(false)
 		sprite.scale.x = 0.25
 		sprite.scale.y = 0.25
+
+func play_anim_explode():
+	anim_player.play("explode")
