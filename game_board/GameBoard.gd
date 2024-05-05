@@ -1,5 +1,7 @@
 extends Node2D
 class_name GameBoard
+# SIGNALS
+signal gem_swapped()
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
@@ -15,6 +17,12 @@ func _ready():
 
 func _on_cell_click(gem_cell:GemCell):
 	print("[_on_cell_click] gem_cell:", find_gem_indices(gem_cell))
+	
+	# Clear first, we'll set later
+	if selected_cell_1:
+		selected_cell_1.play_selected_anim(false)
+	if selected_cell_2:
+		selected_cell_2.play_selected_anim(false)
 	
 	# STEP 1: Select GemCell
 	if not selected_cell_1:
@@ -34,46 +42,47 @@ func _on_cell_click(gem_cell:GemCell):
 	# 2A: if cells not adjecent, swap old selected-1
 	# 2B: tween cells if valid
 	if selected_cell_1 and selected_cell_2 and are_cells_adjacent(selected_cell_1, selected_cell_2):
-		print("WIP: tween")
-		# A:
-		selected_cell_1.play_selected_anim(false)
-		# B: get position to restore to after move so tween flows
-		var orig_pos_cell_1 = selected_cell_1.global_position
-		var orig_col_cell_1 = selected_cell_1.get_parent()
-		var orig_row_cell_1 = find_gem_indices(selected_cell_1).row
-		var orig_pos_cell_2 = selected_cell_2.global_position
-		var orig_col_cell_2 = selected_cell_2.get_parent()
-		var orig_row_cell_2 = find_gem_indices(selected_cell_2).row
-		# move card-1
-		orig_col_cell_1.remove_child(selected_cell_1)
-		orig_col_cell_2.add_child(selected_cell_1)
-		orig_col_cell_2.move_child(selected_cell_1, orig_row_cell_1)
-		print("selected_cell_1.orig_pos_cell_1: ", orig_pos_cell_1)
-		print("selected_cell_1.global_position: ", selected_cell_1.global_position)
-		selected_cell_1.global_position = orig_pos_cell_1
-		print("selected_cell_1.global_position: ", selected_cell_1.global_position)
-		# move card-2
-		orig_col_cell_2.remove_child(selected_cell_2)
-		orig_col_cell_1.add_child(selected_cell_2)
-		orig_col_cell_1.move_child(selected_cell_2, orig_row_cell_2)
-		selected_cell_2.global_position = orig_pos_cell_2
-		
-		var tween1 = get_tree().create_tween()
-		tween1.tween_property(selected_cell_1, "global_position", orig_pos_cell_2, 0.25)
-		tween1.tween_callback(tween_completed.bind(selected_cell_1))
-		var tween2 = get_tree().create_tween()
-		tween2.tween_property(selected_cell_2, "global_position", orig_pos_cell_1, 0.25)
-		tween2.tween_callback(tween_completed.bind(selected_cell_2))
+		swap_gem_cells()
 	elif selected_cell_2:
 		selected_cell_1 = selected_cell_2
 		selected_cell_2 = null
+
+func swap_gem_cells():
+	emit_signal("gem_swapped") # play sound
+	# A: turn off anim/effects before moving
+	selected_cell_1.play_selected_anim(false)
+	selected_cell_2.play_selected_anim(false)
+	# B: get position to restore to after move so tween flows
+	var orig_pos_cell_1 = selected_cell_1.global_position
+	var orig_col_cell_1 = selected_cell_1.get_parent()
+	var orig_row_cell_1 = find_gem_indices(selected_cell_1).row
+	var orig_pos_cell_2 = selected_cell_2.global_position
+	var orig_col_cell_2 = selected_cell_2.get_parent()
+	var orig_row_cell_2 = find_gem_indices(selected_cell_2).row
+	# C: move card-1
+	orig_col_cell_1.remove_child(selected_cell_1)
+	orig_col_cell_2.add_child(selected_cell_1)
+	orig_col_cell_2.move_child(selected_cell_1, orig_row_cell_1)
+	# D: move card-2
+	orig_col_cell_2.remove_child(selected_cell_2)
+	orig_col_cell_1.add_child(selected_cell_2)
+	orig_col_cell_1.move_child(selected_cell_2, orig_row_cell_2)
+	# E: IMPORTANT: use deferred to allow changes above to render, then re-position and tween afterwards!
+	call_deferred("setup_tween", selected_cell_1, orig_pos_cell_1, orig_pos_cell_2)
+	call_deferred("setup_tween", selected_cell_2, orig_pos_cell_2, orig_pos_cell_1)
+
+func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
+	gem_cell.global_position = start_pos  # Set initial position right before tweening
+	var tween = get_tree().create_tween()
+	tween.tween_property(gem_cell, "global_position", end_pos, 0.25)
+	tween.tween_callback(tween_completed.bind(selected_cell_2))
 
 func tween_completed(gem_cell:GemCell):
 	#print("[TWEEN-COMPLETE]: ", gem_cell)
 	selected_cell_1 = null
 	selected_cell_2 = null
 
-func are_cells_adjacent(gemcell1: GemCell, gemcell2: GemCell) -> bool:
+func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
 	var cell1 = find_gem_indices(gemcell1)
 	var cell2 = find_gem_indices(gemcell2)
 	var col1 = cell1.column
@@ -128,7 +137,7 @@ func fill_hbox():
 			control_node.connect("cell_click", self._on_cell_click)
 			#control_node.connect("drag_ended", self._on_cell_click)
 
-func find_gem_indices(gem_cell: GemCell) -> Dictionary:
+func find_gem_indices(gem_cell:GemCell) -> Dictionary:
 	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
 	var hbox = parent_vbox.get_parent()      # Assuming direct parent of VBox is the HBoxContainer
 	

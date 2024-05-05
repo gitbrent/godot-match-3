@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5bfm2244ywxk"]
+[gd_scene load_steps=12 format=3 uid="uid://b5bfm2244ywxk"]
 
+[ext_resource type="Script" path="res://game.gd" id="1_ewnxx"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
 [ext_resource type="PackedScene" uid="uid://x4qq2j3l7nvb" path="res://game_board/board.tscn" id="2_2ltbx"]
 [ext_resource type="Texture2D" uid="uid://b8biy2iputyhe" path="res://assets/gems/characters_0002.png" id="3_qywvx"]
@@ -7,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/characters_0003.png" id="4_2reex"]
 [ext_resource type="Texture2D" uid="uid://byliae6aa6ki2" path="res://assets/gems/characters_0005.png" id="5_g428h"]
 [ext_resource type="Texture2D" uid="uid://2vrsevjv4w43" path="res://assets/gems/characters_0007.png" id="6_ot4tf"]
+[ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="8_7jpwb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
 bg_color = Color(0, 0, 0, 0.2)
@@ -15,6 +17,7 @@ bg_color = Color(0, 0, 0, 0.2)
 bg_color = Color(0, 0, 0, 0.411765)
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_ewnxx")
 
 [node name="Background" type="TextureRect" parent="."]
 offset_right = 1920.0
@@ -25,16 +28,16 @@ texture = ExtResource("1_h8otn")
 [node name="VboxBkgd" type="Panel" parent="."]
 offset_left = 50.0
 offset_top = 75.0
-offset_right = 225.0
-offset_bottom = 575.0
+offset_right = 235.0
+offset_bottom = 587.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-offset_left = 50.0
-offset_top = 75.0
-offset_right = 225.0
-offset_bottom = 575.0
-theme_override_constants/separation = 30
+offset_left = 60.0
+offset_top = 85.0
+offset_right = 230.0
+offset_bottom = 585.0
+theme_override_constants/separation = 40
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -153,3 +156,8 @@ offset_bottom = 582.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_imdoc")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_7jpwb")
+
+[connection signal="gem_swapped" from="Board" to="." method="_on_board_gem_swapped"]
