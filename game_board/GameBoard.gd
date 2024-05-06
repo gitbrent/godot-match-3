@@ -15,9 +15,13 @@ var undo_cell_2:GemCell = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# godot setup
 	randomize()
+	# A: populate board
 	fill_grid()
 	fill_hbox()
+	# B: check board after init
+	check_board_explode_matches()
 
 # TODO: feed props to parent controller for display
 func get_gem_props():
@@ -110,57 +114,61 @@ func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
 	# Cells are not adjacent
 	return false
 
-func get_first_match() -> Array:
+func get_first_match_gems() -> Array:
 	var num_columns: int = hbox_container.get_child_count()
-	var num_rows: int = hbox_container.get_child_count()
-	var match_details: Array = []
-	
+	var num_rows: int = hbox_container.get_child(0).get_child_count()  # Assuming uniform row count across columns
+	var match_cells: Array = []
+
 	# Horizontal Check (check each row)
 	for row in range(num_rows):
 		var last_color = null
 		var streak = 0
 		var match_start = 0
 		for column in range(num_columns):
-			var gem_cell = $HBoxContainer.get_child(column).get_child(row) as GemCell
+			var gem_cell = hbox_container.get_child(column).get_child(row) as GemCell
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
 				if streak >= 3:
-					# Collect match details
+					# Collect matching GemCells
+					match_cells = []
 					for i in range(match_start, column):
-						match_details.append(gem_cell)
-					return match_details
+						match_cells.append(hbox_container.get_child(i).get_child(row))
+					return match_cells
 				streak = 1
 				match_start = column
 				last_color = gem_cell.gem_color
 		if streak >= 3:
+			match_cells = []
 			for i in range(match_start, num_columns):
-				match_details.append({"row": row, "column": i, "color": last_color})
-			return match_details
-	
+				match_cells.append(hbox_container.get_child(i).get_child(row))
+			return match_cells
+
 	# Vertical Check (check each column)
 	for column in range(num_columns):
 		var last_color = null
 		var streak = 0
 		var match_start = 0
 		for row in range(num_rows):
-			var gem_cell = $HBoxContainer.get_child(column).get_child(row) as GemCell
+			var gem_cell = hbox_container.get_child(column).get_child(row) as GemCell
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
 				if streak >= 3:
-					# Collect match details
+					# Collect matching GemCells
+					match_cells = []
 					for i in range(match_start, row):
-						match_details.append({"row": i, "column": column, "color": last_color})
-					return match_details
+						match_cells.append(hbox_container.get_child(column).get_child(i))
+					return match_cells
 				streak = 1
 				match_start = row
 				last_color = gem_cell.gem_color
 		if streak >= 3:
+			match_cells = []
 			for i in range(match_start, num_rows):
-				match_details.append({"row": i, "column": column, "color": last_color})
-			return match_details
-	
+				match_cells.append(hbox_container.get_child(column).get_child(i))
+			return match_cells
+
 	return []  # No matches found
 
 # STEP 1: Handle input (=capture first & second selection), swap gems
@@ -221,11 +229,11 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 	var orig_pos_cell_1 = swap_cell_1.global_position
 	var orig_col_cell_1 = swap_cell_1.get_parent()
 	var orig_ridx_cell_1 = find_gem_indices(swap_cell_1).row
-	var orig_cidx_cell_1 = find_gem_indices(swap_cell_1).column
+	#var orig_cidx_cell_1 = find_gem_indices(swap_cell_1).column
 	var orig_pos_cell_2 = swap_cell_2.global_position
 	var orig_col_cell_2 = swap_cell_2.get_parent()
 	var orig_ridx_cell_2 = find_gem_indices(swap_cell_2).row
-	var orig_cidx_cell_2 = find_gem_indices(swap_cell_2).column
+	#var orig_cidx_cell_2 = find_gem_indices(swap_cell_2).column
 
 	# D: swap gems
 	orig_col_cell_1.remove_child(swap_cell_1)
@@ -260,12 +268,13 @@ func tween_completed(gem_cell:GemCell):
 	
 	# This method w/b called twice - after each gem is moved, only run after BOTH done
 	if not selected_cell_1 and not selected_cell_2:
-		check_board_post_moves()
+		print("CHECK!!")
+		check_board_explode_matches()
 
-func check_board_post_moves():
-	print("[check_board_post_moves]: enter") # We get called too much (3 times after 1 move)
+func check_board_explode_matches():
+	print("[check_board_explode_matches]: enter") # We get called too much (3 times after 1 move)
 	# FIXME: TODO: ^^^ 
-	var gem_matches = get_first_match()
+	var gem_matches = get_first_match_gems()
 	if gem_matches.size() == 0:
 		#await get_tree().create_timer(TWEEN_TIME).timeout
 		# Then swap them right back
@@ -273,7 +282,7 @@ func check_board_post_moves():
 		undo_cell_1 = null
 		undo_cell_2 = null
 	else:
-		print("[check_board_post_moves]: MATCHES! ", gem_matches)
+		print("[check_board_explode_matches]: MATCHES! ", gem_matches)
 		# D3: log gems to explode after move is done
 		explode_gems(gem_matches)
 		# TODO: EXPLODE LOOP
@@ -282,18 +291,36 @@ func check_board_post_moves():
 # STEP 4: Explode first match found, repeat until exhausted
 
 func explode_gems(gem_cells: Array):
-	# Function to handle removal of gems and other effects
-	print("Explode gems: ", gem_cells)
+	print("[explode_gems] gems: ", gem_cells)
+	print_ascii_table(gem_cells)
 	for gem_cell in gem_cells:
 		gem_cell.play_anim_explode()
-		#await get_tree().create_timer(TWEEN_TIME).timeout
-		#gem_cell.get_parent().remove_child(gem_cell)
-		#gem_cell.queue_free()
+		await get_tree().create_timer(TWEEN_TIME).timeout
+		gem_cell.get_parent().remove_child(gem_cell)
+		gem_cell.queue_free()
 		print("BOOM!!")
-	#if selected_cell_1:
-		#selected_cell_1.debug_show_selnum(0)
-		#selected_cell_1 = null
-	#if selected_cell_2:
-		#selected_cell_2.debug_show_selnum(0)
-		#selected_cell_2 = null
 
+# DEBUG
+
+func print_ascii_table(affected_cells: Array):
+	var num_columns: int = hbox_container.get_child_count()
+	var num_rows: int = hbox_container.get_child(0).get_child_count()  # Assuming all columns have the same number of rows
+
+	# Prepare a grid for ASCII output
+	var grid = []
+	for i in range(num_rows):
+		var row = []  # Create a new row
+		for j in range(num_columns):
+			row.append(" ")  # Fill the row with spaces
+		grid.append(row)  # Add the filled row to the grid
+
+	# Mark the affected cells
+	for cell in affected_cells:
+		var indices = find_gem_indices(cell)
+		if indices["column"] != -1 and indices["row"] != -1:
+			grid[indices["row"]][indices["column"]] = "X"
+
+	# Print the ASCII grid
+	print("Current Gem Board State:")
+	for row in grid:
+		print(" | ".join(row))
