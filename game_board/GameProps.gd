@@ -1,9 +1,10 @@
 # IDEA: separate utli-type funcs here, just onready whatever we need
 # good way to split in godot??
 extends Node
-
+class_name GameProps
 @onready var h_box_container = $HBoxContainer
 
+#static func get_gem_props() -> Dictionary:
 func get_gem_props() -> Dictionary:
 	var gem_counts: Dictionary = {
 		"WHITE": 0,

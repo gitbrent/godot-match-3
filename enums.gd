@@ -1,5 +1,7 @@
 extends Node
 
+const TWEEN_TIME:float = 0.25
+
 enum GemColor {
 	WHITE,
 	RED,

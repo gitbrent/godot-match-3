@@ -1,3 +1,5 @@
+# FIXME:
+# - gems exploded need ones above to fall down; then missing ones added above
 extends Node2D
 class_name GameBoard
 # SIGNALS
@@ -6,7 +8,7 @@ signal gem_swapped()
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
 #VARS
-const TWEEN_TIME:float = 0.25
+const GEM_COLORS = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
 var selected_cell_1:GemCell = null
 var selected_cell_2:GemCell = null
 #var explode_me_matched_gems:Array
@@ -52,11 +54,10 @@ func fill_grid():
 			grid_container.add_child(brdsq)
 
 func fill_hbox():
-	var gem_colors = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
 	for col_idx in range(hbox_container.get_child_count()):
 		for row_idx in range(8):
 			# A: random gem
-			var gem_type = gem_colors[randi() % gem_colors.size()]
+			var gem_type = GEM_COLORS[randi() % GEM_COLORS.size()]
 			#var gem_type = Enums.GemColor.WHITE
 			# B: create/add
 			var gem_cell_scene = load("res://game_board/gem_cell.tscn")
@@ -250,7 +251,7 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 	gem_cell.global_position = start_pos  # Set initial position right before tweening
 	var tween = get_tree().create_tween()
-	tween.tween_property(gem_cell, "global_position", end_pos, TWEEN_TIME)
+	tween.tween_property(gem_cell, "global_position", end_pos, Enums.TWEEN_TIME)
 	tween.tween_callback(tween_completed.bind(gem_cell))
 
 # STEP 3: Tween complete: clear vars/scan board
@@ -271,34 +272,35 @@ func tween_completed(gem_cell:GemCell):
 		print("CHECK!!")
 		check_board_explode_matches()
 
+# STEP 4: Explode first match found, repeat until exhausted
+# Methodology: Just replace type/sprite in existing cells, slide new sprite in and voila
+
+# STEP: **NEXT STEP**: Re-check board
+
 func check_board_explode_matches():
-	print("[check_board_explode_matches]: enter") # We get called too much (3 times after 1 move)
-	# FIXME: TODO: ^^^ 
+	print("[check_board_explode_matches]: enter")
 	var gem_matches = get_first_match_gems()
 	if gem_matches.size() == 0:
-		#await get_tree().create_timer(TWEEN_TIME).timeout
-		# Then swap them right back
-		swap_gem_cells(undo_cell_2, undo_cell_1)
-		undo_cell_1 = null
-		undo_cell_2 = null
+		print("No more matches. Board stable.")
+		# Reset undo cells or perform other cleanup here.
+		if undo_cell_1 and undo_cell_2:
+			swap_gem_cells(undo_cell_2, undo_cell_1)
+			undo_cell_1 = null
+			undo_cell_2 = null
 	else:
 		print("[check_board_explode_matches]: MATCHES! ", gem_matches)
-		# D3: log gems to explode after move is done
-		explode_gems(gem_matches)
-		# TODO: EXPLODE LOOP
-		pass
+		explode_refill_gems(gem_matches)
+		# Call self recursively after a delay
+		await get_tree().create_timer(Enums.TWEEN_TIME).timeout
+		check_board_explode_matches()  # Recursively check for more matches
 
-# STEP 4: Explode first match found, repeat until exhausted
-
-func explode_gems(gem_cells: Array):
-	print("[explode_gems] gems: ", gem_cells)
+func explode_refill_gems(gem_cells: Array):
+	print("[explode_refill_gems] gems: ", gem_cells)
 	print_ascii_table(gem_cells)
 	for gem_cell in gem_cells:
-		gem_cell.play_anim_explode()
-		await get_tree().create_timer(TWEEN_TIME).timeout
-		gem_cell.get_parent().remove_child(gem_cell)
-		gem_cell.queue_free()
-		print("BOOM!!")
+		var gem_type = GEM_COLORS[randi() % GEM_COLORS.size()]
+		gem_cell.replace_gem(gem_type)  # Replace gem with a random type from defined colors
+		#print("BOOM!!")
 
 # DEBUG
 

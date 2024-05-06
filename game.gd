@@ -5,6 +5,7 @@ extends Node2D
 
 func _on_board_gem_swapped():
 	play_move_sound()
+	#GameProps.get_props()
 
 func play_move_sound():
 	audio_stream_player.play()
