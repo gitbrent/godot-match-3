@@ -326,3 +326,15 @@ func print_ascii_table(affected_cells: Array):
 	print("Current Gem Board State:")
 	for row in grid:
 		print(" | ".join(row))
+
+func new_game():
+	print("Starting new game, resetting board.")
+	# Remove all existing GemCells
+	for vbox in hbox_container.get_children():
+		# Assuming each child of hbox is a VBoxContainer
+		for gem_cell in vbox.get_children():
+			gem_cell.queue_free()  # This removes and frees each GemCell
+	# B:
+	fill_hbox()
+	# C:
+	check_board_explode_matches()

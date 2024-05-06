@@ -14,3 +14,6 @@ func update_game_props():
 	var brent = game_board.get_gem_props()
 	print("brent: ", brent)
 	# TODO: name labels, then update base on this
+
+func _on_newgame_button_pressed():
+	game_board.new_game()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b5bfm2244ywxk"]
+[gd_scene load_steps=13 format=3 uid="uid://b5bfm2244ywxk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_ewnxx"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://byliae6aa6ki2" path="res://assets/gems/characters_0005.png" id="5_g428h"]
 [ext_resource type="Texture2D" uid="uid://2vrsevjv4w43" path="res://assets/gems/characters_0007.png" id="6_ot4tf"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="8_7jpwb"]
+[ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="10_qtl06"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
 bg_color = Color(0, 0, 0, 0.2)
@@ -160,4 +161,25 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_imdoc")
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_7jpwb")
 
+[node name="TextureButton" type="TextureButton" parent="."]
+offset_left = 959.0
+offset_top = 138.0
+offset_right = 999.0
+offset_bottom = 178.0
+scale = Vector2(0.15, 0.15)
+texture_normal = ExtResource("10_qtl06")
+
+[node name="Label" type="Label" parent="TextureButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 96
+text = "NEW GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="gem_swapped" from="Board" to="." method="_on_board_gem_swapped"]
+[connection signal="pressed" from="TextureButton" to="." method="_on_newgame_button_pressed"]

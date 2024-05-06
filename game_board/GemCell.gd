@@ -64,6 +64,7 @@ func play_selected_anim(selected:bool):
 		sprite.scale.y = SPRITE_SCALE
 
 func play_anim_explode():
+	# TODO: play sound
 	debug_anim_explode.visible = true
 	debug_anim_explode.play("default")
 	await get_tree().create_timer(1).timeout
