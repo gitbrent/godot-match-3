@@ -18,8 +18,8 @@ func _ready():
 	fill_hbox()
 
 func _on_cell_click(gem_cell:GemCell):
-	print("[_on_cell_click] -------------------------------------")
-	print("[_on_cell_click] gem_cell:", find_gem_indices(gem_cell))
+	print("[_on_cell_click] ---------------------------------------------")
+	print("[_on_cell_click] gem_cell.......: ", find_gem_indices(gem_cell))
 	
 	# Clear first, we'll set later
 	if selected_cell_1:
@@ -39,22 +39,19 @@ func _on_cell_click(gem_cell:GemCell):
 	
 	# DEBUG
 	if selected_cell_1:
-		print("[_on_cell_click] selected_cell_1: ", find_gem_indices(selected_cell_1))
+		#print("[_on_cell_click] selected_cell_1: ", find_gem_indices(selected_cell_1))
+		selected_cell_1.debug_show_selnum(1)
 	if selected_cell_2:
-		print("[_on_cell_click] selected_cell_2: ", find_gem_indices(selected_cell_2))
+		#print("[_on_cell_click] selected_cell_2: ", find_gem_indices(selected_cell_2))
+		selected_cell_2.debug_show_selnum(2)
 	
 	# STEP 2: effect
 	if selected_cell_1:
 		selected_cell_1.play_selected_anim(true)
 	
-	# STEP 2: check selection
-	# 2A: if cells not adjecent, swap old selected-1
-	# 2B: tween cells if valid
+	# STEP 3: swap cells if adjacent
 	if selected_cell_1 and selected_cell_2 and are_cells_adjacent(selected_cell_1, selected_cell_2):
 		swap_gem_cells()
-	elif selected_cell_2:
-		selected_cell_1 = selected_cell_2
-		selected_cell_2 = null
 
 # TODO: feed props to parent controller for display
 func get_gem_props():
@@ -130,8 +127,9 @@ func unique_array(array: Array) -> Array:
 		unique_dict[item] = true
 	return unique_dict.keys()
 
-func get_matched_gems(col: int, row: int, hbox: HBoxContainer) -> Array:
+func get_matched_gems(col: int, row: int) -> Array:
 	var matches: Array = []
+	var hbox = hbox_container
 
 	# Check horizontally
 	matches += get_matches_in_direction(col, row, hbox, -1, 0)  # Left
@@ -164,21 +162,24 @@ func get_matches_in_direction(start_col: int, start_row: int, hbox: HBoxContaine
 			break
 	return matches
 
-func will_create_match(gem_cell: GemCell, new_col: int, new_row: int) -> bool:
+func will_create_match(src_cell: GemCell, new_col: int, new_row: int) -> bool:
+	print("[will_create_match]: " + Enums.get_color_name_by_value(src_cell.gem_color) + " at c:r " + str(new_col+1) + ":" + str(new_row+1))
+	
 	# Temporarily swap gems for the purpose of checking
-	var target_cell: GemCell = hbox_container.get_child(new_col).get_child(new_row) as GemCell
-	var original_color: Enums.GemColor = target_cell.gem_color
-	target_cell.gem_color = gem_cell.gem_color
-	gem_cell.gem_color = original_color
+	var tgt_cell: GemCell = hbox_container.get_child(new_col).get_child(new_row) as GemCell
+	var original_color: Enums.GemColor = tgt_cell.gem_color
+	tgt_cell.gem_color = src_cell.gem_color
+	src_cell.gem_color = original_color
 	
 	# Check for matches
-	var matched_gems: Array = get_matched_gems(new_col, new_row, hbox_container)
+	var matched_gems: Array = get_matched_gems(new_col, new_row)
+	print("[will_create_match]: matched_gems: ", matched_gems)
 	if matched_gems.size() > 0:
 		return true
 	
 	# Revert colors back if no match is found
-	target_cell.gem_color = original_color
-	gem_cell.gem_color = target_cell.gem_color
+	tgt_cell.gem_color = original_color
+	src_cell.gem_color = tgt_cell.gem_color
 	return false
 
 func check_match_at_position(col: int, row: int, hbox: HBoxContainer) -> bool:
@@ -253,13 +254,13 @@ func find_gem_indices(gem_cell:GemCell) -> Dictionary:
 
 func swap_gem_cells():
 	# A: signal game controller
-	emit_signal("gem_swapped") # play sound
+	emit_signal("gem_swapped") # play swipe sound
 
 	# B: turn off anim/effects before moving
 	selected_cell_1.play_selected_anim(false)
 	selected_cell_2.play_selected_anim(false)
 
-	# C: get position to restore to after move so tween flows
+	# C: get position to restore to after move so tween sets/flows smoothly
 	var orig_pos_cell_1 = selected_cell_1.global_position
 	var orig_col_cell_1 = selected_cell_1.get_parent()
 	var orig_ridx_cell_1 = find_gem_indices(selected_cell_1).row
@@ -272,9 +273,6 @@ func swap_gem_cells():
 	# D: swap gems, or swap back if no match
 	# NOTE: when they dont match, just tween-swap them (dont physially move the scenes, why bother?)
 	if will_create_match(selected_cell_1, orig_cidx_cell_2, orig_ridx_cell_2):
-		# D3: log gems ot explode
-		explode_me_matched_gems = get_matched_gems(orig_cidx_cell_2, orig_ridx_cell_2, hbox_container)
-		
 		# D1: swap gems
 		orig_col_cell_1.remove_child(selected_cell_1)
 		orig_col_cell_2.add_child(selected_cell_1)
@@ -308,14 +306,22 @@ func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 func tween_completed(gem_cell:GemCell):
 	#print("[TWEEN-COMPLETE]: ", gem_cell)
 	
+	# TODO: WIP: when toget agther correct gems
+	var brent = find_gem_indices(gem_cell)
+	explode_me_matched_gems = get_matched_gems(brent.column, brent.row)
+	print("explode_me_matched_gems: ", explode_me_matched_gems)
+	
 	# This method w/b called twice - after each gem is moved
 	if gem_cell == selected_cell_1:
+		selected_cell_1.debug_show_selnum(0)
 		selected_cell_1 = null
 	elif gem_cell == selected_cell_2:
+		selected_cell_2.debug_show_selnum(0)
 		selected_cell_2 = null
 	
 	# This method w/b called twice - after each gem is moved, only run after BOTH done
 	if not selected_cell_1 and not selected_cell_2 and explode_me_matched_gems.size() > 0:
+		# D3: log gems to explode after move is done
 		explode_gems(explode_me_matched_gems)
 
 func explode_gems(gem_cells: Array):
@@ -323,12 +329,16 @@ func explode_gems(gem_cells: Array):
 	print("Explode gems: ", gem_cells)
 	for gem_cell in gem_cells:
 		gem_cell.play_anim_explode()
-		await get_tree().create_timer(TWEEN_TIME).timeout
-		gem_cell.get_parent().remove_child(gem_cell)
-		gem_cell.queue_free()
+		#await get_tree().create_timer(TWEEN_TIME).timeout
+		#gem_cell.get_parent().remove_child(gem_cell)
+		#gem_cell.queue_free()
 		print("BOOM!!")
-	selected_cell_1 = null
-	selected_cell_2 = null
+	#if selected_cell_1:
+		#selected_cell_1.debug_show_selnum(0)
+		#selected_cell_1 = null
+	#if selected_cell_2:
+		#selected_cell_2.debug_show_selnum(0)
+		#selected_cell_2 = null
 	explode_me_matched_gems.clear()
 
 # =========================================================

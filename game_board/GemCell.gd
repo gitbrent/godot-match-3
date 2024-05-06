@@ -3,8 +3,11 @@ class_name GemCell
 # VARS
 @onready var sprite:Sprite2D = $Sprite2D
 @onready var anim_player:AnimationPlayer = $AnimationPlayer
+@onready var animated_busy:AnimatedSprite2D = $DebugAnimatedBusy
+@onready var debug_label_sel_num:Label = $DebugLabelSelNum
 # PROPS
-var gem_color : Enums.GemColor
+const SPRITE_SCALE:float = 0.25
+var gem_color:Enums.GemColor
 
 func initialize(colorIn: Enums.GemColor):
 	# A:
@@ -39,8 +42,20 @@ func play_selected_anim(selected:bool):
 		anim_player.play("selected")
 	else:
 		anim_player.stop(false)
-		sprite.scale.x = 0.25
-		sprite.scale.y = 0.25
+		sprite.scale.x = SPRITE_SCALE
+		sprite.scale.y = SPRITE_SCALE
 
 func play_anim_explode():
-	anim_player.play("explode")
+	#anim_player.play("explode")
+	sprite.visible = false
+	animated_busy.visible = true
+	animated_busy.play()
+	debug_label_sel_num.visible = true
+
+func debug_show_selnum(num:int):
+	if not num or num == 0:
+		debug_label_sel_num.visible = false
+		debug_label_sel_num.text = "-"
+	else:
+		debug_label_sel_num.visible = true
+		debug_label_sel_num.text = str(num)

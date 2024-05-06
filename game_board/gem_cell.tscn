@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://clfnptdc2tu5l"]
+[gd_scene load_steps=26 format=3 uid="uid://clfnptdc2tu5l"]
 
 [ext_resource type="Script" path="res://game_board/GemCell.gd" id="1_rhspx"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="2_33s7h"]
 [ext_resource type="Script" path="res://game_board/GemControl.gd" id="3_sh1nc"]
+[ext_resource type="Texture2D" uid="uid://djen3tlkbem1a" path="res://assets/explode-03.png" id="4_cvimi"]
+[ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/Acme-Regular.ttf" id="5_lb5dp"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpbyf"]
 bg_color = Color(0, 0, 0, 0.2)
@@ -69,6 +71,119 @@ _data = {
 "selected": SubResource("Animation_xkhqk")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_cld7c"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_58tk4"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_olg36"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cswdb"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssaj3"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yt5ng"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(0, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkqvo"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(48, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imvbu"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(96, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krvt4"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(144, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ne17"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(192, 48, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hyxm"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(0, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ibo1v"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(48, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkmy7"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(96, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iihrr"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(144, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyjhk"]
+atlas = ExtResource("4_cvimi")
+region = Rect2(192, 96, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tvpu7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cld7c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_58tk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_olg36")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cswdb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssaj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yt5ng")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkqvo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imvbu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krvt4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ne17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hyxm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ibo1v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkmy7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iihrr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyjhk")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
 [node name="GemCell" type="Control"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
@@ -105,3 +220,30 @@ script = ExtResource("3_sh1nc")
 libraries = {
 "": SubResource("AnimationLibrary_u2ci8")
 }
+
+[node name="DebugAnimatedBusy" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_tvpu7")
+autoplay = "default"
+frame_progress = 0.936051
+
+[node name="DebugLabelSelNum" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 1, 0, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 3
+theme_override_fonts/font = ExtResource("5_lb5dp")
+theme_override_font_sizes/font_size = 48
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
