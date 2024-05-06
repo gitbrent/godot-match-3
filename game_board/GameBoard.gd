@@ -27,6 +27,44 @@ func get_gem_props():
 	return brent
 
 # =========================================================
+
+func fill_grid():
+	var size = 8  # This is the size of your grid, 8x8 in this case
+	for i in range(size):
+		for j in range(size):
+			# Calculate index from row and column
+			#var index = i * size + j
+			
+			# Load the appropriate scene based on the checkerboard pattern
+			var brdsq_scene_path = "res://game_board/board_square_1.tscn"  # Assume light square
+			if (i + j) % 2 == 0:
+				brdsq_scene_path = "res://game_board/board_square_0.tscn"  # Dark square
+			
+			# Load and instantiate the scene
+			var brdsq_scene = load(brdsq_scene_path)
+			var brdsq = brdsq_scene.instantiate()
+			
+			# Add the instantiated square to the grid container
+			grid_container.add_child(brdsq)
+
+func fill_hbox():
+	var gem_colors = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
+	for col_idx in range(hbox_container.get_child_count()):
+		for row_idx in range(8):
+			# A: random gem
+			var gem_type = gem_colors[randi() % gem_colors.size()]
+			#var gem_type = Enums.GemColor.WHITE
+			# B: create/add
+			var gem_cell_scene = load("res://game_board/gem_cell.tscn")
+			var gem_cell:GemCell = gem_cell_scene.instantiate()
+			hbox_container.get_child(col_idx).add_child(gem_cell)
+			gem_cell.initialize(gem_type)
+			var control_node = gem_cell.get_node("GemControl")
+			#control_node.connect("drag_start", self._on_cell_click)
+			control_node.connect("cell_click", self._on_cell_click)
+			#control_node.connect("drag_ended", self._on_cell_click)
+
+# =========================================================
 # NEW!!
 # =========================================================
 
@@ -90,7 +128,7 @@ func get_first_match() -> Array:
 				if streak >= 3:
 					# Collect match details
 					for i in range(match_start, column):
-						match_details.append({"row": row, "column": i, "color": last_color})
+						match_details.append(gem_cell)
 					return match_details
 				streak = 1
 				match_start = column
@@ -169,6 +207,9 @@ func _on_cell_click(gem_cell:GemCell):
 # STEP 2: Swap gems: capture current gems, move scenes via tween
 
 func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
+	if not swap_cell_1 or not swap_cell_2:
+		return
+	
 	# A: signal game controller
 	emit_signal("gem_swapped") # play swipe sound
 	
@@ -222,10 +263,11 @@ func tween_completed(gem_cell:GemCell):
 		check_board_post_moves()
 
 func check_board_post_moves():
-	print("[check_board_post_moves]: enter")
+	print("[check_board_post_moves]: enter") # We get called too much (3 times after 1 move)
+	# FIXME: TODO: ^^^ 
 	var gem_matches = get_first_match()
 	if gem_matches.size() == 0:
-		await get_tree().create_timer(TWEEN_TIME).timeout
+		#await get_tree().create_timer(TWEEN_TIME).timeout
 		# Then swap them right back
 		swap_gem_cells(undo_cell_2, undo_cell_1)
 		undo_cell_1 = null
@@ -233,7 +275,7 @@ func check_board_post_moves():
 	else:
 		print("[check_board_post_moves]: MATCHES! ", gem_matches)
 		# D3: log gems to explode after move is done
-		#explode_gems(explode_me_matched_gems)
+		explode_gems(gem_matches)
 		# TODO: EXPLODE LOOP
 		pass
 
@@ -255,195 +297,3 @@ func explode_gems(gem_cells: Array):
 		#selected_cell_2.debug_show_selnum(0)
 		#selected_cell_2 = null
 
-# =========================================================
-
-# ABOVE ARE CLEAR ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-# TODO: Check entire board for any matches (not used yet, will show "NO MOVES" and reload grid)
-#func check_for_matches() -> bool:
-	#var num_columns: int = hbox_container.get_child_count()
-	#var num_rows: int = hbox_container.get_child_count()
-	#
-	## Horizontal Check (check each row)
-	#for row in range(num_rows):
-		#var last_color = null
-		#var streak = 0
-		#for column in range(num_columns):
-			##print("[check_for_matches]: [" + str(row) + "/" + str(column) + "]")
-			#var gem_cell = $HBoxContainer.get_child(column).get_child(row) as GemCell
-			#if gem_cell.gem_color == last_color:
-				#streak += 1
-			#else:
-				#if streak >= 3:
-					#return true  # Found a horizontal match
-				#streak = 1
-				#last_color = gem_cell.gem_color
-		#if streak >= 3:
-			#return true  # Check if the last streak in the row was a match
-	#
-	## Vertical Check (check each column)
-	#for column in range(num_columns):
-		#var last_color = null
-		#var streak = 0
-		#for row in range(num_rows):
-			#var gem_cell = $HBoxContainer.get_child(column).get_child(row) as GemCell
-			#if gem_cell.gem_color == last_color:
-				#streak += 1
-			#else:
-				#if streak >= 3:
-					#return true  # Found a vertical match
-				#streak = 1
-				#last_color = gem_cell.gem_color
-		#if streak >= 3:
-			#return true  # Check if the last streak in the column was a match
-	#
-	#return false  # No matches found
-#
-#func unique_array(array: Array) -> Array:
-	#var unique_dict: Dictionary = {}
-	#for item in array:
-		#unique_dict[item] = true
-	#return unique_dict.keys()
-#
-#func get_matched_gems(col: int, row: int) -> Array:
-	#var matches: Array = []
-	#var hbox = hbox_container
-#
-	## Check horizontally
-	#matches += get_matches_in_direction(col, row, hbox, -1, 0)  # Left
-	#matches += get_matches_in_direction(col, row, hbox, 1, 0)   # Right
-	#if matches.size() > 1:  # Includes the center gem, need at least one more for a match
-		#matches.append(hbox.get_child(col).get_child(row))  # Add center gem if match found
-#
-	## Check vertically
-	#var vertical_matches: Array = []
-	#vertical_matches += get_matches_in_direction(col, row, hbox, 0, -1)  # Up
-	#vertical_matches += get_matches_in_direction(col, row, hbox, 0, 1)   # Down
-	#if vertical_matches.size() > 1:
-		#vertical_matches.append(hbox.get_child(col).get_child(row))  # Add center gem if match found
-		#matches += vertical_matches  # Combine horizontal and vertical matches
-	#
-	#return unique_array(matches)  # Remove duplicates if any gem is counted in both directions
-#
-#func get_matches_in_direction(start_col: int, start_row: int, hbox: HBoxContainer, delta_col: int, delta_row: int) -> Array:
-	#var matches: Array = []
-	#var current_col: int = start_col + delta_col
-	#var current_row: int = start_row + delta_row
-	#var current_color: Enums.GemColor = (hbox.get_child(start_col).get_child(start_row) as GemCell).gem_color
-	#while current_col >= 0 and current_col < hbox.get_child_count() and current_row >= 0 and current_row < hbox.get_child(current_col).get_child_count():
-		#var gem_cell: GemCell = hbox.get_child(current_col).get_child(current_row) as GemCell
-		#if gem_cell.gem_color == current_color:
-			#matches.append(gem_cell)
-			#current_col += delta_col
-			#current_row += delta_row
-		#else:
-			#break
-	#return matches
-#
-#func will_create_match(src_cell: GemCell, new_col: int, new_row: int) -> bool:
-	#print("[will_create_match]: " + Enums.get_color_name_by_value(src_cell.gem_color) + " at c:r " + str(new_col+1) + ":" + str(new_row+1))
-	#
-	## Temporarily swap gems for the purpose of checking
-	#var tgt_cell: GemCell = hbox_container.get_child(new_col).get_child(new_row) as GemCell
-	#var original_color: Enums.GemColor = tgt_cell.gem_color
-	#tgt_cell.gem_color = src_cell.gem_color
-	#src_cell.gem_color = original_color
-	#
-	## Check for matches
-	#var matched_gems: Array = get_matched_gems(new_col, new_row)
-	#print("[will_create_match]: matched_gems: ", matched_gems)
-	#if matched_gems.size() > 0:
-		#return true
-	#
-	## Revert colors back if no match is found
-	#tgt_cell.gem_color = original_color
-	#src_cell.gem_color = tgt_cell.gem_color
-	#return false
-#
-#func check_match_at_position(col: int, row: int, hbox: HBoxContainer) -> bool:
-	## Check horizontally
-	#var min_col = max(col - 2, 0)
-	#var max_col = min(col + 2, hbox.get_child_count() - 1)
-	#var current_color = (hbox.get_child(col).get_child(row) as GemCell).gem_color
-	#var match_count = 1  # Start with the gem itself
-#
-	## Check to the left
-	#for i in range(col - 1, min_col - 1, -1):
-		#if (hbox.get_child(i).get_child(row) as GemCell).gem_color == current_color:
-			#match_count += 1
-		#else:
-			#break
-#
-	## Check to the right
-	#for i in range(col + 1, max_col + 1):
-		#if (hbox.get_child(i).get_child(row) as GemCell).gem_color == current_color:
-			#match_count += 1
-		#else:
-			#break
-#
-	#if match_count >= 3:
-		#return true  # Horizontal match found
-#
-	## Check vertically
-	#var vbox = hbox.get_child(col) as VBoxContainer
-	#var min_row = max(row - 2, 0)
-	#var max_row = min(row + 2, vbox.get_child_count() - 1)
-	#match_count = 1  # Reset for vertical checking
-#
-	## Check upwards
-	#for i in range(row - 1, min_row - 1, -1):
-		#if (vbox.get_child(i) as GemCell).gem_color == current_color:
-			#match_count += 1
-		#else:
-			#break
-#
-	## Check downwards
-	#for i in range(row + 1, max_row + 1):
-		#if (vbox.get_child(i) as GemCell).gem_color == current_color:
-			#match_count += 1
-		#else:
-			#break
-#
-	#if match_count >= 3:
-		#return true  # Vertical match found
-#
-	#return false  # No matches found
-
-
-# =========================================================
-
-func fill_grid():
-	var size = 8  # This is the size of your grid, 8x8 in this case
-	for i in range(size):
-		for j in range(size):
-			# Calculate index from row and column
-			#var index = i * size + j
-			
-			# Load the appropriate scene based on the checkerboard pattern
-			var brdsq_scene_path = "res://game_board/board_square_1.tscn"  # Assume light square
-			if (i + j) % 2 == 0:
-				brdsq_scene_path = "res://game_board/board_square_0.tscn"  # Dark square
-			
-			# Load and instantiate the scene
-			var brdsq_scene = load(brdsq_scene_path)
-			var brdsq = brdsq_scene.instantiate()
-			
-			# Add the instantiated square to the grid container
-			grid_container.add_child(brdsq)
-
-func fill_hbox():
-	var gem_colors = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
-	for col_idx in range(hbox_container.get_child_count()):
-		for row_idx in range(8):
-			# A: random gem
-			var gem_type = gem_colors[randi() % gem_colors.size()]
-			#var gem_type = Enums.GemColor.WHITE
-			# B: create/add
-			var gem_cell_scene = load("res://game_board/gem_cell.tscn")
-			var gem_cell:GemCell = gem_cell_scene.instantiate()
-			hbox_container.get_child(col_idx).add_child(gem_cell)
-			gem_cell.initialize(gem_type)
-			var control_node = gem_cell.get_node("GemControl")
-			#control_node.connect("drag_start", self._on_cell_click)
-			control_node.connect("cell_click", self._on_cell_click)
-			#control_node.connect("drag_ended", self._on_cell_click)
