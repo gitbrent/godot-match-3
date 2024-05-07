@@ -2,11 +2,11 @@ extends Control
 class_name GemCell
 # VARS
 @onready var sprite:Sprite2D = $Sprite2D
-@onready var anim_player:AnimationPlayer = $AnimationPlayer
-@onready var debug_anim_explode:AnimatedSprite2D = $DebugAnimExplode
+@onready var anim_player_fx:AnimationPlayer = $AnimPlayerFx
+@onready var anim_sprite_explode:AnimatedSprite2D = $AnimSpriteExplode
 @onready var debug_label_sel_num:Label = $DebugLabelSelNum
 # PROPS
-const SPRITE_SCALE:float = 0.25
+const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
 var gem_color:Enums.GemColor
 
 func initialize(colorIn: Enums.GemColor):
@@ -20,21 +20,30 @@ func initialize(colorIn: Enums.GemColor):
 	#panel_hover.visible = false
 
 func replace_gem(colorIn: Enums.GemColor):
+	# 1:
+	play_selected_anim(false)
 	play_anim_explode()
+	# 2:
+	#sprite.scale = SPRITE_SCALE # reset as AnimationPlayer scales it down during explode
+	sprite.visible = false # hide Sprite before initialize replaces the texture
+	# 3:
 	initialize(colorIn)
+	# 4:
 	call_deferred("drop_in_gem")
 
 func drop_in_gem():
-	var DEBUG_SLOW_TIME = 2 # Enums.TWEEN_TIME*4
-	await get_tree().create_timer(DEBUG_SLOW_TIME).timeout
+	const DROP_TIME = Enums.TWEEN_TIME * 2
+	await get_tree().create_timer(DROP_TIME).timeout
 	# tween "fall" into place
 	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - 64)
 	var end_pos = sprite.global_position
 	#print("beg_pos: ", beg_pos)
 	sprite.global_position = beg_pos
+	sprite.visible = true
 	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "global_position", end_pos, DEBUG_SLOW_TIME)
+	tween.tween_property(sprite, "global_position", end_pos, DROP_TIME)
 
+# TODO: 20240506: preload these/elevate code
 func load_texture():
 	# Construct texture path based on suit and rank
 	var texture_path = "res://assets/gems/"
@@ -57,18 +66,22 @@ func load_texture():
 
 func play_selected_anim(selected:bool):
 	if selected:
-		anim_player.play("selected")
+		anim_player_fx.play("selected")
 	else:
-		anim_player.stop(false)
-		sprite.scale.x = SPRITE_SCALE
-		sprite.scale.y = SPRITE_SCALE
+		anim_player_fx.stop()
+		sprite.scale = SPRITE_SCALE
 
+# @desc: both AnimPlayer & AnimExplode are 1-sec
 func play_anim_explode():
 	# TODO: play sound
-	debug_anim_explode.visible = true
-	debug_anim_explode.play("default")
-	await get_tree().create_timer(1).timeout
-	debug_anim_explode.visible = false
+	# A: IMPORTANT: use play/stop or scale wont reset!
+	anim_player_fx.play("explode")
+	anim_player_fx.stop()
+	# B:
+	anim_sprite_explode.visible = true
+	anim_sprite_explode.play("default")
+	await get_tree().create_timer(2).timeout
+	anim_sprite_explode.visible = false
 
 # =========================================================
 
