@@ -7,12 +7,22 @@ class_name GemCell
 @onready var debug_label_sel_num:Label = $DebugLabelSelNum
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
+const DROP_OFFSET:int = 64
+const EXPLODE_DELAY:int = 2
 var gem_color:Enums.GemColor
+# Declare and preload textures
+var gem_textures: Dictionary = {
+	Enums.GemColor.WHITE: preload("res://assets/gems/characters_0001.png"),
+	Enums.GemColor.RED: preload("res://assets/gems/characters_0002.png"),
+	Enums.GemColor.YELLOW: preload("res://assets/gems/characters_0003.png"),
+	Enums.GemColor.GREEN: preload("res://assets/gems/characters_0005.png"),
+	Enums.GemColor.PURPLE: preload("res://assets/gems/characters_0007.png")
+}
 
 func initialize(colorIn: Enums.GemColor):
 	# A:
 	gem_color = colorIn
-	load_texture()
+	update_texture()
 	# B:
 	#card_control.connect("card_drag_start", self._on_card_drag_start)
 	#card_control.connect("card_drag_ended", self._on_card_drag_ended)
@@ -35,7 +45,7 @@ func drop_in_gem():
 	const DROP_TIME = Enums.TWEEN_TIME * 2
 	await get_tree().create_timer(DROP_TIME).timeout
 	# tween "fall" into place
-	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - 64)
+	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - DROP_OFFSET)
 	var end_pos = sprite.global_position
 	#print("beg_pos: ", beg_pos)
 	sprite.global_position = beg_pos
@@ -43,24 +53,12 @@ func drop_in_gem():
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "global_position", end_pos, DROP_TIME)
 
-# TODO: 20240506: preload these/elevate code
-func load_texture():
-	# Construct texture path based on suit and rank
-	var texture_path = "res://assets/gems/"
-	if gem_color == Enums.GemColor.WHITE:
-		texture_path += "characters_0001" + ".png"
-	elif gem_color == Enums.GemColor.RED:
-		texture_path += "characters_0002" + ".png"
-	elif gem_color == Enums.GemColor.YELLOW:
-		texture_path += "characters_0003" + ".png"
-	elif gem_color == Enums.GemColor.GREEN:
-		texture_path += "characters_0005" + ".png"
-	elif gem_color == Enums.GemColor.PURPLE:
-		texture_path += "characters_0007" + ".png"
-	
-	# Load and assign texture
-	sprite.texture = ResourceLoader.load(texture_path)
-	#print("[gem_cell] loaded sprite.texture: ", texture_path)
+func update_texture():
+	if gem_color in gem_textures:
+		sprite.texture = gem_textures[gem_color]
+		#print("[gem_cell] loaded sprite.texture: ", texture_path)
+	else:
+		print("Texture for gem color not found")
 
 # =========================================================
 
@@ -74,13 +72,16 @@ func play_selected_anim(selected:bool):
 # @desc: both AnimPlayer & AnimExplode are 1-sec
 func play_anim_explode():
 	# TODO: play sound
-	# A: IMPORTANT: use play/stop or scale wont reset!
+	
+	# A: explode effect (scale down to zero)
+	# IMPORTANT: use play/stop or scale wont reset!
 	anim_player_fx.play("explode")
 	anim_player_fx.stop()
-	# B:
+	
+	# B: explode animation (exploding sprite)
 	anim_sprite_explode.visible = true
 	anim_sprite_explode.play("default")
-	await get_tree().create_timer(2).timeout
+	await get_tree().create_timer(EXPLODE_DELAY).timeout
 	anim_sprite_explode.visible = false
 
 # =========================================================
