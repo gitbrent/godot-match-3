@@ -14,6 +14,7 @@ var selected_cell_2:GemCell = null
 #var explode_me_matched_gems:Array
 var undo_cell_1:GemCell = null
 var undo_cell_2:GemCell = null
+var tweens_running:int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -250,6 +251,7 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 
 func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 	gem_cell.global_position = start_pos  # Set initial position right before tweening
+	tweens_running += 1
 	var tween = get_tree().create_tween()
 	tween.tween_property(gem_cell, "global_position", end_pos, Enums.TWEEN_TIME)
 	tween.tween_callback(tween_completed.bind(gem_cell))
@@ -257,20 +259,21 @@ func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 # STEP 3: Tween complete: clear vars/scan board
 
 func tween_completed(gem_cell:GemCell):
-	#print("[TWEEN-COMPLETE]: ", gem_cell)
-	
-	# This method w/b called twice - after each gem is moved
-	if gem_cell == selected_cell_1:
-		selected_cell_1.debug_show_selnum(0)
+	print("[TWEEN-COMPLETE]: (counter="+str(tweens_running)+")", gem_cell)
+	# A: update counter
+	tweens_running -= 1
+
+	# B: clear selections
+	if selected_cell_1:
+		selected_cell_1.debug_show_selnum(0) # DEBUG
 		selected_cell_1 = null
-	elif gem_cell == selected_cell_2:
-		selected_cell_2.debug_show_selnum(0)
+	if selected_cell_2:
+		selected_cell_2.debug_show_selnum(0) # DEBUG
 		selected_cell_2 = null
 	
-	# This method w/b called twice - after each gem is moved, only run after BOTH done
-	if not selected_cell_1 and not selected_cell_2:
-		print("CHECK!!")
-		check_board_explode_matches()
+	# C: once all tweens complete, check board
+	if tweens_running == 0:
+		call_deferred("check_board_explode_matches") # let render loop run before examining gems
 
 # STEP 4: Explode first match found, repeat until exhausted
 # Methodology: Just replace type/sprite in existing cells, slide new sprite in and voila
@@ -278,29 +281,32 @@ func tween_completed(gem_cell:GemCell):
 # STEP: **NEXT STEP**: Re-check board
 
 func check_board_explode_matches():
-	print("[check_board_explode_matches]: enter")
+	print("[check_board_explode_matches]: ===================================")
+	print("[check_board_explode_matches]: CHECKING BOARD...")
 	var gem_matches = get_first_match_gems()
 	if gem_matches.size() == 0:
-		print("No more matches. Board stable.")
+		print("[check_board_explode_matches]: No more matches. Board stable.")
 		# Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
 			swap_gem_cells(undo_cell_2, undo_cell_1)
 			undo_cell_1 = null
 			undo_cell_2 = null
 	else:
-		print("[check_board_explode_matches]: MATCHES! ", gem_matches)
+		#print("[check_board_explode_matches]: MATCHES! ", gem_matches)
 		explode_refill_gems(gem_matches)
-		# Call self recursively after a delay
-		await get_tree().create_timer(Enums.TWEEN_TIME).timeout
-		check_board_explode_matches()  # Recursively check for more matches
 
 func explode_refill_gems(gem_cells: Array):
-	print("[explode_refill_gems] gems: ", gem_cells)
-	print_ascii_table(gem_cells)
+	print("[explode_refill_gems........]: *EXPLODING* gem_cell count: ", gem_cells.size())
+	#print_ascii_table(gem_cells) # DEBUG
+	
 	for gem_cell in gem_cells:
 		var gem_type = GEM_COLORS[randi() % GEM_COLORS.size()]
 		gem_cell.replace_gem(gem_type)  # Replace gem with a random type from defined colors
 		#print("BOOM!!")
+	
+	# Recursively check for more matches
+	print("[explode_refill_gems]: done! (calling check_board)...")
+	call_deferred("check_board_explode_matches") # let render loop run before examining gems
 
 # DEBUG
 
