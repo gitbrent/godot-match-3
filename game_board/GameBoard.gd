@@ -11,7 +11,6 @@ signal gem_swapped()
 const GEM_COLORS = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
 var selected_cell_1:GemCell = null
 var selected_cell_2:GemCell = null
-#var explode_me_matched_gems:Array
 var undo_cell_1:GemCell = null
 var undo_cell_2:GemCell = null
 var tweens_running:int = 0
