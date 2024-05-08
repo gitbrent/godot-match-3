@@ -58,9 +58,9 @@ func drop_in_gem():
 func update_texture():
 	if gem_color in gem_textures:
 		sprite.texture = gem_textures[gem_color]
-		#print("[gem_cell] loaded sprite.texture: ", texture_path)
+		#print("[gem_cell] loaded sprite.texture: ", gem_color)
 	else:
-		print("Texture for gem color not found")
+		print("ERROR: Texture for gem color not found")
 
 # =========================================================
 

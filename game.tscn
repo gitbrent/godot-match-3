@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b5bfm2244ywxk"]
+[gd_scene load_steps=14 format=3 uid="uid://b5bfm2244ywxk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_ewnxx"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
@@ -11,6 +11,9 @@
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="8_7jpwb"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="10_qtl06"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_103kv"]
+bg_color = Color(0, 0, 0, 0.666667)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
 bg_color = Color(0, 0, 0, 0.2)
 
@@ -20,7 +23,13 @@ bg_color = Color(0, 0, 0, 0.411765)
 [node name="Game" type="Node2D"]
 script = ExtResource("1_ewnxx")
 
+[node name="TextureRect" type="Panel" parent="."]
+offset_right = 1154.0
+offset_bottom = 652.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
+
 [node name="Background" type="TextureRect" parent="."]
+visible = false
 offset_right = 1920.0
 offset_bottom = 1080.0
 scale = Vector2(0.6, 0.6)
