@@ -8,7 +8,6 @@ class_name GemCell
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
 const DROP_OFFSET:int = 64
-const EXPLODE_DELAY:int = 2
 var gem_color:Enums.GemColor
 # Declare and preload textures
 var gem_textures: Dictionary = {
@@ -37,7 +36,7 @@ func explode_gem(colorIn: Enums.GemColor):
 	play_anim_explode()
 
 func replace_gem(colorIn: Enums.GemColor):
-	sprite.visible = false # hide Sprite before initialize replaces the texture
+	sprite.visible = true # hide Sprite before initialize replaces the texture
 	# 3:
 	initialize(colorIn)
 	# 4:
@@ -79,15 +78,13 @@ func play_anim_explode():
 	# IMPORTANT: use play/stop or scale wont reset!
 	anim_player_fx.play("explode")
 	anim_player_fx.stop()
+	sprite.visible = false
 	
 	# B: explode animation (exploding sprite)
 	anim_sprite_explode.visible = true
 	anim_sprite_explode.play("default")
-	await get_tree().create_timer(EXPLODE_DELAY).timeout
+	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	anim_sprite_explode.visible = false
-	
-	# C:
-	replace_gem(gem_color)
 
 # =========================================================
 

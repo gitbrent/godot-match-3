@@ -272,6 +272,7 @@ func check_board_explode_matches():
 	print("[check_board_explode_matches]: CHECKING BOARD...")
 	
 	var gem_matches = get_first_match_gems()
+	debug_print_ascii_table(gem_matches)
 	if gem_matches.size() == 0:
 		print("[check_board_explode_matches]: No more matches. Board stable.")
 		# Reset undo cells or perform other cleanup here.
@@ -289,16 +290,26 @@ func check_board_explode_matches():
 func explode_refill_gems(gem_cells: Array):
 	print("[explode_refill_gems........]: *EXPLODING* gem_cell count: ", gem_cells.size())
 	#debug_print_ascii_table(gem_cells) # DEBUG	
+	
+	# A: explode selected
+	for gem_cell in gem_cells:
+		gem_cell.explode_gem(gem_cell.gem_color)
+	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 
-	# Dictionary to track columns and the number of gems to add in each column
+	# B: Dictionary to track columns and the number of gems to add in each column
 	var columns_to_refill = {}
 	for gem_cell in gem_cells:
 		var column_index = gem_cell.get_parent().get_index()
 		columns_to_refill[column_index] = columns_to_refill.get(column_index, 0) + 1
 	
-	# Process each column that needs refilling
+	# C: Process each column that needs refilling
 	for column_index in columns_to_refill.keys():
 		refill_column(column_index, columns_to_refill[column_index])
+	
+	# D:
+	#await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
+	#check_board_explode_matches()
+	# TODO: WIP: DEBUG: commented out recursive
 
 func refill_column(column_index: int, count: int):
 	var column = hbox_container.get_child(column_index)
@@ -315,7 +326,7 @@ func refill_column(column_index: int, count: int):
 	for i in range(count):
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLORS[randi() % GEM_COLORS.size()]
-		gem_cell.explode_gem(random_color)  # This will also handle animation
+		gem_cell.replace_gem(random_color)  # This will also handle animation
 
 # DEBUG =======================================================================
 
@@ -348,8 +359,6 @@ func new_game():
 	for vbox in hbox_container.get_children():
 		# Assuming each child of hbox is a VBoxContainer
 		for gem_cell in vbox.get_children():
-			gem_cell.queue_free()  # This removes and frees each GemCell
+			gem_cell.initialize(GEM_COLORS[randi() % GEM_COLORS.size()])
 	# B:
-	fill_hbox()
-	# C:
 	check_board_explode_matches()
