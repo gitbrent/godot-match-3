@@ -30,6 +30,8 @@ func initialize(colorIn: Enums.GemColor):
 	#panel_hover.visible = false
 
 func replace_gem(colorIn: Enums.GemColor):
+	# 0: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
+	gem_color = colorIn
 	# 1:
 	play_selected_anim(false)
 	play_anim_explode()

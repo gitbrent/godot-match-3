@@ -118,7 +118,7 @@ func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
 
 func get_first_match_gems() -> Array:
 	var num_columns: int = hbox_container.get_child_count()
-	var num_rows: int = hbox_container.get_child(0).get_child_count()  # Assuming uniform row count across columns
+	var num_rows: int = hbox_container.get_child(0).get_child_count()
 	var match_cells: Array = []
 
 	# Horizontal Check (check each row)
@@ -221,45 +221,39 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 		return
 	
 	# A: signal game controller
-	emit_signal("gem_swapped") # play swipe sound
+	emit_signal("gem_swapped") # notify controller (play sound, increase moves counter, etc.)
 	
 	# B: turn off anim/effects before moving
 	swap_cell_1.play_selected_anim(false)
 	swap_cell_2.play_selected_anim(false)
 	
-	# C: get position to restore to after move so tween sets/flows smoothly
-	var orig_pos_cell_1 = swap_cell_1.global_position
-	var orig_col_cell_1 = swap_cell_1.get_parent()
-	var orig_ridx_cell_1 = find_gem_indices(swap_cell_1).row
-	#var orig_cidx_cell_1 = find_gem_indices(swap_cell_1).column
-	var orig_pos_cell_2 = swap_cell_2.global_position
-	var orig_col_cell_2 = swap_cell_2.get_parent()
-	var orig_ridx_cell_2 = find_gem_indices(swap_cell_2).row
-	#var orig_cidx_cell_2 = find_gem_indices(swap_cell_2).column
-
-	# D: swap gems
-	orig_col_cell_1.remove_child(swap_cell_1)
-	orig_col_cell_2.add_child(swap_cell_1)
-	orig_col_cell_2.move_child(swap_cell_1, orig_ridx_cell_1)
-	orig_col_cell_2.remove_child(swap_cell_2)
-	orig_col_cell_1.add_child(swap_cell_2)
-	orig_col_cell_1.move_child(swap_cell_2, orig_ridx_cell_2)
+	# C: logially swap
+	var gem_cell_1 = swap_cell_1.gem_color
+	var gem_cell_2 = swap_cell_2.gem_color
+	swap_cell_1.initialize(gem_cell_2)
+	swap_cell_2.initialize(gem_cell_1)
 	
-	# IMPORTANT: use deferred to allow changes above to render, then re-position and tween afterwards!
+	print_ascii_table([swap_cell_1,swap_cell_2]) # DEBUG
+		
+	# D: get position to restore to after move so tween sets/flows smoothly
+	var orig_pos_cell_1 = swap_cell_1.global_position
+	var orig_pos_cell_2 = swap_cell_2.global_position
+	
+	# E: re-position and tween
 	call_deferred("setup_tween", swap_cell_1, orig_pos_cell_1, orig_pos_cell_2)
 	call_deferred("setup_tween", swap_cell_2, orig_pos_cell_2, orig_pos_cell_1)
 
 func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
-	gem_cell.global_position = start_pos  # Set initial position right before tweening
+	gem_cell.global_position = start_pos # NOTE: Set initial position right before tweening
 	tweens_running += 1
 	var tween = get_tree().create_tween()
 	tween.tween_property(gem_cell, "global_position", end_pos, Enums.TWEEN_TIME)
-	tween.tween_callback(tween_completed.bind(gem_cell))
+	tween.tween_callback(tween_completed)
 
 # STEP 3: Tween complete: clear vars/scan board
 
-func tween_completed(gem_cell:GemCell):
-	print("[TWEEN-COMPLETE]: (counter="+str(tweens_running)+")", gem_cell)
+func tween_completed():
+	print("[TWEEN-COMPLETE]: (counter="+str(tweens_running)+")")
 	# A: update counter
 	tweens_running -= 1
 
@@ -273,16 +267,14 @@ func tween_completed(gem_cell:GemCell):
 	
 	# C: once all tweens complete, check board
 	if tweens_running == 0:
-		call_deferred("check_board_explode_matches") # let render loop run before examining gems
+		check_board_explode_matches()
 
-# STEP 4: Explode first match found, repeat until exhausted
-# Methodology: Just replace type/sprite in existing cells, slide new sprite in and voila
-
-# STEP: **NEXT STEP**: Re-check board
+# STEP 4: Check board, then explode first match found... (repeat until exhausted)
 
 func check_board_explode_matches():
 	print("[check_board_explode_matches]: ===================================")
 	print("[check_board_explode_matches]: CHECKING BOARD...")
+	
 	var gem_matches = get_first_match_gems()
 	if gem_matches.size() == 0:
 		print("[check_board_explode_matches]: No more matches. Board stable.")
@@ -308,7 +300,7 @@ func explode_refill_gems(gem_cells: Array):
 	print("[explode_refill_gems]: done! (calling check_board)...")
 	call_deferred("check_board_explode_matches") # let render loop run before examining gems
 
-# DEBUG
+# DEBUG =======================================================================
 
 func print_ascii_table(affected_cells: Array):
 	var num_columns: int = hbox_container.get_child_count()
@@ -326,7 +318,7 @@ func print_ascii_table(affected_cells: Array):
 	for cell in affected_cells:
 		var indices = find_gem_indices(cell)
 		if indices["column"] != -1 and indices["row"] != -1:
-			grid[indices["row"]][indices["column"]] = "X"
+			grid[indices["row"]][indices["column"]] = Enums.get_color_name_by_value(cell.gem_color).substr(0,1)
 
 	# Print the ASCII grid
 	print("Current Gem Board State:")
