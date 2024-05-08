@@ -1,4 +1,7 @@
+Panel
+TextureRect
 Label
+TextureButton
 AnimatedSprite2D
 AudioStreamPlayer
 AnimationPlayer
