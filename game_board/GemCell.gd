@@ -29,14 +29,14 @@ func initialize(colorIn: Enums.GemColor):
 	# C:
 	#panel_hover.visible = false
 
-func replace_gem(colorIn: Enums.GemColor):
+func explode_gem(colorIn: Enums.GemColor):
 	# 0: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
 	gem_color = colorIn
 	# 1:
 	play_selected_anim(false)
 	play_anim_explode()
-	# 2:
-	#sprite.scale = SPRITE_SCALE # reset as AnimationPlayer scales it down during explode
+
+func replace_gem(colorIn: Enums.GemColor):
 	sprite.visible = false # hide Sprite before initialize replaces the texture
 	# 3:
 	initialize(colorIn)
@@ -85,6 +85,9 @@ func play_anim_explode():
 	anim_sprite_explode.play("default")
 	await get_tree().create_timer(EXPLODE_DELAY).timeout
 	anim_sprite_explode.visible = false
+	
+	# C:
+	replace_gem(gem_color)
 
 # =========================================================
 

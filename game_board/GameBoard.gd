@@ -288,15 +288,34 @@ func check_board_explode_matches():
 
 func explode_refill_gems(gem_cells: Array):
 	print("[explode_refill_gems........]: *EXPLODING* gem_cell count: ", gem_cells.size())
-	#debug_print_ascii_table(gem_cells) # DEBUG
-	
+	#debug_print_ascii_table(gem_cells) # DEBUG	
+
+	# Dictionary to track columns and the number of gems to add in each column
+	var columns_to_refill = {}
 	for gem_cell in gem_cells:
-		var gem_type = GEM_COLORS[randi() % GEM_COLORS.size()]
-		gem_cell.replace_gem(gem_type)  # Replace gem with a random type from defined colors
+		var column_index = gem_cell.get_parent().get_index()
+		columns_to_refill[column_index] = columns_to_refill.get(column_index, 0) + 1
 	
-	# Recursively check for more matches
-	#print("[explode_refill_gems]: done! (calling check_board)...")
-	call_deferred("check_board_explode_matches") # let render loop run before examining gems
+	# Process each column that needs refilling
+	for column_index in columns_to_refill.keys():
+		refill_column(column_index, columns_to_refill[column_index])
+
+func refill_column(column_index: int, count: int):
+	var column = hbox_container.get_child(column_index)
+	
+	# Move gems down starting from the bottom of the column
+	for i in range(column.get_child_count() - 1, count - 1, -1):
+		var gem_cell = column.get_child(i)
+		var gem_above = column.get_child(i - count)
+		#gem_cell.gem_color = gem_above.gem_color  # Move the gem color down
+		#gem_cell.update_texture()  # Update the texture accordingly
+		gem_cell.replace_gem(gem_above.gem_color)  # This will also handle animation
+	
+	# Add new gems at the top
+	for i in range(count):
+		var gem_cell = column.get_child(i)
+		var random_color = GEM_COLORS[randi() % GEM_COLORS.size()]
+		gem_cell.explode_gem(random_color)  # This will also handle animation
 
 # DEBUG =======================================================================
 
