@@ -312,12 +312,12 @@ func explode_refill_gems(gem_cells: Array):
 	
 	# D:
 	#await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
-	#check_board_explode_matches()
+	check_board_explode_matches()
 	# TODO: WIP: DEBUG: commented out recursive
 
 func refill_column(column_index: int, highest_exploded_row: int):
 	var column = hbox_container.get_child(column_index)
-	debug_print_column_ascii(column, column_index)
+	#debug_print_column_ascii(column, column_index)
 	
 	# Move gems down. Start moving from the first row below the highest exploded row.
 	# This assumes the highest exploded row is the highest index (e.g., row 2 in a 0-indexed array if row 2 was exploded).
@@ -326,6 +326,8 @@ func refill_column(column_index: int, highest_exploded_row: int):
 		var source_gem_cell = column.get_child(i)
 		var rows_to_drop = i - (i - highest_exploded_row - 1)
 		target_gem_cell.replace_gem(source_gem_cell.gem_color, rows_to_drop)
+		print("[COL-",str(column_index),"][target_gem_cell]: gem_color=", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " rows_to_drop=", rows_to_drop)
+		target_gem_cell.debug_show_debug_panel(true)
 	
 	# Refill the top rows that have been vacated by shifting down
 	for i in range(highest_exploded_row):
@@ -372,10 +374,16 @@ func debug_print_ascii_table(affected_cells: Array):
 
 func new_game():
 	print("Starting new game, resetting board.")
-	# Remove all existing GemCells
+	# A:
 	for vbox in hbox_container.get_children():
-		# Assuming each child of hbox is a VBoxContainer
 		for gem_cell in vbox.get_children():
 			gem_cell.initialize(GEM_COLORS[randi() % GEM_COLORS.size()])
 	# B:
 	check_board_explode_matches()
+
+func debug_clear_debug_labels():
+	for vbox in hbox_container.get_children():
+		for gem_cell in vbox.get_children():
+			gem_cell.debug_show_debug_panel(false)
+			var debug_name = Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1)
+			print("[", debug_name, "] ", gem_cell.get_child(1).position)

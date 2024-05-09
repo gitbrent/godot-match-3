@@ -1,13 +1,14 @@
-[gd_scene load_steps=23 format=3 uid="uid://clfnptdc2tu5l"]
+[gd_scene load_steps=24 format=3 uid="uid://clfnptdc2tu5l"]
 
 [ext_resource type="Script" path="res://game_board/GemCell.gd" id="1_rhspx"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="2_33s7h"]
 [ext_resource type="Script" path="res://game_board/GemControl.gd" id="3_sh1nc"]
 [ext_resource type="Texture2D" uid="uid://dacjcttesccxk" path="res://assets/explode-06.png" id="4_qqixd"]
 [ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/Acme-Regular.ttf" id="5_lb5dp"]
+[ext_resource type="Theme" uid="uid://hahh0mrfx2q1" path="res://debug_label_theme.tres" id="6_hn3w3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpbyf"]
-bg_color = Color(0, 0, 0, 0.2)
+bg_color = Color(0, 0, 0, 0.8)
 
 [sub_resource type="Animation" id="Animation_3mn62"]
 resource_name = "explode"
@@ -224,3 +225,47 @@ theme_override_font_sizes/font_size = 48
 text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="DebugUIPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lpbyf")
+
+[node name="GridContainer" type="GridContainer" parent="DebugUIPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+
+[node name="Label1" type="Label" parent="DebugUIPanel/GridContainer"]
+layout_mode = 2
+theme = ExtResource("6_hn3w3")
+text = "DROP-ROWS"
+
+[node name="Value1" type="Label" parent="DebugUIPanel/GridContainer"]
+layout_mode = 2
+theme = ExtResource("6_hn3w3")
+theme_override_font_sizes/font_size = 16
+text = "0"
+horizontal_alignment = 2
+
+[node name="Label2" type="Label" parent="DebugUIPanel/GridContainer"]
+layout_mode = 2
+theme = ExtResource("6_hn3w3")
+text = "DROP-H"
+
+[node name="Value2" type="Label" parent="DebugUIPanel/GridContainer"]
+layout_mode = 2
+theme = ExtResource("6_hn3w3")
+theme_override_font_sizes/font_size = 16
+text = "321"
+horizontal_alignment = 2

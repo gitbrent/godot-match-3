@@ -5,6 +5,7 @@ class_name GemCell
 @onready var anim_player_fx:AnimationPlayer = $AnimPlayerFx
 @onready var anim_sprite_explode:AnimatedSprite2D = $AnimSpriteExplode
 @onready var debug_label_sel_num:Label = $DebugLabelSelNum
+@onready var debug_ui_panel:Panel = $DebugUIPanel
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
 const DROP_OFFSET:int = 64
@@ -34,8 +35,17 @@ func explode_gem(colorIn: Enums.GemColor):
 	play_anim_explode()
 
 func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
+	#print("[replace_gem]: colorIn=", colorIn, " rows_to_drop=", rows_to_drop)
+	
 	# Calculate the beginning position based on how many rows the gem needs to drop
 	var drop_height = DROP_OFFSET * rows_to_drop
+	# DEBUG!!! vfvvvvvvvv
+	debug_ui_panel.get_child(0).get_child(0).text = "drop-ROWS"
+	debug_ui_panel.get_child(0).get_child(1).text = str(rows_to_drop)
+	debug_ui_panel.get_child(0).get_child(2).text = "drop-H"
+	debug_ui_panel.get_child(0).get_child(3).text = str(round(drop_height))
+	# DEBUG!!! ^^
+	
 	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - drop_height)
 	sprite.global_position = beg_pos
 
@@ -48,8 +58,8 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 
 func drop_in_gem(drop_height: float):
 	const DROP_TIME = Enums.TWEEN_TIME * 2
-	await get_tree().create_timer(DROP_TIME).timeout
-
+	#await get_tree().create_timer(DROP_TIME).timeout
+	
 	# Tween the "fall" animation from the starting point to the final position
 	var end_pos = Vector2(sprite.global_position.x, sprite.global_position.y + drop_height)
 	var tween = get_tree().create_tween()
@@ -71,8 +81,8 @@ func play_selected_anim(selected:bool):
 		anim_player_fx.stop()
 		sprite.scale = SPRITE_SCALE
 
-# @desc: both AnimPlayer & AnimExplode are 1-sec
 func play_anim_explode():
+	# @desc: both AnimPlayer & AnimExplode are 1-sec
 	# TODO: play sound
 	
 	# A: explode effect (scale down to zero)
@@ -96,3 +106,11 @@ func debug_show_selnum(num:int):
 	else:
 		debug_label_sel_num.visible = true
 		debug_label_sel_num.text = str(num)
+
+func debug_show_debug_panel(isShow:bool):
+	debug_ui_panel.visible = isShow
+	if not isShow:
+		debug_ui_panel.get_child(0).get_child(0).text = "."
+		debug_ui_panel.get_child(0).get_child(1).text = "."
+		debug_ui_panel.get_child(0).get_child(2).text = "."
+		debug_ui_panel.get_child(0).get_child(3).text = "."
