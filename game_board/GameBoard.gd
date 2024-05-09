@@ -317,21 +317,35 @@ func explode_refill_gems(gem_cells: Array):
 
 func refill_column(column_index: int, highest_exploded_row: int):
 	var column = hbox_container.get_child(column_index)
+	debug_print_column_ascii(column, column_index)
 	
 	# Move gems down. Start moving from the first row below the highest exploded row.
 	# This assumes the highest exploded row is the highest index (e.g., row 2 in a 0-indexed array if row 2 was exploded).
 	for i in range(highest_exploded_row, column.get_child_count()):
 		var target_gem_cell = column.get_child(i - highest_exploded_row)
 		var source_gem_cell = column.get_child(i)
-		target_gem_cell.replace_gem(source_gem_cell.gem_color)  # Assuming replace_gem immediately updates the gem
+		var rows_to_drop = i - (i - highest_exploded_row - 1)
+		target_gem_cell.replace_gem(source_gem_cell.gem_color, rows_to_drop)
 	
 	# Refill the top rows that have been vacated by shifting down
 	for i in range(highest_exploded_row):
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLORS[randi() % GEM_COLORS.size()]
-		gem_cell.replace_gem(random_color)  # This will also handle animation
+		gem_cell.replace_gem(random_color, highest_exploded_row + 1 - i)  # Calculate the rows to drop for new gems
 
 # DEBUG =======================================================================
+
+func debug_print_column_ascii(column: VBoxContainer, column_index: int):
+	#print("Column ", column_index, " state:")
+	var output = ""
+	for i in range(column.get_child_count() - 1, -1, -1):  # Print from top to bottom
+		var gem_cell = column.get_child(i) as GemCell
+		if gem_cell != null:
+			output += "[ " + Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1) + " ]"  # Append each gem's color to the output string
+		else:
+			output += "[   ]"  # Append empty brackets for null or missing gems
+	print("Column ", column_index, " state: ", output)
+	#print(output)  # Print the entire column state as one line
 
 func debug_print_ascii_table(affected_cells: Array):
 	var num_columns: int = hbox_container.get_child_count()

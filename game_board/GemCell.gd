@@ -33,24 +33,25 @@ func explode_gem(colorIn: Enums.GemColor):
 	play_selected_anim(false)
 	play_anim_explode()
 
-func replace_gem(colorIn: Enums.GemColor):
-	# A:
-	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - DROP_OFFSET)
+func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
+	# Calculate the beginning position based on how many rows the gem needs to drop
+	var drop_height = DROP_OFFSET * rows_to_drop
+	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - drop_height)
 	sprite.global_position = beg_pos
-	# 3:
-	initialize(colorIn)
-	sprite.visible = true # it'll be invisible after explosion
-	# 4:
-	call_deferred("drop_in_gem")
 
-func drop_in_gem():
+	# Initialize the gem with the new color and ensure it's visible
+	initialize(colorIn)
+	sprite.visible = true  # Make sure the sprite is visible if it was hidden after explosion
+
+	# Call the drop animation deferred to ensure it starts after other logic
+	call_deferred("drop_in_gem", drop_height)
+
+func drop_in_gem(drop_height: float):
 	const DROP_TIME = Enums.TWEEN_TIME * 2
 	await get_tree().create_timer(DROP_TIME).timeout
-	# tween "fall" into place
-	var beg_pos = sprite.global_position
-	var end_pos = Vector2(sprite.global_position.x, sprite.global_position.y + DROP_OFFSET)
-	sprite.global_position = beg_pos
-	#sprite.visible = true
+
+	# Tween the "fall" animation from the starting point to the final position
+	var end_pos = Vector2(sprite.global_position.x, sprite.global_position.y + drop_height)
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "global_position", end_pos, DROP_TIME)
 
