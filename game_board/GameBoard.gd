@@ -316,21 +316,28 @@ func explode_refill_gems(gem_cells: Array):
 
 func refill_column(column_index: int, highest_exploded_row: int):
 	var column = hbox_container.get_child(column_index)
-	print("Refilling column: ", column_index, " starting from row: ", highest_exploded_row)
+	print("[refill_column] colIdx: ", column_index, " starting from rowIdx: ", highest_exploded_row)
 
 	# Move gems down from the row just above the first exploded row to the top
-	for i in range(highest_exploded_row - 1, 0, -1):
-		print("(move gems down): ", i)
-		var target_gem_cell = column.get_child(i + 1)
-		var source_gem_cell = column.get_child(i)
-		target_gem_cell.replace_gem(source_gem_cell.gem_color)  # Move gem color down
+	# EXAMPLE:
+	#|   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 
+	#|---|---|---|---|---|---|---|---|---|
+	#| 0 |   |   |   |   |   |   |   |   |
+	#| 1 | G | G | G |   |   |   |   |   |
+	# =
+	# EX: move gems from rowIdx=0 (0:0,0:2) down to rowIdx=1
+	for i in range(highest_exploded_row, 0, -1):
+		var source_gem_cell = column.get_child(i - 1)
+		var target_gem_cell = column.get_child(i)
+		target_gem_cell.replace_gem(source_gem_cell.gem_color)
+		print("[---------move] rowIdx: ", i, " SRC: ", Enums.get_color_name_by_value(source_gem_cell.gem_color), " - TGT: ", Enums.get_color_name_by_value(target_gem_cell.gem_color))
 
 	# Refill the topmost cell(s) with new gems
 	for i in range(highest_exploded_row):
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
 		gem_cell.replace_gem(random_color)  # Replace top gem with a new random gem
-		print("Refilling column: ", column_index, " row ", i, " with color ", Enums.get_color_name_by_value(random_color))
+		print("[-------refill] colIdx: ", column_index, " rowIdx: ", i, " with color ", Enums.get_color_name_by_value(random_color))
 
 # DEBUG =======================================================================
 
@@ -349,28 +356,42 @@ func debug_print_column_ascii(column: VBoxContainer, column_index: int):
 func debug_print_ascii_table(affected_cells: Array):
 	var num_columns: int = hbox_container.get_child_count()
 	var num_rows: int = hbox_container.get_child(0).get_child_count()  # Assuming all columns have the same number of rows
-
+	
 	# Prepare a grid for ASCII output
 	var grid = []
 	for i in range(num_rows):
-		var row = []  # Create a new row
+		var row = []
 		for j in range(num_columns):
-			row.append(" ")  # Fill the row with spaces
-		grid.append(row)  # Add the filled row to the grid
-
+			row.append(" ")  # Add a space to the row for each column
+		grid.append(row)  # Add the completed row to the grid
+	
 	# Mark the affected cells
 	for cell in affected_cells:
 		var indices = find_gem_indices(cell)
 		if indices["column"] != -1 and indices["row"] != -1:
 			grid[indices["row"]][indices["column"]] = Enums.get_color_name_by_value(cell.gem_color).substr(0,1)
-
+	
 	# Print the ASCII grid
-	#print("Current Gem Board State:")
-	print("0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |")
-	print("--|---|---|---|---|---|---|---|")
-	for row in grid:
-		print(" | ".join(row))
-	print("--|---|---|---|---|---|---|---|")
+	# Header for column indices
+	var header = "|   | "  # Start with space for row index column
+	for i in range(num_columns):
+		header += str(i) + " | "
+
+	# Divider
+	var divider = "|"
+	for i in range(num_columns + 1):  # +1 for the row index column
+		divider += "---|"
+
+	print(header)
+	print(divider)
+	
+	# Print each row with row index and leading/trailing vertical bars
+	for i in range(num_rows):
+		var row_output = "| " + str(i) + " | " + " | ".join(grid[i]) + " |"
+		print(row_output)
+
+	# Closing divider
+	print(divider)
 
 func new_game():
 	print("Starting new game, resetting board.")
