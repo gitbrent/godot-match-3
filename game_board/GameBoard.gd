@@ -311,29 +311,30 @@ func explode_refill_gems(gem_cells: Array):
 		refill_column(column_index, columns_to_refill[column_index] + 1)
 	
 	# D:
-	#await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
-	check_board_explode_matches()
+	#check_board_explode_matches()
 	# TODO: WIP: DEBUG: commented out recursive
 
 func refill_column(column_index: int, highest_exploded_row: int):
 	var column = hbox_container.get_child(column_index)
+	print("Refilling column: ", column_index)
 	#debug_print_column_ascii(column, column_index)
 	
 	# Move gems down. Start moving from the first row below the highest exploded row.
-	# This assumes the highest exploded row is the highest index (e.g., row 2 in a 0-indexed array if row 2 was exploded).
-	for i in range(highest_exploded_row, column.get_child_count()):
-		var target_gem_cell = column.get_child(i - highest_exploded_row)
+	for i in range(column.get_child_count() - 1, highest_exploded_row, -1):
+		var target_row = i - (highest_exploded_row + 1)
+		var target_gem_cell = column.get_child(target_row)
 		var source_gem_cell = column.get_child(i)
-		var rows_to_drop = i - (i - highest_exploded_row - 1)
+		var rows_to_drop = i - target_row
 		target_gem_cell.replace_gem(source_gem_cell.gem_color, rows_to_drop)
-		print("[COL-",str(column_index),"][target_gem_cell]: gem_color=", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " rows_to_drop=", rows_to_drop)
+		print("[COL-", str(column_index), "][target_gem_cell]: gem_color=", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " rows_to_drop=", rows_to_drop)
 		target_gem_cell.debug_show_debug_panel(true)
 	
 	# Refill the top rows that have been vacated by shifting down
-	for i in range(highest_exploded_row):
+	for i in range(highest_exploded_row + 1):
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLORS[randi() % GEM_COLORS.size()]
-		gem_cell.replace_gem(random_color, highest_exploded_row + 1 - i)  # Calculate the rows to drop for new gems
+		gem_cell.replace_gem(random_color, highest_exploded_row - i + 1)
+		print("Refilled top cell at row ", i, " with color ", Enums.get_color_name_by_value(random_color))
 
 # DEBUG =======================================================================
 
@@ -385,5 +386,6 @@ func debug_clear_debug_labels():
 	for vbox in hbox_container.get_children():
 		for gem_cell in vbox.get_children():
 			gem_cell.debug_show_debug_panel(false)
+			gem_cell.get_child(1).position = Vector2(32,32)
 			var debug_name = Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1)
 			print("[", debug_name, "] ", gem_cell.get_child(1).position)

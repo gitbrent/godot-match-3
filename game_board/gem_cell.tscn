@@ -8,7 +8,7 @@
 [ext_resource type="Theme" uid="uid://hahh0mrfx2q1" path="res://debug_label_theme.tres" id="6_hn3w3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpbyf"]
-bg_color = Color(0, 0, 0, 0.8)
+bg_color = Color(0, 0, 0, 0.533333)
 
 [sub_resource type="Animation" id="Animation_3mn62"]
 resource_name = "explode"

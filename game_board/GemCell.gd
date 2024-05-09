@@ -8,7 +8,7 @@ class_name GemCell
 @onready var debug_ui_panel:Panel = $DebugUIPanel
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
-const DROP_OFFSET:int = 64
+const DROP_OFFSET:int = 64 # (the sprite is centered in the 64x64 container, and uses a 32,32 position)
 var gem_color:Enums.GemColor
 # Declare and preload textures
 var gem_textures: Dictionary = {
@@ -46,8 +46,8 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 	debug_ui_panel.get_child(0).get_child(3).text = str(round(drop_height))
 	# DEBUG!!! ^^
 	
-	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - drop_height)
-	sprite.global_position = beg_pos
+	var beg_pos = Vector2(sprite.position.x, sprite.position.y - drop_height)
+	sprite.position = beg_pos
 
 	# Initialize the gem with the new color and ensure it's visible
 	initialize(colorIn)
@@ -57,13 +57,13 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 	call_deferred("drop_in_gem", drop_height)
 
 func drop_in_gem(drop_height: float):
-	const DROP_TIME = Enums.TWEEN_TIME * 2
+	const DROP_TIME = Enums.TWEEN_TIME #* 2
 	#await get_tree().create_timer(DROP_TIME).timeout
 	
 	# Tween the "fall" animation from the starting point to the final position
-	var end_pos = Vector2(sprite.global_position.x, sprite.global_position.y + drop_height)
+	var end_pos = Vector2(sprite.position.x, sprite.position.y + drop_height)
 	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "global_position", end_pos, DROP_TIME)
+	tween.tween_property(sprite, "position", end_pos, DROP_TIME)
 
 func update_texture():
 	if gem_color in gem_textures:
