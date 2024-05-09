@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://game_board/GemCell.gd" id="1_rhspx"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="2_33s7h"]
 [ext_resource type="Script" path="res://game_board/GemControl.gd" id="3_sh1nc"]
-[ext_resource type="Texture2D" uid="uid://dacjcttesccxk" path="res://assets/explode-06.png" id="4_qqixd"]
-[ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/Acme-Regular.ttf" id="5_lb5dp"]
+[ext_resource type="Texture2D" uid="uid://dacjcttesccxk" path="res://assets/effects/explode-06.png" id="4_qqixd"]
+[ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="5_lb5dp"]
 [ext_resource type="Theme" uid="uid://hahh0mrfx2q1" path="res://debug_label_theme.tres" id="6_hn3w3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpbyf"]

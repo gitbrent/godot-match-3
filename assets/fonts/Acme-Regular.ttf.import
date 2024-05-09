@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://dlhwrp5jwkrll"
-path="res://.godot/imported/Acme-Regular.ttf-93d16df8f39175014b9fc597298a94f1.fontdata"
+path="res://.godot/imported/Acme-Regular.ttf-b2675e9734cacefba3354b0bc3dced17.fontdata"
 
 [deps]
 
-source_file="res://assets/Acme-Regular.ttf"
-dest_files=["res://.godot/imported/Acme-Regular.ttf-93d16df8f39175014b9fc597298a94f1.fontdata"]
+source_file="res://assets/fonts/Acme-Regular.ttf"
+dest_files=["res://.godot/imported/Acme-Regular.ttf-b2675e9734cacefba3354b0bc3dced17.fontdata"]
 
 [params]
 

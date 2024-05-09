@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Enums="*res://enums.gd"
 
+[display]
+
+window/handheld/orientation=4
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

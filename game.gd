@@ -20,3 +20,7 @@ func _on_newgame_button_pressed():
 
 func _on_btn_clear_debug_labels_pressed():
 	game_board.debug_clear_debug_labels()
+
+func _on_btn_make_vert_pressed():
+	game_board.debug_make_gem_grid()
+	#game_board.debug_make_match_col()
