@@ -295,35 +295,38 @@ func explode_refill_gems(gem_cells: Array):
 	for gem_cell in gem_cells:
 		gem_cell.explode_gem(gem_cell.gem_color)
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
-
+	
 	# B: Dictionary to track columns and the number of gems to add in each column
 	var columns_to_refill = {}
 	for gem_cell in gem_cells:
 		var column_index = gem_cell.get_parent().get_index()
-		columns_to_refill[column_index] = columns_to_refill.get(column_index, 0) + 1
+		var row_index = gem_cell.get_index()  # Assuming gem_cell.get_index() correctly returns the row index in its VBoxContainer parent
+		if column_index in columns_to_refill:
+			columns_to_refill[column_index] = max(columns_to_refill[column_index], row_index)
+		else:
+			columns_to_refill[column_index] = row_index
 	
 	# C: Process each column that needs refilling
 	for column_index in columns_to_refill.keys():
-		refill_column(column_index, columns_to_refill[column_index])
+		refill_column(column_index, columns_to_refill[column_index] + 1)
 	
 	# D:
 	#await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	#check_board_explode_matches()
 	# TODO: WIP: DEBUG: commented out recursive
 
-func refill_column(column_index: int, count: int):
+func refill_column(column_index: int, highest_exploded_row: int):
 	var column = hbox_container.get_child(column_index)
 	
-	# Move gems down starting from the bottom of the column
-	for i in range(column.get_child_count() - 1, count - 1, -1):
-		var gem_cell = column.get_child(i)
-		var gem_above = column.get_child(i - count)
-		#gem_cell.gem_color = gem_above.gem_color  # Move the gem color down
-		#gem_cell.update_texture()  # Update the texture accordingly
-		gem_cell.replace_gem(gem_above.gem_color)  # This will also handle animation
+	# Move gems down. Start moving from the first row below the highest exploded row.
+	# This assumes the highest exploded row is the highest index (e.g., row 2 in a 0-indexed array if row 2 was exploded).
+	for i in range(highest_exploded_row, column.get_child_count()):
+		var target_gem_cell = column.get_child(i - highest_exploded_row)
+		var source_gem_cell = column.get_child(i)
+		target_gem_cell.replace_gem(source_gem_cell.gem_color)  # Assuming replace_gem immediately updates the gem
 	
-	# Add new gems at the top
-	for i in range(count):
+	# Refill the top rows that have been vacated by shifting down
+	for i in range(highest_exploded_row):
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLORS[randi() % GEM_COLORS.size()]
 		gem_cell.replace_gem(random_color)  # This will also handle animation

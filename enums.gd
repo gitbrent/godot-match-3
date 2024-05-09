@@ -1,7 +1,7 @@
 extends Node
 
 const TWEEN_TIME:float = 0.25
-const EXPLODE_DELAY:int = 2
+const EXPLODE_DELAY:int = 1
 
 enum GemColor {
 	WHITE,

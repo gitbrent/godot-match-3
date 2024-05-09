@@ -21,24 +21,25 @@ var gem_textures: Dictionary = {
 func initialize(colorIn: Enums.GemColor):
 	# A:
 	gem_color = colorIn
-	update_texture()
 	# B:
-	#card_control.connect("card_drag_start", self._on_card_drag_start)
-	#card_control.connect("card_drag_ended", self._on_card_drag_ended)
+	update_texture()
 	# C:
 	#panel_hover.visible = false
 
 func explode_gem(colorIn: Enums.GemColor):
-	# 0: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
+	# A: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
 	gem_color = colorIn
-	# 1:
+	# B:
 	play_selected_anim(false)
 	play_anim_explode()
 
 func replace_gem(colorIn: Enums.GemColor):
-	sprite.visible = true # hide Sprite before initialize replaces the texture
+	# A:
+	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - DROP_OFFSET)
+	sprite.global_position = beg_pos
 	# 3:
 	initialize(colorIn)
+	sprite.visible = true # it'll be invisible after explosion
 	# 4:
 	call_deferred("drop_in_gem")
 
@@ -46,11 +47,10 @@ func drop_in_gem():
 	const DROP_TIME = Enums.TWEEN_TIME * 2
 	await get_tree().create_timer(DROP_TIME).timeout
 	# tween "fall" into place
-	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - DROP_OFFSET)
-	var end_pos = sprite.global_position
-	#print("beg_pos: ", beg_pos)
+	var beg_pos = sprite.global_position
+	var end_pos = Vector2(sprite.global_position.x, sprite.global_position.y + DROP_OFFSET)
 	sprite.global_position = beg_pos
-	sprite.visible = true
+	#sprite.visible = true
 	var tween = get_tree().create_tween()
 	tween.tween_property(sprite, "global_position", end_pos, DROP_TIME)
 
