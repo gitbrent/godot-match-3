@@ -270,7 +270,8 @@ func check_board_explode_matches():
 	print("[check_board_explode_matches]: =====================================")
 	
 	var gem_matches = get_first_match_gems()
-	debug_print_ascii_table(gem_matches)
+	if gem_matches.size() > 0:
+		debug_print_ascii_table(gem_matches)
 	if gem_matches.size() == 0:
 		print("[check_board_explode_matches]: No more matches. Board stable.")
 		# Reset undo cells or perform other cleanup here.
@@ -313,7 +314,7 @@ func explode_refill_gems(gem_cells: Array):
 		refill_column(column_index, details["highest"], details["count"])
 	
 	# D:
-	#check_board_explode_matches()
+	check_board_explode_matches()
 	# TODO: WIP: DEBUG: commented out recursive
 
 func refill_column(column_index: int, highest_exploded_row: int, count_exploded: int):
@@ -328,12 +329,11 @@ func refill_column(column_index: int, highest_exploded_row: int, count_exploded:
 	#| 1 | G | G | G |   |   |   |   |   |
 	# =
 	# EX: move gems from rowIdx=0 (0:0,0:2) down to rowIdx=1
-	for i in range(column.get_child_count() - count_exploded - 1, -1, -1):
-	#for i in range(highest_exploded_row, 0, -1):
+	for i in range(highest_exploded_row - count_exploded, -1, -1):
 		var source_gem_cell = column.get_child(i)
 		var target_gem_cell = column.get_child(i + count_exploded)
 		var rows_to_fall = count_exploded
-		print("[---------move] [", i, "] OLD->NEW: ", Enums.get_color_name_by_value(target_gem_cell.gem_color).substr(0,1), " --> ", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " - rows_to_fall=", rows_to_fall)
+		print("[---------move] [", i, "] OLD->NEW: ", Enums.get_color_name_by_value(target_gem_cell.gem_color).substr(0,1), "->", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " ... rows_to_fall=", rows_to_fall)
 		target_gem_cell.replace_gem(source_gem_cell.gem_color, rows_to_fall)
 	
 	# Refill the topmost cell(s) with new gems
