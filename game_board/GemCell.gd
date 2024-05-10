@@ -5,10 +5,10 @@ class_name GemCell
 @onready var anim_player_fx:AnimationPlayer = $AnimPlayerFx
 @onready var anim_sprite_explode:AnimatedSprite2D = $AnimSpriteExplode
 @onready var debug_label_sel_num:Label = $DebugLabelSelNum
+@onready var debug_ui_panel:Panel = $DebugUIPanel
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
-const DROP_OFFSET:int = 64
-const EXPLODE_DELAY:int = 2
+const DROP_OFFSET:int = 64 # (the sprite is centered in the 64x64 container, and uses a 32,32 position)
 var gem_color:Enums.GemColor
 # Declare and preload textures
 var gem_textures: Dictionary = {
@@ -22,38 +22,48 @@ var gem_textures: Dictionary = {
 func initialize(colorIn: Enums.GemColor):
 	# A:
 	gem_color = colorIn
-	update_texture()
 	# B:
-	#card_control.connect("card_drag_start", self._on_card_drag_start)
-	#card_control.connect("card_drag_ended", self._on_card_drag_ended)
+	update_texture()
 	# C:
 	#panel_hover.visible = false
 
-func replace_gem(colorIn: Enums.GemColor):
-	# 0: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
+func explode_gem(colorIn: Enums.GemColor):
+	# A: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
 	gem_color = colorIn
-	# 1:
+	# B:
 	play_selected_anim(false)
 	play_anim_explode()
-	# 2:
-	#sprite.scale = SPRITE_SCALE # reset as AnimationPlayer scales it down during explode
-	sprite.visible = false # hide Sprite before initialize replaces the texture
-	# 3:
-	initialize(colorIn)
-	# 4:
-	call_deferred("drop_in_gem")
 
-func drop_in_gem():
-	const DROP_TIME = Enums.TWEEN_TIME * 2
-	await get_tree().create_timer(DROP_TIME).timeout
-	# tween "fall" into place
-	var beg_pos = Vector2(sprite.global_position.x, sprite.global_position.y - DROP_OFFSET)
-	var end_pos = sprite.global_position
-	#print("beg_pos: ", beg_pos)
-	sprite.global_position = beg_pos
-	sprite.visible = true
+func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
+	#print("[replace_gem]: colorIn=", colorIn, " rows_to_drop=", rows_to_drop)
+	
+	# Calculate the beginning position based on how many rows the gem needs to drop
+	var drop_height = DROP_OFFSET * rows_to_drop
+	# DEBUG!!! vfvvvvvvvv
+	debug_ui_panel.get_child(0).get_child(0).text = "drop-ROWS"
+	debug_ui_panel.get_child(0).get_child(1).text = str(rows_to_drop)
+	debug_ui_panel.get_child(0).get_child(2).text = "drop-H"
+	debug_ui_panel.get_child(0).get_child(3).text = str(round(drop_height))
+	# DEBUG!!! ^^
+	
+	var beg_pos = Vector2(sprite.position.x, sprite.position.y - drop_height)
+	sprite.position = beg_pos
+
+	# Initialize the gem with the new color and ensure it's visible
+	initialize(colorIn)
+	sprite.visible = true  # Make sure the sprite is visible if it was hidden after explosion
+
+	# Call the drop animation deferred to ensure it starts after other logic
+	call_deferred("drop_in_gem", drop_height)
+
+func drop_in_gem(drop_height: float):
+	const DROP_TIME = Enums.TWEEN_TIME #* 2
+	#await get_tree().create_timer(DROP_TIME).timeout
+	
+	# Tween the "fall" animation from the starting point to the final position
+	var end_pos = Vector2(sprite.position.x, sprite.position.y + drop_height)
 	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "global_position", end_pos, DROP_TIME)
+	tween.tween_property(sprite, "position", end_pos, DROP_TIME)
 
 func update_texture():
 	if gem_color in gem_textures:
@@ -71,19 +81,20 @@ func play_selected_anim(selected:bool):
 		anim_player_fx.stop()
 		sprite.scale = SPRITE_SCALE
 
-# @desc: both AnimPlayer & AnimExplode are 1-sec
 func play_anim_explode():
+	# @desc: both AnimPlayer & AnimExplode are 1-sec
 	# TODO: play sound
 	
 	# A: explode effect (scale down to zero)
 	# IMPORTANT: use play/stop or scale wont reset!
 	anim_player_fx.play("explode")
 	anim_player_fx.stop()
+	sprite.visible = false
 	
 	# B: explode animation (exploding sprite)
 	anim_sprite_explode.visible = true
 	anim_sprite_explode.play("default")
-	await get_tree().create_timer(EXPLODE_DELAY).timeout
+	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	anim_sprite_explode.visible = false
 
 # =========================================================
@@ -95,3 +106,11 @@ func debug_show_selnum(num:int):
 	else:
 		debug_label_sel_num.visible = true
 		debug_label_sel_num.text = str(num)
+
+func debug_show_debug_panel(isShow:bool):
+	debug_ui_panel.visible = isShow
+	if not isShow:
+		debug_ui_panel.get_child(0).get_child(0).text = "."
+		debug_ui_panel.get_child(0).get_child(1).text = "."
+		debug_ui_panel.get_child(0).get_child(2).text = "."
+		debug_ui_panel.get_child(0).get_child(3).text = "."

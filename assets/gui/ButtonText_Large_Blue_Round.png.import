@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dacjcttesccxk"
-path="res://.godot/imported/explode-06.png-688b2b6de2f7b37fa3d18a37ece97213.ctex"
+uid="uid://chrsqb6yhlqeq"
+path="res://.godot/imported/ButtonText_Large_Blue_Round.png-28b6773134cc201c77c81daf370a52f0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/explode-06.png"
-dest_files=["res://.godot/imported/explode-06.png-688b2b6de2f7b37fa3d18a37ece97213.ctex"]
+source_file="res://assets/gui/ButtonText_Large_Blue_Round.png"
+dest_files=["res://.godot/imported/ButtonText_Large_Blue_Round.png-28b6773134cc201c77c81daf370a52f0.ctex"]
 
 [params]
 

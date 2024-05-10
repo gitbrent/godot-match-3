@@ -1,3 +1,5 @@
+res://game_board/gem_cell.tscn
 res://game.tscn
 res://game_board/board.tscn
-res://game_board/gem_cell.tscn
+res://game.gd
+res://game_board/GameBoard.gd
