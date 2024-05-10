@@ -316,7 +316,7 @@ func explode_refill_gems(gem_cells: Array):
 
 func refill_column(column_index: int, highest_exploded_row: int):
 	var column = hbox_container.get_child(column_index)
-	print("[refill_column] colIdx: ", column_index, " starting from rowIdx: ", highest_exploded_row)
+	print("[refill_column] colIdx: ", column_index, " | rowIdx: ", highest_exploded_row)
 
 	# Move gems down from the row just above the first exploded row to the top
 	# EXAMPLE:
@@ -329,15 +329,17 @@ func refill_column(column_index: int, highest_exploded_row: int):
 	for i in range(highest_exploded_row, 0, -1):
 		var source_gem_cell = column.get_child(i - 1)
 		var target_gem_cell = column.get_child(i)
-		target_gem_cell.replace_gem(source_gem_cell.gem_color)
-		print("[---------move] rowIdx: ", i, " SRC: ", Enums.get_color_name_by_value(source_gem_cell.gem_color), " - TGT: ", Enums.get_color_name_by_value(target_gem_cell.gem_color))
-
+		var rows_to_fall = highest_exploded_row - i + 1
+		print("[---------move] [", i, "] OLD->NEW: ", Enums.get_color_name_by_value(target_gem_cell.gem_color).substr(0,1), " --> ", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " - rows_to_fall=", rows_to_fall)
+		target_gem_cell.replace_gem(source_gem_cell.gem_color, rows_to_fall)
+	
+	# FIXME: Wrong! when gems 4-8 explode, we dont refill en tire range of 8!
 	# Refill the topmost cell(s) with new gems
 	for i in range(highest_exploded_row):
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
 		gem_cell.replace_gem(random_color)  # Replace top gem with a new random gem
-		print("[-------refill] colIdx: ", column_index, " rowIdx: ", i, " with color ", Enums.get_color_name_by_value(random_color))
+		print("[-------refill] [", i, "] ADD: ", Enums.get_color_name_by_value(random_color))
 
 # DEBUG =======================================================================
 
