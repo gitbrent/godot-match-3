@@ -300,23 +300,25 @@ func explode_refill_gems(gem_cells: Array):
 	var columns_to_refill = {}
 	for gem_cell in gem_cells:
 		var column_index = gem_cell.get_parent().get_index()
-		var row_index = gem_cell.get_index()  # Assuming gem_cell.get_index() correctly returns the row index in its VBoxContainer parent
+		var row_index = gem_cell.get_index()
 		if column_index in columns_to_refill:
-			columns_to_refill[column_index] = max(columns_to_refill[column_index], row_index)
+			columns_to_refill[column_index]["count"] += 1
+			columns_to_refill[column_index]["highest"] = max(columns_to_refill[column_index]["highest"], row_index)
 		else:
-			columns_to_refill[column_index] = row_index
+			columns_to_refill[column_index] = {"highest": row_index, "count": 1}
 	
 	# C: Process each column that needs refilling
 	for column_index in columns_to_refill.keys():
-		refill_column(column_index, columns_to_refill[column_index])
+		var details = columns_to_refill[column_index]
+		refill_column(column_index, details["highest"], details["count"])
 	
 	# D:
 	#check_board_explode_matches()
 	# TODO: WIP: DEBUG: commented out recursive
 
-func refill_column(column_index: int, highest_exploded_row: int):
+func refill_column(column_index: int, highest_exploded_row: int, count_exploded: int):
 	var column = hbox_container.get_child(column_index)
-	print("[refill_column] colIdx: ", column_index, " | rowIdx: ", highest_exploded_row)
+	print("[refill_column] | colIdx: ", column_index, " | hst_exp_row: ", highest_exploded_row, " | count_exploded: ", count_exploded)
 
 	# Move gems down from the row just above the first exploded row to the top
 	# EXAMPLE:
@@ -326,16 +328,16 @@ func refill_column(column_index: int, highest_exploded_row: int):
 	#| 1 | G | G | G |   |   |   |   |   |
 	# =
 	# EX: move gems from rowIdx=0 (0:0,0:2) down to rowIdx=1
-	for i in range(highest_exploded_row, 0, -1):
-		var source_gem_cell = column.get_child(i - 1)
-		var target_gem_cell = column.get_child(i)
-		var rows_to_fall = highest_exploded_row - i + 1
+	for i in range(column.get_child_count() - count_exploded - 1, -1, -1):
+	#for i in range(highest_exploded_row, 0, -1):
+		var source_gem_cell = column.get_child(i)
+		var target_gem_cell = column.get_child(i + count_exploded)
+		var rows_to_fall = count_exploded
 		print("[---------move] [", i, "] OLD->NEW: ", Enums.get_color_name_by_value(target_gem_cell.gem_color).substr(0,1), " --> ", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " - rows_to_fall=", rows_to_fall)
 		target_gem_cell.replace_gem(source_gem_cell.gem_color, rows_to_fall)
 	
-	# FIXME: Wrong! when gems 4-8 explode, we dont refill en tire range of 8!
 	# Refill the topmost cell(s) with new gems
-	for i in range(highest_exploded_row):
+	for i in range(count_exploded):
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
 		gem_cell.replace_gem(random_color)  # Replace top gem with a new random gem
