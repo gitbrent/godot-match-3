@@ -33,7 +33,6 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_h8otn")
 
 [node name="BkgdTextRect" type="Panel" parent="."]
-visible = false
 offset_right = 1154.0
 offset_bottom = 652.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")

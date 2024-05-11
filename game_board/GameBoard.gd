@@ -193,10 +193,12 @@ func _on_cell_click(gem_cell:GemCell):
 	# DEBUG
 	if selected_cell_1:
 		Enums.debug_print("[_on_cell_click] selected_cell_1: " + JSON.stringify(find_gem_indices(selected_cell_1)), Enums.DEBUG_LEVEL.INFO)
-		selected_cell_1.debug_show_selnum(1)
+		if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
+			selected_cell_1.debug_show_selnum(1)
 	if selected_cell_2:
 		Enums.debug_print("[_on_cell_click] selected_cell_2: " + JSON.stringify(find_gem_indices(selected_cell_2)), Enums.DEBUG_LEVEL.INFO)
-		selected_cell_2.debug_show_selnum(2)
+		if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
+			selected_cell_2.debug_show_selnum(2)
 	
 	# STEP 2: effect
 	if selected_cell_1:
@@ -229,18 +231,18 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 	#debug_print_ascii_table([swap_cell_1,swap_cell_2])
 	
 	# D: get position to restore to after move so tween sets/flows smoothly
-	var orig_pos_cell_1 = swap_cell_1.sprite.position
-	var orig_pos_cell_2 = swap_cell_2.sprite.position
+	var orig_pos_cell_1 = swap_cell_1.sprite.global_position
+	var orig_pos_cell_2 = swap_cell_2.sprite.global_position
 	
 	# E: re-position and tween
 	call_deferred("setup_tween", swap_cell_2, orig_pos_cell_1, orig_pos_cell_2)
 	call_deferred("setup_tween", swap_cell_1, orig_pos_cell_2, orig_pos_cell_1)
 
 func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
-	gem_cell.sprite.position = start_pos # NOTE: Set initial position right before tweening
+	gem_cell.sprite.global_position = start_pos # NOTE: Set initial position right before tweening
 	tweens_running += 1
 	var tween = get_tree().create_tween()
-	tween.tween_property(gem_cell.sprite, "position", end_pos, Enums.TWEEN_TIME)
+	tween.tween_property(gem_cell.sprite, "global_position", end_pos, Enums.TWEEN_TIME)
 	tween.tween_callback(tween_completed)
 
 # STEP 3: Tween complete: clear vars/scan board
