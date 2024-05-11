@@ -2,6 +2,7 @@ extends Node2D
 # SCENES
 @onready var game_board:GameBoard = $Board
 @onready var game_stats:VBoxContainer = $GameStats
+@onready var game_top_h_box:HBoxContainer = $GameTopHBox
 
 func _ready():
 	game_board.connect("props_updated_moves", self._on_props_updated_moves)
@@ -17,15 +18,11 @@ func _on_props_updated_gemsdict(gems_dict:Dictionary):
 	game_stats.get_child(4).get_child(1).text = str(gems_dict["PURPLE"])
 	game_stats.get_child(5).get_child(1).text = str(gems_dict["BROWN"])
 
-func _on_props_updated_moves(moves:int):
-	# TODO: name labels, then update base on this
-	#game_stats.get_child(4).get_child(1).text = str(moves)
-	print("TODO:") # TODO:
-
 func _on_props_updated_score(score:int):
-	# TODO: name labels, then update base on this
-	#game_stats.get_child(5).get_child(1).text = str(score)
-	print("TODO:") # TODO:
+	game_top_h_box.get_child(0).get_child(1).text = str(score)
+
+func _on_props_updated_moves(moves:int):
+	game_top_h_box.get_child(1).get_child(1).text = str(moves)
 
 func _on_newgame_button_pressed():
 	game_board.new_game()

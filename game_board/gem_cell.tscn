@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://game_board/GemControl.gd" id="3_sh1nc"]
 [ext_resource type="Texture2D" uid="uid://dacjcttesccxk" path="res://assets/effects/explode-06.png" id="4_qqixd"]
 [ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="5_lb5dp"]
-[ext_resource type="Theme" uid="uid://hahh0mrfx2q1" path="res://debug_label_theme.tres" id="6_hn3w3"]
+[ext_resource type="Theme" uid="uid://hahh0mrfx2q1" path="res://themes/debug_label_theme.tres" id="6_hn3w3"]
 [ext_resource type="AudioStream" uid="uid://ca0jp78fn0bi1" path="res://assets/audio/bfh1_glass_breaking_02.ogg" id="7_50xdd"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="8_cgn1d"]
 
