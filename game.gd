@@ -1,22 +1,20 @@
 extends Node2D
 # SCENES
-@onready var audio_gem_move:AudioStreamPlayer = $AudioGemMove
 @onready var game_board:GameBoard = $Board
-@onready var game_stats = $GameStats
+@onready var game_stats:VBoxContainer = $GameStats
 
-func _on_board_gem_swapped():
-	play_move_sound()
-	#GameProps.get_props()
-	update_game_props()
+func _ready():
+	game_board.connect("props_updated_moves", self._on_props_updated_moves)
+	game_board.connect("props_updated_score", self._on_props_updated_score)
 
-func play_move_sound():
-	audio_gem_move.play()
-	
-func update_game_props():
-	var brent = game_board.get_gem_props()
-	print("brent: ", brent)
+func _on_props_updated_moves(moves:int):
 	# TODO: name labels, then update base on this
-	game_stats.get_child(0).get_child(1).text = "99"
+	game_stats.get_child(0).get_child(1).text = str(moves)
+
+func _on_props_updated_score(score:int):
+	# TODO: name labels, then update base on this
+	game_stats.get_child(1).get_child(1).text = str(score)
+	game_stats.get_child(2).get_child(1).text = str(score)
 
 func _on_newgame_button_pressed():
 	game_board.new_game()

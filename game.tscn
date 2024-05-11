@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://b5bfm2244ywxk"]
+[gd_scene load_steps=19 format=3 uid="uid://b5bfm2244ywxk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_ewnxx"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
 [ext_resource type="PackedScene" uid="uid://x4qq2j3l7nvb" path="res://game_board/board.tscn" id="2_2ltbx"]
+[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://animated_cloud.tscn" id="3_a1y13"]
 [ext_resource type="Texture2D" uid="uid://b8biy2iputyhe" path="res://assets/gems/characters_0002.png" id="3_qywvx"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="3_sh4xh"]
 [ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/characters_0003.png" id="4_2reex"]
@@ -33,6 +34,8 @@ offset_bottom = 1390.0
 texture = ExtResource("1_h8otn")
 expand_mode = 2
 
+[node name="AnimatedCloud" parent="." instance=ExtResource("3_a1y13")]
+
 [node name="BkgdDimmer" type="Panel" parent="."]
 visible = false
 anchors_preset = 15
@@ -46,16 +49,16 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="GameStatsBkgd" type="Panel" parent="."]
 offset_left = 75.0
-offset_top = 150.0
+offset_top = 183.0
 offset_right = 425.0
-offset_bottom = 1174.0
+offset_bottom = 1207.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
 
 [node name="GameStats" type="VBoxContainer" parent="."]
 offset_left = 100.0
-offset_top = 175.0
+offset_top = 203.0
 offset_right = 425.0
-offset_bottom = 1199.0
+offset_bottom = 1227.0
 theme_override_constants/separation = 40
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="GameStats"]
@@ -186,13 +189,13 @@ text = "0"
 [node name="BoardTextRect" type="Panel" parent="."]
 visible = false
 offset_left = 500.0
-offset_top = 150.0
+offset_top = 183.0
 offset_right = 1524.0
-offset_bottom = 1174.0
+offset_bottom = 1207.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="Board" parent="." instance=ExtResource("2_2ltbx")]
-position = Vector2(500, 150)
+position = Vector2(500, 183)
 
 [node name="Panel" type="Panel" parent="."]
 visible = false
@@ -272,7 +275,6 @@ text = "CHECKERED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="gem_swapped" from="Board" to="." method="_on_board_gem_swapped"]
 [connection signal="pressed" from="BtnNewGame" to="." method="_on_newgame_button_pressed"]
 [connection signal="pressed" from="BtnClearDebugLabels" to="." method="_on_btn_clear_debug_labels_pressed"]
 [connection signal="pressed" from="BtnMatchCol" to="." method="_on_btn_make_vert_pressed"]

@@ -3,7 +3,8 @@
 extends Node2D
 class_name GameBoard
 # SIGNALS
-signal gem_swapped()
+signal props_updated_moves(moves:int)
+signal props_updated_score(score:int)
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
@@ -13,7 +14,9 @@ var selected_cell_1:GemCell = null
 var selected_cell_2:GemCell = null
 var undo_cell_1:GemCell = null
 var undo_cell_2:GemCell = null
-var tweens_running:int = 0
+var tweens_running_cnt:int = 0
+var board_props_moves:int = 0
+var board_props_score:int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -55,16 +58,15 @@ func fill_hbox():
 		for row_idx in range(8):
 			# A: random gem
 			var gem_type = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
-			#var gem_type = Enums.GemColor.WHITE
 			# B: create/add
 			var gem_cell_scene = load("res://game_board/gem_cell.tscn")
 			var gem_cell:GemCell = gem_cell_scene.instantiate()
 			hbox_container.get_child(col_idx).add_child(gem_cell)
 			gem_cell.initialize(gem_type)
 			var control_node = gem_cell.get_node("GemControl")
-			#control_node.connect("drag_start", self._on_cell_click)
 			control_node.connect("cell_click", self._on_cell_click)
-			#control_node.connect("drag_ended", self._on_cell_click)
+			#control_node.connect("drag_start", self._on_cell_click) # TODO:
+			#control_node.connect("drag_ended", self._on_cell_click) # TODO:
 
 # =========================================================
 
@@ -217,7 +219,10 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 		return
 	
 	# A: signal game controller
-	emit_signal("gem_swapped") # notify controller (play sound, increase moves counter, etc.)
+	swap_cell_1.play_audio_gem_move()
+	swap_cell_2.play_audio_gem_move()
+	board_props_moves += 1
+	emit_signal("props_updated_moves", board_props_moves)
 	
 	# B: turn off anim/effects before moving
 	swap_cell_1.play_selected_anim(false)
@@ -240,7 +245,7 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 
 func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 	gem_cell.sprite.global_position = start_pos # NOTE: Set initial position right before tweening
-	tweens_running += 1
+	tweens_running_cnt += 1
 	var tween = get_tree().create_tween()
 	tween.tween_property(gem_cell.sprite, "global_position", end_pos, Enums.TWEEN_TIME)
 	tween.tween_callback(tween_completed)
@@ -248,9 +253,9 @@ func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 # STEP 3: Tween complete: clear vars/scan board
 
 func tween_completed():
-	Enums.debug_print("[tween_completed]: (counter="+str(tweens_running)+")", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[tween_completed]: (counter="+str(tweens_running_cnt)+")", Enums.DEBUG_LEVEL.INFO)
 	# A: update counter
-	tweens_running -= 1
+	tweens_running_cnt -= 1
 
 	# B: clear selections
 	if selected_cell_1:
@@ -261,7 +266,7 @@ func tween_completed():
 		selected_cell_2 = null
 	
 	# C: once all tweens complete, check board
-	if tweens_running == 0:
+	if tweens_running_cnt == 0:
 		check_board_explode_matches()
 
 # STEP 4: Check board, then explode first match found... (repeat until exhausted)
@@ -270,6 +275,10 @@ func check_board_explode_matches():
 	Enums.debug_print("[check_board_explode_matches]: =====================================", Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[check_board_explode_matches]: CHECKING BOARD...                    ", Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[check_board_explode_matches]: =====================================", Enums.DEBUG_LEVEL.INFO)
+	
+	# TDDO: WIP: this will change once we start exploding all at once
+	board_props_score += 10
+	emit_signal("props_updated_score", board_props_score)
 	
 	var gem_matches = get_first_match_gems()
 	if gem_matches.size() > 0:
