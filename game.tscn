@@ -32,6 +32,7 @@ scale = Vector2(0.6, 0.6)
 texture = ExtResource("1_h8otn")
 
 [node name="BkgdTextRect" type="Panel" parent="."]
+visible = false
 offset_right = 1154.0
 offset_bottom = 652.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
@@ -176,10 +177,10 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_imdoc")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioGemMove" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_7jpwb")
 
-[node name="TextureButton" type="TextureButton" parent="."]
+[node name="BtnNewGame" type="TextureButton" parent="."]
 offset_left = 895.0
 offset_top = 74.0
 offset_right = 2054.0
@@ -187,7 +188,7 @@ offset_bottom = 432.0
 scale = Vector2(0.2, 0.2)
 texture_normal = ExtResource("10_qtl06")
 
-[node name="Label" type="Label" parent="TextureButton"]
+[node name="Label" type="Label" parent="BtnNewGame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -240,6 +241,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="gem_swapped" from="Board" to="." method="_on_board_gem_swapped"]
-[connection signal="pressed" from="TextureButton" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="BtnNewGame" to="." method="_on_newgame_button_pressed"]
 [connection signal="pressed" from="BtnClearDebugLabels" to="." method="_on_btn_clear_debug_labels_pressed"]
 [connection signal="pressed" from="BtnMatchCol" to="." method="_on_btn_make_vert_pressed"]

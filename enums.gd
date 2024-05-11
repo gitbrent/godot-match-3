@@ -16,3 +16,20 @@ func get_color_name_by_value(value: int) -> String:
 		if GemColor[key] == value:
 			return key
 	return "Unknown"
+
+# =========================================================
+
+enum DEBUG_LEVEL {
+	NONE,    # No debug output
+	ERROR,   # Critical errors only
+	WARNING, # Errors and warnings
+	INFO,    # Informational output
+	DEBUG    # All debug messages
+}
+
+# Global or class-level variable to set the current debug level
+var current_debug_level = DEBUG_LEVEL.DEBUG
+
+func debug_print(message: String, level: int):
+	if level <= current_debug_level:
+		print(message)

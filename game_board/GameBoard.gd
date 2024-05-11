@@ -171,8 +171,8 @@ func get_first_match_gems() -> Array:
 # @desc: calls `swap_gem_cells()` when 2 cells selected and are adjacent
 
 func _on_cell_click(gem_cell:GemCell):
-	#print("[_on_cell_click] gem_cell.......: ", find_gem_indices(gem_cell))
-	#print("[_on_cell_click] ---------------------------------------------")
+	Enums.debug_print("[_on_cell_click] gem_cell.......: "+JSON.stringify(find_gem_indices(gem_cell)), Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[_on_cell_click] ---------------------------------------------", Enums.DEBUG_LEVEL.INFO)
 	
 	# Clear first, we'll set later
 	if selected_cell_1:
@@ -192,10 +192,10 @@ func _on_cell_click(gem_cell:GemCell):
 	
 	# DEBUG
 	if selected_cell_1:
-		#print("[_on_cell_click] selected_cell_1: ", find_gem_indices(selected_cell_1))
+		Enums.debug_print("[_on_cell_click] selected_cell_1: " + JSON.stringify(find_gem_indices(selected_cell_1)), Enums.DEBUG_LEVEL.INFO)
 		selected_cell_1.debug_show_selnum(1)
 	if selected_cell_2:
-		#print("[_on_cell_click] selected_cell_2: ", find_gem_indices(selected_cell_2))
+		Enums.debug_print("[_on_cell_click] selected_cell_2: " + JSON.stringify(find_gem_indices(selected_cell_2)), Enums.DEBUG_LEVEL.INFO)
 		selected_cell_2.debug_show_selnum(2)
 	
 	# STEP 2: effect
@@ -246,7 +246,7 @@ func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 # STEP 3: Tween complete: clear vars/scan board
 
 func tween_completed():
-	print("[tween_completed]: (counter="+str(tweens_running)+")")
+	Enums.debug_print("[tween_completed]: (counter="+str(tweens_running)+")", Enums.DEBUG_LEVEL.INFO)
 	# A: update counter
 	tweens_running -= 1
 
@@ -265,15 +265,15 @@ func tween_completed():
 # STEP 4: Check board, then explode first match found... (repeat until exhausted)
 
 func check_board_explode_matches():
-	print("[check_board_explode_matches]: =====================================")
-	print("[check_board_explode_matches]: CHECKING BOARD...")
-	print("[check_board_explode_matches]: =====================================")
+	Enums.debug_print("[check_board_explode_matches]: =====================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[check_board_explode_matches]: CHECKING BOARD...                    ", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[check_board_explode_matches]: =====================================", Enums.DEBUG_LEVEL.INFO)
 	
 	var gem_matches = get_first_match_gems()
 	if gem_matches.size() > 0:
 		debug_print_ascii_table(gem_matches)
 	if gem_matches.size() == 0:
-		print("[check_board_explode_matches]: No more matches. Board stable.")
+		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
 			swap_gem_cells(undo_cell_2, undo_cell_1)
@@ -287,10 +287,11 @@ func check_board_explode_matches():
 		explode_refill_gems(gem_matches)
 
 func explode_refill_gems(gem_cells: Array):
-	print("[explode_refill_gems........]: =====================================")
-	print("[explode_refill_gems........]: *EXPLODING* gem_cell count: ", gem_cells.size())
-	print("[explode_refill_gems........]: =====================================")
-	#debug_print_ascii_table(gem_cells) # DEBUG	
+	Enums.debug_print("[explode_refill_gems........]: =====================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems........]: *EXPLODING* gem_cell count: "+str(gem_cells.size()), Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems........]: =====================================", Enums.DEBUG_LEVEL.INFO)
+	if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
+		debug_print_ascii_table(gem_cells)
 	
 	# A: explode selected
 	for gem_cell in gem_cells:
@@ -315,12 +316,12 @@ func explode_refill_gems(gem_cells: Array):
 	
 	# D:
 	check_board_explode_matches()
-	# TODO: WIP: DEBUG: commented out recursive
 
 func refill_column(column_index: int, highest_exploded_row: int, count_exploded: int):
 	var column = hbox_container.get_child(column_index)
-	print("[refill_column] | colIdx: ", column_index, " | hst_exp_row: ", highest_exploded_row, " | count_exploded: ", count_exploded)
-
+	var debug_str = "[refill_column] | colIdx: "+str(column_index)+" | hst_exp_row: "+str(highest_exploded_row)+" | count_exploded: "+str(count_exploded)
+	Enums.debug_print(debug_str, Enums.DEBUG_LEVEL.DEBUG)
+	
 	# Move gems down from the row just above the first exploded row to the top
 	# EXAMPLE:
 	#|   | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 
@@ -333,7 +334,8 @@ func refill_column(column_index: int, highest_exploded_row: int, count_exploded:
 		var source_gem_cell = column.get_child(i)
 		var target_gem_cell = column.get_child(i + count_exploded)
 		var rows_to_fall = count_exploded
-		print("[---------move] [", i, "] OLD->NEW: ", Enums.get_color_name_by_value(target_gem_cell.gem_color).substr(0,1), "->", Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1), " ... rows_to_fall=", rows_to_fall)
+		var debug_str2 = "[---------move] ["+str(i)+"] OLD->NEW: "+Enums.get_color_name_by_value(target_gem_cell.gem_color).substr(0,1)+ "->"+ Enums.get_color_name_by_value(source_gem_cell.gem_color).substr(0,1)+" ... rows_to_fall="+ str(rows_to_fall)
+		Enums.debug_print(debug_str2, Enums.DEBUG_LEVEL.DEBUG)
 		target_gem_cell.replace_gem(source_gem_cell.gem_color, rows_to_fall)
 	
 	# Refill the topmost cell(s) with new gems
@@ -341,12 +343,12 @@ func refill_column(column_index: int, highest_exploded_row: int, count_exploded:
 		var gem_cell = column.get_child(i)
 		var random_color = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
 		gem_cell.replace_gem(random_color)  # Replace top gem with a new random gem
-		print("[-------refill] [", i, "] ADD: ", Enums.get_color_name_by_value(random_color))
+		var debug_str3 = "[-------refill] ["+str(i)+"] ADD: " + Enums.get_color_name_by_value(random_color)
+		Enums.debug_print(debug_str3, Enums.DEBUG_LEVEL.DEBUG)
 
 # DEBUG =======================================================================
 
 func debug_print_column_ascii(column: VBoxContainer, column_index: int):
-	#print("Column ", column_index, " state:")
 	var output = ""
 	for i in range(column.get_child_count() - 1, -1, -1):  # Print from top to bottom
 		var gem_cell = column.get_child(i) as GemCell
@@ -355,7 +357,6 @@ func debug_print_column_ascii(column: VBoxContainer, column_index: int):
 		else:
 			output += "[   ]"  # Append empty brackets for null or missing gems
 	print("Column ", column_index, " state: ", output)
-	#print(output)  # Print the entire column state as one line
 
 func debug_print_ascii_table(affected_cells: Array):
 	var num_columns: int = hbox_container.get_child_count()
@@ -398,11 +399,13 @@ func debug_print_ascii_table(affected_cells: Array):
 	print(divider)
 
 func new_game():
-	print("Starting new game, resetting board.")
+	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
 	# A:
 	for vbox in hbox_container.get_children():
 		for gem_cell in vbox.get_children():
 			gem_cell.initialize(GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()])
+			gem_cell.get_child(1).visible = true
+			gem_cell.get_child(1).position = Vector2(32,32)
 	# B:
 	check_board_explode_matches()
 
@@ -412,8 +415,9 @@ func debug_clear_debug_labels():
 			gem_cell.debug_show_debug_panel(false)
 			gem_cell.get_child(1).visible = true
 			gem_cell.get_child(1).position = Vector2(32,32)
-			#var debug_name = Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1)
-			#print("[", debug_name, "] ", gem_cell.get_child(1).visible)
+			var debug_name = Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1)
+			var debug_str = "["+debug_name+"] " + str(gem_cell.get_child(1).visible)
+			Enums.debug_print(debug_str, Enums.DEBUG_LEVEL.DEBUG)
 
 func debug_make_match_col():
 	var col0:VBoxContainer = hbox_container.get_child(0)

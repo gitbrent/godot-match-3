@@ -1,6 +1,6 @@
 extends Node2D
 # SCENES
-@onready var audio_stream_player:AudioStreamPlayer = $AudioStreamPlayer
+@onready var audio_gem_move:AudioStreamPlayer = $AudioGemMove
 @onready var game_board:GameBoard = $Board
 
 func _on_board_gem_swapped():
@@ -8,7 +8,7 @@ func _on_board_gem_swapped():
 	#GameProps.get_props()
 
 func play_move_sound():
-	audio_stream_player.play()
+	audio_gem_move.play()
 	
 func update_game_props():
 	var brent = game_board.get_gem_props()

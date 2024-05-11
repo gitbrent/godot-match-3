@@ -6,6 +6,7 @@ class_name GemCell
 @onready var anim_sprite_explode:AnimatedSprite2D = $AnimSpriteExplode
 @onready var debug_label_sel_num:Label = $DebugLabelSelNum
 @onready var debug_ui_panel:Panel = $DebugUIPanel
+@onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
 const DROP_OFFSET:int = 64 # (the sprite is centered in the 64x64 container, and uses a 32,32 position)
@@ -83,7 +84,7 @@ func play_selected_anim(selected:bool):
 
 func play_anim_explode():
 	# @desc: both AnimPlayer & AnimExplode are 1-sec
-	# TODO: play sound
+	audio_gem_explode.play()
 	
 	# A: explode effect (scale down to zero)
 	# IMPORTANT: use play/stop or scale wont reset!

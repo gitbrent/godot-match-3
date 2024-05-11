@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://clfnptdc2tu5l"]
+[gd_scene load_steps=25 format=3 uid="uid://clfnptdc2tu5l"]
 
 [ext_resource type="Script" path="res://game_board/GemCell.gd" id="1_rhspx"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="2_33s7h"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dacjcttesccxk" path="res://assets/effects/explode-06.png" id="4_qqixd"]
 [ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="5_lb5dp"]
 [ext_resource type="Theme" uid="uid://hahh0mrfx2q1" path="res://debug_label_theme.tres" id="6_hn3w3"]
+[ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="7_guo7s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpbyf"]
 bg_color = Color(0, 0, 0, 0.533333)
@@ -269,3 +270,6 @@ theme = ExtResource("6_hn3w3")
 theme_override_font_sizes/font_size = 16
 text = "321"
 horizontal_alignment = 2
+
+[node name="AudioGemExplode" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_guo7s")
