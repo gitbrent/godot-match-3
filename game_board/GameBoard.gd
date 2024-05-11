@@ -299,15 +299,20 @@ func check_board_explode_matches():
 		explode_refill_gems(gem_matches)
 
 func explode_refill_gems(gem_cells: Array):
-	Enums.debug_print("[explode_refill_gems........]: =====================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems........]: ==================================================", Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[explode_refill_gems........]: *EXPLODING* gem_cell count: "+str(gem_cells.size()), Enums.DEBUG_LEVEL.INFO)
-	Enums.debug_print("[explode_refill_gems........]: =====================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems........]: ==================================================", Enums.DEBUG_LEVEL.INFO)
 	if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
 		debug_print_ascii_table(gem_cells)
 	
 	# A: explode selected
 	for gem_cell in gem_cells:
 		gem_cell.explode_gem(gem_cell.gem_color)
+	
+	# TODO: we wan the gem counts to update faster (they currently update after the animation completes)
+	# seemingly, this would work fine located here but its not - the UI update requires a frame update i guess?
+	signal_game_props_count_gems()
+	
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	
 	# B: Dictionary to track columns and the number of gems to add in each column
