@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://1cdmnqyil8gy"]
+
+[ext_resource type="FontFile" uid="uid://bylgyjavx5yts" path="res://assets/fonts/Quicksand-Regular.ttf" id="1_mun42"]
+
+[resource]
+default_font = ExtResource("1_mun42")
+Label/colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 0.411765)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.411765)
+Label/constants/shadow_offset_x = 3
+Label/constants/shadow_offset_y = 3
+Label/font_sizes/font_size = 84

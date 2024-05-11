@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0yw6oyw3qib0"]
+
+[ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_p4wo5"]
+[ext_resource type="Texture2D" uid="uid://cfdjrsigqjjjk" path="res://assets/bkgd/Cloud_2.png" id="2_vo0va"]
+
+[sub_resource type="Animation" id="Animation_0x8pj"]
+resource_name = "move_cloud"
+length = 30.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 30),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(64, 220), Vector2(1936, 220)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5m8mq"]
+_data = {
+"move_cloud": SubResource("Animation_0x8pj")
+}
+
+[node name="AnimatedCloud" type="Node2D"]
+
+[node name="Debug-Background" type="TextureRect" parent="."]
+visible = false
+offset_right = 2000.0
+offset_bottom = 1390.0
+texture = ExtResource("1_p4wo5")
+expand_mode = 2
+
+[node name="Debug-Panel" type="Panel" parent="."]
+visible = false
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 2000.0
+offset_bottom = 150.0
+grow_horizontal = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(64, 220)
+texture = ExtResource("2_vo0va")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5m8mq")
+}
+autoplay = "move_cloud"

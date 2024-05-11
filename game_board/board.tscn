@@ -12,13 +12,13 @@ script = ExtResource("1_8mgoe")
 
 [node name="Background" type="Panel" parent="."]
 visible = false
-offset_right = 512.0
-offset_bottom = 512.0
+offset_right = 1024.0
+offset_bottom = 1024.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_yj5kd")
 
 [node name="GridContainer" type="GridContainer" parent="."]
-offset_right = 512.0
-offset_bottom = 512.0
+offset_right = 1024.0
+offset_bottom = 1024.0
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 8
@@ -40,47 +40,47 @@ visible = false
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(512, 512)
+custom_minimum_size = Vector2(1024, 1024)
 offset_right = 512.0
 offset_bottom = 512.0
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer0" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer1" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer4" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer5" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer6" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
 
 [node name="VBoxContainer7" type="VBoxContainer" parent="HBoxContainer"]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
