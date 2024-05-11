@@ -7,9 +7,10 @@ class_name GemCell
 @onready var debug_label_sel_num:Label = $DebugLabelSelNum
 @onready var debug_ui_panel:Panel = $DebugUIPanel
 @onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
+@onready var audio_gem_move:AudioStreamPlayer = $AudioGemMove
 # PROPS
-const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
-const DROP_OFFSET:int = 64 # (the sprite is centered in the 64x64 container, and uses a 32,32 position)
+const SPRITE_SCALE:Vector2 = Vector2(0.5, 0.5)
+const DROP_OFFSET:int = 128 # (the sprite is centered in the 128x128 container, and uses a 64,64 position)
 var gem_color:Enums.GemColor
 # Declare and preload textures
 var gem_textures: Dictionary = {
@@ -75,6 +76,9 @@ func update_texture():
 		print("ERROR: Texture for gem color not found")
 
 # =========================================================
+
+func play_audio_gem_move():
+	audio_gem_move.play()
 
 func play_selected_anim(selected:bool):
 	if selected:

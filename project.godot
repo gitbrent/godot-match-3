@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Godot Match 3"
-run/main_scene="res://game.tscn"
+run/main_scene="res://game/game.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -21,6 +21,9 @@ Enums="*res://enums.gd"
 
 [display]
 
+window/size/viewport_width=2000
+window/size/viewport_height=1390
+window/stretch/mode="canvas_items"
 window/handheld/orientation=4
 
 [rendering]
