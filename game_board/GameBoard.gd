@@ -8,7 +8,7 @@ signal gem_swapped()
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
 #VARS
-const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
+const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.BROWN, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
 var selected_cell_1:GemCell = null
 var selected_cell_2:GemCell = null
 var undo_cell_1:GemCell = null

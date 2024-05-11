@@ -12,6 +12,7 @@ enum GemColor {
 	WHITE,
 	RED,
 	YELLOW,
+	BROWN,
 	GREEN,
 	PURPLE
 }

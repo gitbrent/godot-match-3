@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://b5bfm2244ywxk"]
+[gd_scene load_steps=17 format=3 uid="uid://b5bfm2244ywxk"]
 
 [ext_resource type="Script" path="res://game.gd" id="1_ewnxx"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/characters_0003.png" id="4_2reex"]
 [ext_resource type="Texture2D" uid="uid://byliae6aa6ki2" path="res://assets/gems/characters_0005.png" id="5_g428h"]
 [ext_resource type="Texture2D" uid="uid://2vrsevjv4w43" path="res://assets/gems/characters_0007.png" id="6_ot4tf"]
+[ext_resource type="Texture2D" uid="uid://b1o34xq1pq82y" path="res://assets/gems/characters_0006.png" id="7_o4d3d"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="8_7jpwb"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="10_qtl06"]
 [ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="11_bw3je"]
@@ -44,107 +45,127 @@ offset_right = 235.0
 offset_bottom = 587.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="GameStats" type="VBoxContainer" parent="."]
 offset_left = 80.0
 offset_top = 85.0
 offset_right = 230.0
 offset_bottom = 585.0
-theme_override_constants/separation = 40
+theme_override_constants/separation = 20
 
-[node name="HBoxContainer1" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer1" type="HBoxContainer" parent="GameStats"]
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer1"]
+[node name="Control" type="Control" parent="GameStats/HBoxContainer1"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer1/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer1/Control"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_sh4xh")
 centered = false
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer1"]
+[node name="Label" type="Label" parent="GameStats/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 32
 text = "0"
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="GameStats"]
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer2"]
+[node name="Control" type="Control" parent="GameStats/HBoxContainer2"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer2/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer2/Control"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_qywvx")
 centered = false
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="GameStats/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 32
 text = "0"
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="GameStats"]
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer3"]
+[node name="Control" type="Control" parent="GameStats/HBoxContainer3"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer3/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer3/Control"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("4_2reex")
 centered = false
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer3"]
+[node name="Label" type="Label" parent="GameStats/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 32
 text = "0"
 
-[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer4" type="HBoxContainer" parent="GameStats"]
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer4"]
+[node name="Control" type="Control" parent="GameStats/HBoxContainer4"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer4/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer4/Control"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("5_g428h")
 centered = false
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer4"]
+[node name="Label" type="Label" parent="GameStats/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 32
 text = "0"
 
-[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer5" type="HBoxContainer" parent="GameStats"]
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer5"]
+[node name="Control" type="Control" parent="GameStats/HBoxContainer5"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 
-[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/HBoxContainer5/Control"]
+[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer5/Control"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("7_o4d3d")
+centered = false
+
+[node name="Label" type="Label" parent="GameStats/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 32
+text = "0"
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="GameStats/HBoxContainer6"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer6/Control"]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("6_ot4tf")
 centered = false
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer5"]
+[node name="Label" type="Label" parent="GameStats/HBoxContainer6"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)

@@ -17,6 +17,7 @@ var gem_textures: Dictionary = {
 	Enums.GemColor.RED: preload("res://assets/gems/characters_0002.png"),
 	Enums.GemColor.YELLOW: preload("res://assets/gems/characters_0003.png"),
 	Enums.GemColor.GREEN: preload("res://assets/gems/characters_0005.png"),
+	Enums.GemColor.BROWN: preload("res://assets/gems/characters_0006.png"),
 	Enums.GemColor.PURPLE: preload("res://assets/gems/characters_0007.png")
 }
 
