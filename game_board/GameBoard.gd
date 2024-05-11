@@ -113,7 +113,7 @@ func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
 	# Cells are not adjacent
 	return false
 
-func get_first_match_gems() -> Array:
+func get_all_match_gems() -> Array:
 	var num_columns: int = hbox_container.get_child_count()
 	var num_rows: int = hbox_container.get_child(0).get_child_count()
 	var match_cells: Array = []
@@ -129,19 +129,14 @@ func get_first_match_gems() -> Array:
 				streak += 1
 			else:
 				if streak >= 3:
-					# Collect matching GemCells
-					match_cells = []
 					for i in range(match_start, column):
 						match_cells.append(hbox_container.get_child(i).get_child(row))
-					return match_cells
 				streak = 1
 				match_start = column
 				last_color = gem_cell.gem_color
 		if streak >= 3:
-			match_cells = []
 			for i in range(match_start, num_columns):
 				match_cells.append(hbox_container.get_child(i).get_child(row))
-			return match_cells
 
 	# Vertical Check (check each column)
 	for column in range(num_columns):
@@ -154,21 +149,16 @@ func get_first_match_gems() -> Array:
 				streak += 1
 			else:
 				if streak >= 3:
-					# Collect matching GemCells
-					match_cells = []
 					for i in range(match_start, row):
 						match_cells.append(hbox_container.get_child(column).get_child(i))
-					return match_cells
 				streak = 1
 				match_start = row
 				last_color = gem_cell.gem_color
 		if streak >= 3:
-			match_cells = []
 			for i in range(match_start, num_rows):
 				match_cells.append(hbox_container.get_child(column).get_child(i))
-			return match_cells
 
-	return []  # No matches found
+	return match_cells  # Return all matched cells found
 
 # STEP 1: Handle input (=capture first & second selection), swap gems
 # @desc: calls `swap_gem_cells()` when 2 cells selected and are adjacent
@@ -288,7 +278,8 @@ func check_board_explode_matches():
 	signal_game_props_count_gems()
 	
 	# B:
-	var gem_matches = get_first_match_gems()
+	var gem_matches = get_all_match_gems()
+	print(gem_matches)
 	if gem_matches.size() > 0:
 		debug_print_ascii_table(gem_matches)
 	if gem_matches.size() == 0:
@@ -336,6 +327,7 @@ func explode_refill_gems(gem_cells: Array):
 		refill_column(column_index, details["highest"], details["count"])
 	
 	# D:
+	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout # let refill animations above complete (otherwise new, matching gems would start exploding before they're even in place!)
 	check_board_explode_matches()
 
 func refill_column(column_index: int, highest_exploded_row: int, count_exploded: int):

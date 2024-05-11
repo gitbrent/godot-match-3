@@ -32,7 +32,13 @@ offset_bottom = 1390.0
 texture = ExtResource("1_h8otn")
 expand_mode = 2
 
-[node name="AnimatedCloud" parent="." instance=ExtResource("3_a1y13")]
+[node name="AnimatedCloud1" parent="." instance=ExtResource("3_a1y13")]
+
+[node name="AnimatedCloud2" parent="." instance=ExtResource("3_a1y13")]
+position = Vector2(1000, 75)
+
+[node name="AnimatedCloud3" parent="." instance=ExtResource("3_a1y13")]
+position = Vector2(-1000, 100)
 
 [node name="BkgdDimmer" type="Panel" parent="."]
 visible = false
@@ -101,9 +107,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
 
 [node name="GameStats" type="VBoxContainer" parent="."]
 offset_left = 120.0
-offset_top = 250.0
+offset_top = 280.0
 offset_right = 370.0
-offset_bottom = 1274.0
+offset_bottom = 1304.0
 theme_override_constants/separation = 40
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="GameStats"]
