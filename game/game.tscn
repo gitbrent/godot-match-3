@@ -257,10 +257,10 @@ position = Vector2(500, 250)
 stream = ExtResource("8_7jpwb")
 
 [node name="BtnNewGame" type="TextureButton" parent="."]
-offset_left = 1608.0
-offset_top = 255.0
-offset_right = 2767.0
-offset_bottom = 613.0
+offset_left = 1600.0
+offset_top = 250.0
+offset_right = 2759.0
+offset_bottom = 608.0
 scale = Vector2(0.3, 0.3)
 texture_normal = ExtResource("10_qtl06")
 
@@ -298,7 +298,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnMatchCol" type="TextureButton" parent="."]
-visible = false
 offset_left = 1656.0
 offset_top = 519.0
 offset_right = 2815.0
