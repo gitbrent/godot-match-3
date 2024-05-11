@@ -151,29 +151,6 @@ text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="HBoxContainer6" type="HBoxContainer" parent="GameStats"]
-layout_mode = 2
-theme_override_constants/separation = 25
-
-[node name="Control" type="Control" parent="GameStats/HBoxContainer6"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer6/Control"]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("6_ot4tf")
-centered = false
-
-[node name="Label" type="Label" parent="GameStats/HBoxContainer6"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("4_xf0vf")
-theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
-theme_override_font_sizes/font_size = 96
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
 [node name="HBoxContainer5" type="HBoxContainer" parent="GameStats"]
 layout_mode = 2
 theme_override_constants/separation = 25
@@ -184,10 +161,33 @@ layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer5/Control"]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_o4d3d")
+texture = ExtResource("6_ot4tf")
 centered = false
 
 [node name="Label" type="Label" parent="GameStats/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("4_xf0vf")
+theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="GameStats/HBoxContainer6"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer6/Control"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_o4d3d")
+centered = false
+
+[node name="Label" type="Label" parent="GameStats/HBoxContainer6"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("4_xf0vf")

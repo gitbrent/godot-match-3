@@ -243,6 +243,9 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 	# E: re-position and tween
 	call_deferred("setup_tween", swap_cell_2, orig_pos_cell_1, orig_pos_cell_2)
 	call_deferred("setup_tween", swap_cell_1, orig_pos_cell_2, orig_pos_cell_1)
+	
+	# F:
+	signal_game_props_count_gems()
 
 func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
 	gem_cell.sprite.global_position = start_pos # NOTE: Set initial position right before tweening
@@ -281,14 +284,16 @@ func check_board_explode_matches():
 	board_props_score += 10
 	emit_signal("props_updated_score", board_props_score)
 	
+	# A:
+	signal_game_props_count_gems()
+	
+	# B:
 	var gem_matches = get_first_match_gems()
 	if gem_matches.size() > 0:
 		debug_print_ascii_table(gem_matches)
 	if gem_matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A:
-		signal_game_props_count_gems()
-		
 		# B: TODO: check for "NO MORE MOVES"
 		# C: Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
@@ -472,3 +477,4 @@ func debug_make_gem_grid():
 			gem.initialize(Enums.GemColor.GREEN)
 			if (i + j) % 2 == 0:
 				gem.initialize(Enums.GemColor.WHITE)
+	signal_game_props_count_gems()
