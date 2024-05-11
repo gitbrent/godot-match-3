@@ -407,7 +407,7 @@ func new_game():
 		for gem_cell in vbox.get_children():
 			gem_cell.initialize(GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()])
 			gem_cell.get_child(1).visible = true
-			gem_cell.get_child(1).position = Vector2(32,32)
+			gem_cell.get_child(1).position = Enums.SRPITE_POS
 	# B:
 	check_board_explode_matches()
 
@@ -416,7 +416,7 @@ func debug_clear_debug_labels():
 		for gem_cell in vbox.get_children():
 			gem_cell.debug_show_debug_panel(false)
 			gem_cell.get_child(1).visible = true
-			gem_cell.get_child(1).position = Vector2(32,32)
+			gem_cell.get_child(1).position = Enums.SRPITE_POS
 			var debug_name = Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1)
 			var debug_str = "["+debug_name+"] " + str(gem_cell.get_child(1).visible)
 			Enums.debug_print(debug_str, Enums.DEBUG_LEVEL.DEBUG)

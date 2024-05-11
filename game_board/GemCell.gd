@@ -8,8 +8,8 @@ class_name GemCell
 @onready var debug_ui_panel:Panel = $DebugUIPanel
 @onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
 # PROPS
-const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
-const DROP_OFFSET:int = 64 # (the sprite is centered in the 64x64 container, and uses a 32,32 position)
+const SPRITE_SCALE:Vector2 = Vector2(0.5, 0.5)
+const DROP_OFFSET:int = 128 # (the sprite is centered in the 128x128 container, and uses a 64,64 position)
 var gem_color:Enums.GemColor
 # Declare and preload textures
 var gem_textures: Dictionary = {

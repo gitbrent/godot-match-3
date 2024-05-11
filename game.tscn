@@ -27,28 +27,34 @@ bg_color = Color(0, 0, 0, 0.411765)
 script = ExtResource("1_ewnxx")
 
 [node name="Background" type="TextureRect" parent="."]
-offset_right = 1920.0
-offset_bottom = 1080.0
-scale = Vector2(0.6, 0.6)
+offset_right = 2000.0
+offset_bottom = 1390.0
 texture = ExtResource("1_h8otn")
+expand_mode = 2
 
-[node name="BkgdTextRect" type="Panel" parent="."]
-offset_right = 1154.0
-offset_bottom = 652.0
+[node name="BkgdDimmer" type="Panel" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2000.0
+offset_bottom = 1390.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="VboxBkgd" type="Panel" parent="."]
 offset_left = 50.0
 offset_top = 75.0
-offset_right = 235.0
-offset_bottom = 587.0
+offset_right = 450.0
+offset_bottom = 1175.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
 
 [node name="GameStats" type="VBoxContainer" parent="."]
 offset_left = 80.0
 offset_top = 85.0
-offset_right = 230.0
-offset_bottom = 585.0
+offset_right = 405.0
+offset_bottom = 1185.0
 theme_override_constants/separation = 20
 
 [node name="HBoxContainer1" type="HBoxContainer" parent="GameStats"]
@@ -56,11 +62,11 @@ layout_mode = 2
 theme_override_constants/separation = 25
 
 [node name="Control" type="Control" parent="GameStats/HBoxContainer1"]
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer1/Control"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_sh4xh")
 centered = false
 
@@ -68,7 +74,7 @@ centered = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="GameStats"]
@@ -76,11 +82,11 @@ layout_mode = 2
 theme_override_constants/separation = 25
 
 [node name="Control" type="Control" parent="GameStats/HBoxContainer2"]
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer2/Control"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_qywvx")
 centered = false
 
@@ -88,7 +94,7 @@ centered = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="GameStats"]
@@ -96,11 +102,11 @@ layout_mode = 2
 theme_override_constants/separation = 25
 
 [node name="Control" type="Control" parent="GameStats/HBoxContainer3"]
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer3/Control"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_2reex")
 centered = false
 
@@ -108,7 +114,7 @@ centered = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="GameStats"]
@@ -116,11 +122,11 @@ layout_mode = 2
 theme_override_constants/separation = 25
 
 [node name="Control" type="Control" parent="GameStats/HBoxContainer4"]
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer4/Control"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_g428h")
 centered = false
 
@@ -128,7 +134,7 @@ centered = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="GameStats"]
@@ -136,11 +142,11 @@ layout_mode = 2
 theme_override_constants/separation = 25
 
 [node name="Control" type="Control" parent="GameStats/HBoxContainer5"]
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer5/Control"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_o4d3d")
 centered = false
 
@@ -148,7 +154,7 @@ centered = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="GameStats"]
@@ -156,11 +162,11 @@ layout_mode = 2
 theme_override_constants/separation = 25
 
 [node name="Control" type="Control" parent="GameStats/HBoxContainer6"]
-custom_minimum_size = Vector2(65, 65)
+custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="GameStats/HBoxContainer6/Control"]
-scale = Vector2(0.25, 0.25)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("6_ot4tf")
 centered = false
 
@@ -168,19 +174,19 @@ centered = false
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 96
 text = "0"
 
 [node name="BoardTextRect" type="Panel" parent="."]
 visible = false
-offset_left = 340.0
+offset_left = 500.0
 offset_top = 70.0
-offset_right = 852.0
-offset_bottom = 582.0
+offset_right = 1524.0
+offset_bottom = 1094.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="Board" parent="." instance=ExtResource("2_2ltbx")]
-position = Vector2(340, 70)
+position = Vector2(500, 70)
 
 [node name="Panel" type="Panel" parent="."]
 visible = false
@@ -201,11 +207,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_imdoc")
 stream = ExtResource("8_7jpwb")
 
 [node name="BtnNewGame" type="TextureButton" parent="."]
-offset_left = 895.0
+offset_left = 1596.0
 offset_top = 74.0
-offset_right = 2054.0
+offset_right = 2755.0
 offset_bottom = 432.0
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.3, 0.3)
 texture_normal = ExtResource("10_qtl06")
 
 [node name="Label" type="Label" parent="BtnNewGame"]
@@ -221,11 +227,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnClearDebugLabels" type="TextureButton" parent="."]
-offset_left = 893.0
-offset_top = 391.0
-offset_right = 2052.0
-offset_bottom = 749.0
-scale = Vector2(0.2, 0.2)
+offset_left = 1656.0
+offset_top = 829.0
+offset_right = 2815.0
+offset_bottom = 1187.0
+scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("11_bw3je")
 
 [node name="Label" type="Label" parent="BtnClearDebugLabels"]
@@ -241,11 +247,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BtnMatchCol" type="TextureButton" parent="."]
-offset_left = 894.0
-offset_top = 498.0
-offset_right = 2053.0
-offset_bottom = 856.0
-scale = Vector2(0.2, 0.2)
+offset_left = 1657.0
+offset_top = 990.0
+offset_right = 2816.0
+offset_bottom = 1348.0
+scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("12_4fgvl")
 
 [node name="Label" type="Label" parent="BtnMatchCol"]

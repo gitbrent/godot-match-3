@@ -21,6 +21,9 @@ Enums="*res://enums.gd"
 
 [display]
 
+window/size/viewport_width=2000
+window/size/viewport_height=1390
+window/stretch/mode="canvas_items"
 window/handheld/orientation=4
 
 [rendering]
