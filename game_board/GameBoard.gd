@@ -5,11 +5,12 @@ class_name GameBoard
 # SIGNALS
 signal props_updated_moves(moves:int)
 signal props_updated_score(score:int)
+signal props_updated_gemsdict(gems_dict:Dictionary)
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
 #VARS
-const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.BROWN, Enums.GemColor.GREEN, Enums.GemColor.PURPLE]
+const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
 var selected_cell_1:GemCell = null
 var selected_cell_2:GemCell = null
 var undo_cell_1:GemCell = null
@@ -285,7 +286,11 @@ func check_board_explode_matches():
 		debug_print_ascii_table(gem_matches)
 	if gem_matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
-		# Reset undo cells or perform other cleanup here.
+		# A:
+		signal_game_props_count_gems()
+		
+		# B: TODO: check for "NO MORE MOVES"
+		# C: Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
 			swap_gem_cells(undo_cell_2, undo_cell_1)
 			undo_cell_1 = null
@@ -356,6 +361,22 @@ func refill_column(column_index: int, highest_exploded_row: int, count_exploded:
 		gem_cell.replace_gem(random_color)  # Replace top gem with a new random gem
 		var debug_str3 = "[-------refill] ["+str(i)+"] ADD: " + Enums.get_color_name_by_value(random_color)
 		Enums.debug_print(debug_str3, Enums.DEBUG_LEVEL.DEBUG)
+
+func signal_game_props_count_gems():
+	var gems_dict = {}
+	# Initialize dictionary with all gem types set to 0
+	for color in Enums.GemColor.values():
+		gems_dict[Enums.get_color_name_by_value(color)] = 0
+	
+	# Assuming you have a way to iterate over all gem nodes
+	# For example, if all gems are children of a node called "GemsContainer"
+	for col in hbox_container.get_children():
+		for gem in col.get_children():
+			var color_name = Enums.get_color_name_by_value(gem.gem_color)
+			gems_dict[color_name] += 1
+	
+	# Emit signal with the updated gems dictionary
+	emit_signal("props_updated_gemsdict", gems_dict)
 
 # DEBUG =======================================================================
 

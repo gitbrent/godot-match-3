@@ -4,5 +4,9 @@
 
 [resource]
 default_font = ExtResource("1_mun42")
-default_font_size = 96
-Label/colors/font_color = Color(0.901961, 0.901961, 0.901961, 1)
+Label/colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 0.411765)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.411765)
+Label/constants/shadow_offset_x = 3
+Label/constants/shadow_offset_y = 3
+Label/font_sizes/font_size = 84

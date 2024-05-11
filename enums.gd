@@ -13,9 +13,9 @@ enum GemColor {
 	WHITE,
 	RED,
 	YELLOW,
-	BROWN,
 	GREEN,
-	PURPLE
+	PURPLE,
+	BROWN
 }
 
 func get_color_name_by_value(value: int) -> String:

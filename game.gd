@@ -6,15 +6,26 @@ extends Node2D
 func _ready():
 	game_board.connect("props_updated_moves", self._on_props_updated_moves)
 	game_board.connect("props_updated_score", self._on_props_updated_score)
+	game_board.connect("props_updated_gemsdict", self._on_props_updated_gemsdict)
+
+func _on_props_updated_gemsdict(gems_dict:Dictionary):
+	# EX: `{ "WHITE": 9, "RED": 11, "YELLOW": 14, "BROWN": 9, "GREEN": 9, "PURPLE": 12 }`
+	game_stats.get_child(0).get_child(1).text = str(gems_dict["WHITE"])
+	game_stats.get_child(1).get_child(1).text = str(gems_dict["RED"])
+	game_stats.get_child(2).get_child(1).text = str(gems_dict["YELLOW"])
+	game_stats.get_child(3).get_child(1).text = str(gems_dict["GREEN"])
+	game_stats.get_child(4).get_child(1).text = str(gems_dict["PURPLE"])
+	game_stats.get_child(5).get_child(1).text = str(gems_dict["BROWN"])
 
 func _on_props_updated_moves(moves:int):
 	# TODO: name labels, then update base on this
-	game_stats.get_child(0).get_child(1).text = str(moves)
+	#game_stats.get_child(4).get_child(1).text = str(moves)
+	print("TODO:") # TODO:
 
 func _on_props_updated_score(score:int):
 	# TODO: name labels, then update base on this
-	game_stats.get_child(1).get_child(1).text = str(score)
-	game_stats.get_child(2).get_child(1).text = str(score)
+	#game_stats.get_child(5).get_child(1).text = str(score)
+	print("TODO:") # TODO:
 
 func _on_newgame_button_pressed():
 	game_board.new_game()
