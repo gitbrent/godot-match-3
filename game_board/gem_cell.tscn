@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dacjcttesccxk" path="res://assets/effects/explode-06.png" id="4_qqixd"]
 [ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="5_lb5dp"]
 [ext_resource type="Theme" uid="uid://hahh0mrfx2q1" path="res://debug_label_theme.tres" id="6_hn3w3"]
-[ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="7_guo7s"]
+[ext_resource type="AudioStream" uid="uid://ca0jp78fn0bi1" path="res://assets/audio/bfh1_glass_breaking_02.ogg" id="7_50xdd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpbyf"]
 bg_color = Color(0, 0, 0, 0.533333)
@@ -23,7 +23,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0.25, 0.25), Vector2(0, 0)]
+"values": [Vector2(0.5, 0.5), Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_xkhqk"]
@@ -33,13 +33,13 @@ tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/path = NodePath("Sprite2D:scale")
-tracks/0/interp = 1
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.25, 0.25), Vector2(0.225, 0.225), Vector2(0.275, 0.275)]
+"values": [Vector2(0.5, 0.5), Vector2(0.4, 0.4), Vector2(0.55, 0.55)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -172,14 +172,12 @@ offset_right = 64.0
 offset_bottom = 64.0
 script = ExtResource("1_rhspx")
 
-[node name="Panel" type="Panel" parent="."]
+[node name="BKGD" type="Panel" parent="."]
 visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 64.0
-offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lpbyf")
@@ -194,8 +192,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 64.0
-offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_sh1nc")
@@ -207,8 +203,8 @@ libraries = {
 
 [node name="AnimSpriteExplode" type="AnimatedSprite2D" parent="."]
 visible = false
-position = Vector2(32, 32)
-scale = Vector2(1.8125, 1.8125)
+position = Vector2(65, 64)
+scale = Vector2(3.5, 3.5)
 sprite_frames = SubResource("SpriteFrames_tvpu7")
 autoplay = "default"
 
@@ -218,8 +214,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 64.0
-offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -239,8 +233,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 64.0
-offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lpbyf")
@@ -280,4 +272,4 @@ text = "321"
 horizontal_alignment = 2
 
 [node name="AudioGemExplode" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_guo7s")
+stream = ExtResource("7_50xdd")
