@@ -2,42 +2,117 @@ extends Control
 class_name GemCell
 # VARS
 @onready var sprite:Sprite2D = $Sprite2D
-@onready var anim_player:AnimationPlayer = $AnimationPlayer
+@onready var anim_player_fx:AnimationPlayer = $AnimPlayerFx
+@onready var anim_sprite_explode:AnimatedSprite2D = $AnimSpriteExplode
+@onready var debug_label_sel_num:Label = $DebugLabelSelNum
+@onready var debug_ui_panel:Panel = $DebugUIPanel
+@onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
 # PROPS
-var gem_color : Enums.GemColor
+const SPRITE_SCALE:Vector2 = Vector2(0.25, 0.25)
+const DROP_OFFSET:int = 64 # (the sprite is centered in the 64x64 container, and uses a 32,32 position)
+var gem_color:Enums.GemColor
+# Declare and preload textures
+var gem_textures: Dictionary = {
+	Enums.GemColor.WHITE: preload("res://assets/gems/characters_0001.png"),
+	Enums.GemColor.RED: preload("res://assets/gems/characters_0002.png"),
+	Enums.GemColor.YELLOW: preload("res://assets/gems/characters_0003.png"),
+	Enums.GemColor.GREEN: preload("res://assets/gems/characters_0005.png"),
+	Enums.GemColor.BROWN: preload("res://assets/gems/characters_0006.png"),
+	Enums.GemColor.PURPLE: preload("res://assets/gems/characters_0007.png")
+}
 
 func initialize(colorIn: Enums.GemColor):
 	# A:
 	gem_color = colorIn
-	load_texture()
 	# B:
-	#card_control.connect("card_drag_start", self._on_card_drag_start)
-	#card_control.connect("card_drag_ended", self._on_card_drag_ended)
+	update_texture()
 	# C:
 	#panel_hover.visible = false
 
-func load_texture():
-	# Construct texture path based on suit and rank
-	var texture_path = "res://assets/gems/"
-	if gem_color == Enums.GemColor.WHITE:
-		texture_path += "characters_0001" + ".png"
-	elif gem_color == Enums.GemColor.RED:
-		texture_path += "characters_0002" + ".png"
-	elif gem_color == Enums.GemColor.YELLOW:
-		texture_path += "characters_0003" + ".png"
-	elif gem_color == Enums.GemColor.GREEN:
-		texture_path += "characters_0005" + ".png"
-	elif gem_color == Enums.GemColor.PURPLE:
-		texture_path += "characters_0007" + ".png"
+func explode_gem(colorIn: Enums.GemColor):
+	# A: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
+	gem_color = colorIn
+	# B:
+	play_selected_anim(false)
+	play_anim_explode()
+
+func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
+	#print("[replace_gem]: colorIn=", colorIn, " rows_to_drop=", rows_to_drop)
 	
-	# Load and assign texture
-	sprite.texture = ResourceLoader.load(texture_path)
-	#print("[gem_cell] loaded sprite.texture: ", texture_path)
+	# Calculate the beginning position based on how many rows the gem needs to drop
+	var drop_height = DROP_OFFSET * rows_to_drop
+	# DEBUG!!! vfvvvvvvvv
+	debug_ui_panel.get_child(0).get_child(0).text = "drop-ROWS"
+	debug_ui_panel.get_child(0).get_child(1).text = str(rows_to_drop)
+	debug_ui_panel.get_child(0).get_child(2).text = "drop-H"
+	debug_ui_panel.get_child(0).get_child(3).text = str(round(drop_height))
+	# DEBUG!!! ^^
+	
+	var beg_pos = Vector2(sprite.position.x, sprite.position.y - drop_height)
+	sprite.position = beg_pos
+
+	# Initialize the gem with the new color and ensure it's visible
+	initialize(colorIn)
+	sprite.visible = true  # Make sure the sprite is visible if it was hidden after explosion
+
+	# Call the drop animation deferred to ensure it starts after other logic
+	call_deferred("drop_in_gem", drop_height)
+
+func drop_in_gem(drop_height: float):
+	const DROP_TIME = Enums.TWEEN_TIME #* 2
+	#await get_tree().create_timer(DROP_TIME).timeout
+	
+	# Tween the "fall" animation from the starting point to the final position
+	var end_pos = Vector2(sprite.position.x, sprite.position.y + drop_height)
+	var tween = get_tree().create_tween()
+	tween.tween_property(sprite, "position", end_pos, DROP_TIME)
+
+func update_texture():
+	if gem_color in gem_textures:
+		sprite.texture = gem_textures[gem_color]
+		#print("[gem_cell] loaded sprite.texture: ", gem_color)
+	else:
+		print("ERROR: Texture for gem color not found")
+
+# =========================================================
 
 func play_selected_anim(selected:bool):
 	if selected:
-		anim_player.play("selected")
+		anim_player_fx.play("selected")
 	else:
-		anim_player.stop(false)
-		sprite.scale.x = 0.25
-		sprite.scale.y = 0.25
+		anim_player_fx.stop()
+		sprite.scale = SPRITE_SCALE
+
+func play_anim_explode():
+	# @desc: both AnimPlayer & AnimExplode are 1-sec
+	audio_gem_explode.play()
+	
+	# A: explode effect (scale down to zero)
+	# IMPORTANT: use play/stop or scale wont reset!
+	anim_player_fx.play("explode")
+	anim_player_fx.stop()
+	sprite.visible = false
+	
+	# B: explode animation (exploding sprite)
+	anim_sprite_explode.visible = true
+	anim_sprite_explode.play("default")
+	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
+	anim_sprite_explode.visible = false
+
+# =========================================================
+
+func debug_show_selnum(num:int):
+	if not num or num == 0:
+		debug_label_sel_num.visible = false
+		debug_label_sel_num.text = "-"
+	else:
+		debug_label_sel_num.visible = true
+		debug_label_sel_num.text = str(num)
+
+func debug_show_debug_panel(isShow:bool):
+	debug_ui_panel.visible = isShow
+	if not isShow:
+		debug_ui_panel.get_child(0).get_child(0).text = "."
+		debug_ui_panel.get_child(0).get_child(1).text = "."
+		debug_ui_panel.get_child(0).get_child(2).text = "."
+		debug_ui_panel.get_child(0).get_child(3).text = "."
