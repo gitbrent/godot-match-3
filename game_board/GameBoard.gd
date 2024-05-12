@@ -27,14 +27,7 @@ func _ready():
 	fill_grid()
 	fill_hbox()
 	# B: check board after init
-	check_board_explode_matches()
-
-# TODO: feed props to parent controller for display
-func get_gem_props():
-	var brent:Dictionary = {
-		"GREEN": 99
-	}
-	return brent
+	process_game_round()
 
 # =========================================================
 
@@ -113,10 +106,10 @@ func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
 	# Cells are not adjacent
 	return false
 
-func get_all_match_gems() -> Array:
+func get_all_matches() -> Array:
 	var num_columns: int = hbox_container.get_child_count()
 	var num_rows: int = hbox_container.get_child(0).get_child_count()
-	var match_cells: Array = []
+	var matches = []
 
 	# Horizontal Check (check each row)
 	for row in range(num_rows):
@@ -129,14 +122,24 @@ func get_all_match_gems() -> Array:
 				streak += 1
 			else:
 				if streak >= 3:
+					var match_cells = []
 					for i in range(match_start, column):
 						match_cells.append(hbox_container.get_child(i).get_child(row))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
 				streak = 1
 				match_start = column
 				last_color = gem_cell.gem_color
 		if streak >= 3:
+			var match_cells = []
 			for i in range(match_start, num_columns):
 				match_cells.append(hbox_container.get_child(i).get_child(row))
+			matches.append({
+				"cells": match_cells,
+				"count": streak
+			})
 
 	# Vertical Check (check each column)
 	for column in range(num_columns):
@@ -149,16 +152,42 @@ func get_all_match_gems() -> Array:
 				streak += 1
 			else:
 				if streak >= 3:
+					var match_cells = []
 					for i in range(match_start, row):
 						match_cells.append(hbox_container.get_child(column).get_child(i))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
 				streak = 1
 				match_start = row
 				last_color = gem_cell.gem_color
 		if streak >= 3:
+			var match_cells = []
 			for i in range(match_start, num_rows):
 				match_cells.append(hbox_container.get_child(column).get_child(i))
+			matches.append({
+				"cells": match_cells,
+				"count": streak
+			})
 
-	return match_cells  # Return all matched cells found
+	return matches
+
+func extract_gem_cells_from_matches(matches: Array) -> Array:
+	var all_gem_cells = []
+	for match in matches:
+		# `match["cells"]` is the array of gem cells for this particular match
+		all_gem_cells += match["cells"]  # Append all cells in this match to the master list
+	return all_gem_cells
+
+func calculate_score_for_matches(matches: Array) -> int:
+	var score = 0
+	for match in matches:
+		var match_length = match["count"]
+		# Define scoring logic, e.g., exponential growth for larger matches
+		var match_score = match_length * match_length  # Example: score grows quadratically with match length
+		score += match_score * 100
+	return score
 
 # STEP 1: Handle input (=capture first & second selection), swap gems
 # @desc: calls `swap_gem_cells()` when 2 cells selected and are adjacent
@@ -261,28 +290,43 @@ func tween_completed():
 	
 	# C: once all tweens complete, check board
 	if tweens_running_cnt == 0:
-		check_board_explode_matches()
+		process_game_round()
 
 # STEP 4: Check board, then explode first match found... (repeat until exhausted)
 
-func check_board_explode_matches():
-	Enums.debug_print("[check_board_explode_matches]: =====================================", Enums.DEBUG_LEVEL.INFO)
-	Enums.debug_print("[check_board_explode_matches]: CHECKING BOARD...                    ", Enums.DEBUG_LEVEL.INFO)
-	Enums.debug_print("[check_board_explode_matches]: =====================================", Enums.DEBUG_LEVEL.INFO)
-	
-	# TDDO: WIP: this will change once we start exploding all at once
-	board_props_score += 10
-	emit_signal("props_updated_score", board_props_score)
+func process_game_round():
+	Enums.debug_print("[process_game_round]: =====================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[process_game_round]: CHECKING BOARD...                    ", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[process_game_round]: =====================================", Enums.DEBUG_LEVEL.INFO)
 	
 	# A:
+	# EX:
+	# matches[
+	#   {
+	#     "cells":["@Control@112:<Control#89338678177>","@Control@113:<Control#90143984570>","@Control@114:<Control#90949290963>"],
+	#     "count":3},
+	#   {
+	#     "cells":["@Control@119:<Control#95781129321>","@Control@120:<Control#96586435714>","@Control@121:<Control#97391742107>"],
+	#     "count":3
+	#   }
+	#]
+	var matches = get_all_matches()
+	var gem_cells = extract_gem_cells_from_matches(matches)
+	Enums.debug_print("[process_game_round]: matches.. = "+JSON.stringify(matches), Enums.DEBUG_LEVEL.DEBUG)
+	Enums.debug_print("[process_game_round]: gem_cells = "+str(gem_cells), Enums.DEBUG_LEVEL.DEBUG)
+	if matches.size() > 0 and Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
+		debug_print_ascii_table(gem_cells)
+
+	# B:
+	var score = calculate_score_for_matches(matches)
+	board_props_score += score
+	emit_signal("props_updated_score", board_props_score)
+	
+	# C: Update UI or game state as necessary
 	signal_game_props_count_gems()
 	
-	# B:
-	var gem_matches = get_all_match_gems()
-	print(gem_matches)
-	if gem_matches.size() > 0:
-		debug_print_ascii_table(gem_matches)
-	if gem_matches.size() == 0:
+	# D: Handle resuolts: explode matches, or halt
+	if matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A:
 		# B: TODO: check for "NO MORE MOVES"
@@ -296,12 +340,12 @@ func check_board_explode_matches():
 		undo_cell_1 = null
 		undo_cell_2 = null
 		# B: explode matched gems
-		explode_refill_gems(gem_matches)
+		explode_refill_gems(gem_cells)
 
 func explode_refill_gems(gem_cells: Array):
-	Enums.debug_print("[explode_refill_gems........]: ==================================================", Enums.DEBUG_LEVEL.INFO)
-	Enums.debug_print("[explode_refill_gems........]: *EXPLODING* gem_cell count: "+str(gem_cells.size()), Enums.DEBUG_LEVEL.INFO)
-	Enums.debug_print("[explode_refill_gems........]: ==================================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems]: !!!!!!!!!!!=======================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems]: *EXPLODING* gem_cell count: "+str(gem_cells.size()), Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems]: !!!!!!!!!!!=======================================", Enums.DEBUG_LEVEL.INFO)
 	if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
 		debug_print_ascii_table(gem_cells)
 	
@@ -309,13 +353,14 @@ func explode_refill_gems(gem_cells: Array):
 	for gem_cell in gem_cells:
 		gem_cell.explode_gem(gem_cell.gem_color)
 	
-	# TODO: we wan the gem counts to update faster (they currently update after the animation completes)
+	# TODO: FIXME: gem counts need to update faster (they currently update after the animation completes)!!
 	# seemingly, this would work fine located here but its not - the UI update requires a frame update i guess?
 	signal_game_props_count_gems()
 	
+	# B: let explode animation run
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	
-	# B: Dictionary to track columns and the number of gems to add in each column
+	# C: Dictionary to track columns and the number of gems to add in each column
 	var columns_to_refill = {}
 	for gem_cell in gem_cells:
 		var column_index = gem_cell.get_parent().get_index()
@@ -333,7 +378,7 @@ func explode_refill_gems(gem_cells: Array):
 	
 	# D:
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout # let refill animations above complete (otherwise new, matching gems would start exploding before they're even in place!)
-	check_board_explode_matches()
+	process_game_round()
 
 func refill_column(column_index: int, highest_exploded_row: int, count_exploded: int):
 	var column = hbox_container.get_child(column_index)
@@ -441,7 +486,7 @@ func new_game():
 			gem_cell.get_child(1).visible = true
 			gem_cell.get_child(1).position = Enums.SRPITE_POS
 	# B:
-	check_board_explode_matches()
+	process_game_round()
 
 func debug_clear_debug_labels():
 	for vbox in hbox_container.get_children():
@@ -474,4 +519,5 @@ func debug_make_gem_grid():
 			gem.initialize(Enums.GemColor.GREEN)
 			if (i + j) % 2 == 0:
 				gem.initialize(Enums.GemColor.WHITE)
+				gem.get_child(1).position = Enums.SRPITE_POS
 	signal_game_props_count_gems()

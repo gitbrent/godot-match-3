@@ -5,7 +5,7 @@ const APP_BLD:String = "20240510"
 const TWEEN_TIME:float = 0.25
 const EXPLODE_DELAY:int = 1
 const SRPITE_POS:Vector2 = Vector2(64,64)
-var current_debug_level = DEBUG_LEVEL.INFO  # Global variable to set the current debug level
+var current_debug_level = DEBUG_LEVEL.DEBUG  # Global variable to set the current debug level
 
 # =========================================================
 
