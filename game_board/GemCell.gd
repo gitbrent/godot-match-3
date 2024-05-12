@@ -31,12 +31,12 @@ func initialize(colorIn: Enums.GemColor):
 	# C:
 	#panel_hover.visible = false
 
-func explode_gem(colorIn: Enums.GemColor):
+func explode_gem(colorIn: Enums.GemColor, pointsIn:int):
 	# A: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
 	gem_color = colorIn
 	# B:
 	play_selected_anim(false)
-	play_anim_explode()
+	play_anim_explode(pointsIn)
 
 func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 	#print("[replace_gem]: colorIn=", colorIn, " rows_to_drop=", rows_to_drop)
@@ -87,7 +87,7 @@ func play_selected_anim(selected:bool):
 		label_points.visible = false
 
 # @desc: both AnimPlayer & AnimExplode are 1-sec
-func play_anim_explode():
+func play_anim_explode(points:int):
 	# A: sound effect
 	audio_gem_explode.play()
 	
@@ -97,6 +97,7 @@ func play_anim_explode():
 	sprite.visible = false
 	
 	# C: show points
+	label_points.text = "+"+str(points)
 	anim_player_fx.play("new_points")
 	
 	# D: explode animation (exploding sprite)

@@ -11,6 +11,7 @@ signal props_updated_gemsdict(gems_dict:Dictionary)
 @onready var hbox_container:HBoxContainer = $HBoxContainer
 #VARS
 const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
+const GEM_POINTS:int = 25
 var selected_cell_1:GemCell = null
 var selected_cell_2:GemCell = null
 var undo_cell_1:GemCell = null
@@ -186,8 +187,17 @@ func calculate_score_for_matches(matches: Array) -> int:
 		var match_length = match["count"]
 		# Define scoring logic, e.g., exponential growth for larger matches
 		var match_score = match_length * match_length  # Example: score grows quadratically with match length
-		score += match_score * 100
+		score += match_score * GEM_POINTS
 	return score
+
+func calculate_scores_for_each_match(matches: Array) -> Dictionary:
+	var scores = {}
+	for match in matches:
+		var count = match["count"]
+		var score = count * GEM_POINTS
+		for cell in match["cells"]:
+			scores[cell] = score
+	return scores
 
 # STEP 1: Handle input (=capture first & second selection), swap gems
 # @desc: calls `swap_gem_cells()` when 2 cells selected and are adjacent
@@ -340,18 +350,21 @@ func process_game_round():
 		undo_cell_1 = null
 		undo_cell_2 = null
 		# B: explode matched gems
-		explode_refill_gems(gem_cells)
+		var match_scores = calculate_scores_for_each_match(matches)
+		explode_refill_gems(matches, match_scores)
 
-func explode_refill_gems(gem_cells: Array):
-	Enums.debug_print("[explode_refill_gems]: !!!!!!!!!!!=======================================", Enums.DEBUG_LEVEL.INFO)
-	Enums.debug_print("[explode_refill_gems]: *EXPLODING* gem_cell count: "+str(gem_cells.size()), Enums.DEBUG_LEVEL.INFO)
-	Enums.debug_print("[explode_refill_gems]: !!!!!!!!!!!=======================================", Enums.DEBUG_LEVEL.INFO)
+func explode_refill_gems(matches: Array, match_scores: Dictionary):
+	Enums.debug_print("[explode_refill_gems]: !!!!!!!!!!!=====================================", Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems]: *EXPLODING* gem_cell count: "+str(matches.size()), Enums.DEBUG_LEVEL.INFO)
+	Enums.debug_print("[explode_refill_gems]: !!!!!!!!!!!=====================================", Enums.DEBUG_LEVEL.INFO)
 	if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
-		debug_print_ascii_table(gem_cells)
+		debug_print_ascii_table(extract_gem_cells_from_matches(matches))
 	
 	# A: explode selected
-	for gem_cell in gem_cells:
-		gem_cell.explode_gem(gem_cell.gem_color)
+	for match in matches:
+		for gem_cell in match["cells"]:
+			var score = match_scores[gem_cell]
+			gem_cell.explode_gem(gem_cell.gem_color, score)
 	
 	# TODO: FIXME: gem counts need to update faster (they currently update after the animation completes)!!
 	# seemingly, this would work fine located here but its not - the UI update requires a frame update i guess?
@@ -362,14 +375,15 @@ func explode_refill_gems(gem_cells: Array):
 	
 	# C: Dictionary to track columns and the number of gems to add in each column
 	var columns_to_refill = {}
-	for gem_cell in gem_cells:
-		var column_index = gem_cell.get_parent().get_index()
-		var row_index = gem_cell.get_index()
-		if column_index in columns_to_refill:
-			columns_to_refill[column_index]["count"] += 1
-			columns_to_refill[column_index]["highest"] = max(columns_to_refill[column_index]["highest"], row_index)
-		else:
-			columns_to_refill[column_index] = {"highest": row_index, "count": 1}
+	for match in matches:
+		for gem_cell in match["cells"]:
+			var column_index = gem_cell.get_parent().get_index()
+			var row_index = gem_cell.get_index()
+			if column_index in columns_to_refill:
+				columns_to_refill[column_index]["count"] += 1
+				columns_to_refill[column_index]["highest"] = max(columns_to_refill[column_index]["highest"], row_index)
+			else:
+				columns_to_refill[column_index] = {"highest": row_index, "count": 1}
 	
 	# C: Process each column that needs refilling
 	for column_index in columns_to_refill.keys():
