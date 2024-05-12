@@ -358,7 +358,7 @@ func explode_refill_gems(gem_cells: Array):
 	signal_game_props_count_gems()
 	
 	# B: let explode animation run
-	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
+	await get_tree().create_timer(Enums.TWEEN_TIME).timeout
 	
 	# C: Dictionary to track columns and the number of gems to add in each column
 	var columns_to_refill = {}

@@ -60,13 +60,10 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 	call_deferred("drop_in_gem", drop_height)
 
 func drop_in_gem(drop_height: float):
-	const DROP_TIME = Enums.TWEEN_TIME #* 2
-	#await get_tree().create_timer(DROP_TIME).timeout
-	
 	# Tween the "fall" animation from the starting point to the final position
 	var end_pos = Vector2(sprite.position.x, sprite.position.y + drop_height)
 	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "position", end_pos, DROP_TIME)
+	tween.tween_property(sprite, "position", end_pos, Enums.TWEEN_TIME)
 
 func update_texture():
 	if gem_color in gem_textures:
@@ -98,15 +95,15 @@ func play_anim_explode():
 	anim_player_fx.stop()
 	sprite.visible = false
 	
+	# D: show points
+	anim_player_fx.play("new_points")
+	
 	# C: explode animation (exploding sprite)
 	anim_sprite_explode.visible = true
 	anim_sprite_explode.play("default")
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
+	print(Enums.EXPLODE_DELAY)
 	anim_sprite_explode.visible = false
-	
-	# D: show points
-	anim_player_fx.play("new_points")
-	
 
 # =========================================================
 

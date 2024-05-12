@@ -1,9 +1,9 @@
 extends Node
 
-const APP_VER:String = "0.1.0"
-const APP_BLD:String = "20240510"
+const APP_VER:String = "0.3.0"
+const APP_BLD:String = "20240511"
 const TWEEN_TIME:float = 0.25
-const EXPLODE_DELAY:int = 1
+const EXPLODE_DELAY:float = TWEEN_TIME*2.0
 const SRPITE_POS:Vector2 = Vector2(64,64)
 var current_debug_level = DEBUG_LEVEL.DEBUG  # Global variable to set the current debug level
 
