@@ -87,21 +87,26 @@ func play_selected_anim(selected:bool):
 		anim_player_fx.stop()
 		sprite.scale = SPRITE_SCALE
 
+# @desc: both AnimPlayer & AnimExplode are 1-sec
 func play_anim_explode():
-	# @desc: both AnimPlayer & AnimExplode are 1-sec
+	# A: sound effect
 	audio_gem_explode.play()
 	
-	# A: explode effect (scale down to zero)
+	# B: explode effect (scale down to zero)
 	# IMPORTANT: use play/stop or scale wont reset!
 	anim_player_fx.play("explode")
 	anim_player_fx.stop()
 	sprite.visible = false
 	
-	# B: explode animation (exploding sprite)
+	# C: explode animation (exploding sprite)
 	anim_sprite_explode.visible = true
 	anim_sprite_explode.play("default")
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	anim_sprite_explode.visible = false
+	
+	# D: show points
+	anim_player_fx.play("new_points")
+	
 
 # =========================================================
 
