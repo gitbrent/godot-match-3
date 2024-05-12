@@ -8,6 +8,7 @@ class_name GemCell
 @onready var debug_ui_panel:Panel = $DebugUIPanel
 @onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
 @onready var audio_gem_move:AudioStreamPlayer = $AudioGemMove
+@onready var label_points:Label = $LabelPoints
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.5, 0.5)
 const DROP_OFFSET:int = 128 # (the sprite is centered in the 128x128 container, and uses a 64,64 position)
@@ -83,6 +84,7 @@ func play_selected_anim(selected:bool):
 	else:
 		anim_player_fx.stop()
 		sprite.scale = SPRITE_SCALE
+		label_points.visible = false
 
 # @desc: both AnimPlayer & AnimExplode are 1-sec
 func play_anim_explode():
@@ -92,19 +94,21 @@ func play_anim_explode():
 	# B: explode effect (scale down to zero)
 	# IMPORTANT: use play/stop or scale wont reset!
 	anim_player_fx.play("explode")
-	anim_player_fx.stop()
 	sprite.visible = false
 	
-	# D: show points
+	# C: show points
 	anim_player_fx.play("new_points")
 	
-	# C: explode animation (exploding sprite)
+	# D: explode animation (exploding sprite)
 	anim_sprite_explode.visible = true
 	anim_sprite_explode.play("default")
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
-	print(Enums.EXPLODE_DELAY)
+	
+	# LAST: reset anim-player effects (after await above)
 	anim_sprite_explode.visible = false
-
+	anim_player_fx.stop()
+	label_points.visible = false # anim_player_fx stop/reset above unhides it
+	
 # =========================================================
 
 func debug_show_selnum(num:int):
