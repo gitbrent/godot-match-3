@@ -1,8 +1,9 @@
 extends Node2D
 # SCENES
-@onready var game_board:GameBoard = $Board
-@onready var game_stats:VBoxContainer = $GameStats
-@onready var game_top_h_box:HBoxContainer = $GameTopHBox
+@onready var game_top_h_box:HBoxContainer = $ContTopBar/GameTopHBox
+@onready var game_stats:VBoxContainer = $ContGameStats/GameStats
+@onready var game_board:GameBoard = $ContBoard/Board
+@onready var animation_player:AnimationPlayer = $AnimationPlayer
 
 func _ready():
 	game_board.connect("props_updated_moves", self._on_props_updated_moves)
@@ -20,6 +21,7 @@ func _on_props_updated_gemsdict(gems_dict:Dictionary):
 
 func _on_props_updated_score(score:int):
 	game_top_h_box.get_child(0).get_child(1).text = str(score)
+	animation_player.play("show_msg_amazing")
 
 func _on_props_updated_moves(moves:int):
 	game_top_h_box.get_child(1).get_child(1).text = str(moves)
