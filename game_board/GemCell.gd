@@ -4,6 +4,8 @@ class_name GemCell
 @onready var sprite:Sprite2D = $Sprite2D
 @onready var anim_player_fx:AnimationPlayer = $AnimPlayerFx
 @onready var anim_sprite_explode:AnimatedSprite2D = $AnimSpriteExplode
+@onready var anim_burst:AnimatedSprite2D = $AnimatedBurst
+@onready var anim_burst_1:AnimatedSprite2D = $AnimatedBurst1
 @onready var debug_label_sel_num:Label = $DebugLabelSelNum
 @onready var debug_ui_panel:Panel = $DebugUIPanel
 @onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
@@ -101,12 +103,18 @@ func play_anim_explode(points:int):
 	anim_player_fx.play("new_points")
 	
 	# D: explode animation (exploding sprite)
-	anim_sprite_explode.visible = true
+	#anim_sprite_explode.visible = true
 	anim_sprite_explode.play("default")
+	anim_burst.visible = true
+	anim_burst.play("default")
+	anim_burst_1.visible = true
+	anim_burst_1.play("default")
 	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	
 	# LAST: reset anim-player effects (after await above)
 	anim_sprite_explode.visible = false
+	anim_burst.visible = false
+	anim_burst_1.visible = false
 	anim_player_fx.stop()
 	label_points.visible = false # anim_player_fx stop/reset above unhides it
 	
