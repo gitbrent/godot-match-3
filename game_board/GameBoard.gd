@@ -251,8 +251,6 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 	# A: signal game controller
 	swap_cell_1.play_audio_gem_move()
 	swap_cell_2.play_audio_gem_move()
-	board_props_moves += 1
-	emit_signal("props_updated_moves", board_props_moves)
 	
 	# B: turn off anim/effects before moving
 	swap_cell_1.play_selected_anim(false)
@@ -349,6 +347,9 @@ func process_game_round():
 		# A: clear undo (swap back) info upon successful match
 		undo_cell_1 = null
 		undo_cell_2 = null
+		# B:
+		board_props_moves += 1
+		emit_signal("props_updated_moves", board_props_moves)
 		# B: explode matched gems
 		var match_scores = calculate_scores_for_each_match(matches)
 		explode_refill_gems(matches, match_scores)
