@@ -6,6 +6,7 @@ class_name GameBoard
 signal props_updated_moves(moves:int)
 signal props_updated_score(score:int)
 signal props_updated_gemsdict(gems_dict:Dictionary)
+signal board_match_multi(match_cnt:int)
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
@@ -366,6 +367,9 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 		for gem_cell in match["cells"]:
 			var score = match_scores[gem_cell]
 			gem_cell.explode_gem(gem_cell.gem_color, score)
+	
+	# B: Show game messages (ex: "Amazing!")
+	emit_signal("board_match_multi", matches.size())
 	
 	# TODO: FIXME: gem counts need to update faster (they currently update after the animation completes)!!
 	# seemingly, this would work fine located here but its not - the UI update requires a frame update i guess?

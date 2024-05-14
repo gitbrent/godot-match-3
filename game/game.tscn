@@ -29,27 +29,39 @@ bg_color = Color(0, 0, 0, 0.133333)
 resource_name = "show_msg_amazing"
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = false
-tracks/0/path = NodePath("ContMessages/Msg-Amazing:modulate")
+tracks/0/enabled = true
+tracks/0/path = NodePath("ContMessages/Msg-Amazing:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("ContMessages/Msg-Amazing:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ContMessages/Msg-Amazing/RTL-Btm-Amazing:theme_override_font_sizes/normal_font_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ContMessages/Msg-Amazing/RTL-Top-Amazing:theme_override_font_sizes/normal_font_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_htlur"]
@@ -76,6 +88,9 @@ offset_bottom = 1390.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
+
+[node name="AudioGemMove" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_7jpwb")
 
 [node name="ContTopClouds" type="Control" parent="."]
 layout_mode = 3
@@ -326,9 +341,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 [node name="Board" parent="ContBoard" instance=ExtResource("2_2ltbx")]
 position = Vector2(500, 250)
 
-[node name="AudioGemMove" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_7jpwb")
-
 [node name="BtnNewGame" type="TextureButton" parent="."]
 offset_left = 1600.0
 offset_top = 250.0
@@ -390,12 +402,6 @@ text = "CHECKERED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_htlur")
-}
-autoplay = "show_msg_amazing"
-
 [node name="ContMessages" type="Control" parent="."]
 custom_minimum_size = Vector2(2000, 230)
 layout_mode = 3
@@ -404,6 +410,13 @@ offset_top = 540.0
 offset_right = 2000.0
 offset_bottom = 770.0
 mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ContMessages"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_htlur")
+}
+autoplay = "show_msg_amazing"
 
 [node name="Msg-Amazing" type="Control" parent="ContMessages"]
 visible = false
@@ -435,6 +448,7 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("18_p5dta")
+theme_override_font_sizes/normal_font_size = 204
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
 fit_content = true
@@ -455,6 +469,7 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("17_j7spk")
+theme_override_font_sizes/normal_font_size = 204
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
 fit_content = true
