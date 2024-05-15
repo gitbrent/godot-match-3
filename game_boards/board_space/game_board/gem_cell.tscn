@@ -1,6 +1,6 @@
 [gd_scene load_steps=90 format=3 uid="uid://bkcnew3cxpisf"]
 
-[ext_resource type="Script" path="res://game_boards/board01/game_board/GemCell.gd" id="1_sic7w"]
+[ext_resource type="Script" path="res://game_boards/board_space/game_board/GemCell.gd" id="1_2k0fe"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="2_eiavk"]
 [ext_resource type="Texture2D" uid="uid://c4u0bdf7rh0u3" path="res://assets/gems/Overlay-Lock.png" id="3_rc6em"]
 [ext_resource type="Texture2D" uid="uid://cooat8cgq2rb4" path="res://assets/gems/Overlay-Ice.png" id="4_2kyw5"]
@@ -625,7 +625,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 64.0
 offset_bottom = 64.0
-script = ExtResource("1_sic7w")
+script = ExtResource("1_2k0fe")
 
 [node name="BKGD" type="Panel" parent="."]
 visible = false

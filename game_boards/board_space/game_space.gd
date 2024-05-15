@@ -2,7 +2,7 @@ extends Node2D
 # SCENES
 @onready var game_top_h_box:HBoxContainer = $ContTopBar/GameTopHBox
 @onready var game_stats:VBoxContainer = $ContGameStats/GameStats
-@onready var game_board:GemBoardSpace = $ContBoard/Board
+@onready var game_board:GemBoardSpace = $ContBoard/GemBoard
 @onready var animation_player:AnimationPlayer = $ContMessages/AnimationPlayer
 
 func _ready():

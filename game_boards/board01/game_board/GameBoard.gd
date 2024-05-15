@@ -1,5 +1,3 @@
-# WORKLIST:
-# 1. all gems need to explode at once (get_first_match_gems) needs to become return_all_matches!
 extends Node2D
 class_name GameBoard
 # SIGNALS

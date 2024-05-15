@@ -1,7 +1,6 @@
-[gd_scene load_steps=24 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=23 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
-[ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="2_ebh0e"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
 [ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board01/game/animated_cloud.tscn" id="5_mobdb"]
@@ -12,8 +11,8 @@
 [ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/characters_0003.png" id="10_xo434"]
 [ext_resource type="Texture2D" uid="uid://byliae6aa6ki2" path="res://assets/gems/characters_0005.png" id="11_ok78w"]
 [ext_resource type="Texture2D" uid="uid://2vrsevjv4w43" path="res://assets/gems/characters_0007.png" id="12_4tjwg"]
+[ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/game_board/gem_board.tscn" id="13_3pfoy"]
 [ext_resource type="Texture2D" uid="uid://b1o34xq1pq82y" path="res://assets/gems/characters_0006.png" id="13_lu1md"]
-[ext_resource type="PackedScene" uid="uid://x4qq2j3l7nvb" path="res://game_boards/board01/game_board/board.tscn" id="14_4biqb"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
 [ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
 [ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="17_oxovp"]
@@ -74,20 +73,12 @@ _data = {
 script = ExtResource("1_w6e46")
 
 [node name="Background" type="TextureRect" parent="."]
-visible = false
-offset_right = 2000.0
-offset_bottom = 1390.0
-texture = ExtResource("2_ebh0e")
-expand_mode = 2
-
-[node name="Background2" type="TextureRect" parent="."]
 offset_right = 2000.0
 offset_bottom = 1390.0
 texture = ExtResource("3_f5frv")
 expand_mode = 2
 
 [node name="DBGBkgdDimmer" type="Panel" parent="."]
-visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -337,7 +328,6 @@ offset_bottom = 40.0
 mouse_filter = 1
 
 [node name="DBGBoardRectArea" type="Panel" parent="ContBoard"]
-visible = false
 layout_mode = 0
 offset_left = 500.0
 offset_top = 250.0
@@ -346,7 +336,7 @@ offset_bottom = 1274.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
-[node name="Board" parent="ContBoard" instance=ExtResource("14_4biqb")]
+[node name="GemBoard" parent="ContBoard" instance=ExtResource("13_3pfoy")]
 position = Vector2(500, 250)
 
 [node name="BtnNewGame" type="TextureButton" parent="."]

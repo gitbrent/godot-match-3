@@ -38,9 +38,9 @@ func fill_grid():
 	for i in range(size):
 		for j in range(size):
 			# Load the appropriate scene based on the checkerboard pattern
-			var brdsq_scene_path = "res://game_board/board_square_1.tscn"  # Assume light square
+			var brdsq_scene_path = "res://game_boards/board_space/game_board/board_square_1.tscn"  # Assume light square
 			if (i + j) % 2 == 0:
-				brdsq_scene_path = "res://game_board/board_square_0.tscn"  # Dark square
+				brdsq_scene_path = "res://game_boards/board_space/game_board/board_square_0.tscn"  # Dark square
 			
 			# Load and instantiate the scene
 			var brdsq_scene = load(brdsq_scene_path)
@@ -55,7 +55,7 @@ func fill_hbox():
 			# A: random gem
 			var gem_type = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
 			# B: create/add
-			var gem_cell_scene = load("res://game_board/gem_cell.tscn")
+			var gem_cell_scene = load("res://game_boards/board_space/game_board/gem_cell.tscn")
 			var gem_cell:GemCellSpace = gem_cell_scene.instantiate()
 			hbox_container.get_child(col_idx).add_child(gem_cell)
 			gem_cell.initialize(gem_type)
