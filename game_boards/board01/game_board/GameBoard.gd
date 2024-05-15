@@ -13,10 +13,10 @@ signal board_match_multi(match_cnt:int)
 #VARS
 const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
 const GEM_POINTS:int = 25
-var selected_cell_1:GemCell = null
-var selected_cell_2:GemCell = null
-var undo_cell_1:GemCell = null
-var undo_cell_2:GemCell = null
+var selected_cell_1:GemCell1 = null
+var selected_cell_2:GemCell1 = null
+var undo_cell_1:GemCell1 = null
+var undo_cell_2:GemCell1 = null
 var tweens_running_cnt:int = 0
 var board_props_moves:int = 0
 var board_props_score:int = 0
@@ -38,9 +38,9 @@ func fill_grid():
 	for i in range(size):
 		for j in range(size):
 			# Load the appropriate scene based on the checkerboard pattern
-			var brdsq_scene_path = "res://game_board/board_square_1.tscn"  # Assume light square
+			var brdsq_scene_path = "res://game_boards/board01/game_board/board_square_1.tscn"  # Assume light square
 			if (i + j) % 2 == 0:
-				brdsq_scene_path = "res://game_board/board_square_0.tscn"  # Dark square
+				brdsq_scene_path = "res://game_boards/board01/game_board/board_square_0.tscn"  # Dark square
 			
 			# Load and instantiate the scene
 			var brdsq_scene = load(brdsq_scene_path)
@@ -55,8 +55,8 @@ func fill_hbox():
 			# A: random gem
 			var gem_type = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
 			# B: create/add
-			var gem_cell_scene = load("res://game_board/gem_cell.tscn")
-			var gem_cell:GemCell = gem_cell_scene.instantiate()
+			var gem_cell_scene = load("res://game_boards/board01/game_board/gem_cell.tscn")
+			var gem_cell:GemCell1 = gem_cell_scene.instantiate()
 			hbox_container.get_child(col_idx).add_child(gem_cell)
 			gem_cell.initialize(gem_type)
 			var control_node = gem_cell.get_node("GemControl")
@@ -68,7 +68,7 @@ func fill_hbox():
 
 # UTILS
 
-func find_gem_indices(gem_cell:GemCell) -> Dictionary:
+func find_gem_indices(gem_cell:GemCell1) -> Dictionary:
 	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
 	var hbox = parent_vbox.get_parent()      # Assuming direct parent of VBox is the HBoxContainer
 	
@@ -81,7 +81,7 @@ func find_gem_indices(gem_cell:GemCell) -> Dictionary:
 			vbox_index = i
 			break
 	
-	# Get the index of the GemCell in the VBoxContainer
+	# Get the index of the GemCell1 in the VBoxContainer
 	for j in range(parent_vbox.get_child_count()):
 		if parent_vbox.get_child(j) == gem_cell:
 			gem_index = j
@@ -89,7 +89,7 @@ func find_gem_indices(gem_cell:GemCell) -> Dictionary:
 	
 	return {"column": vbox_index, "row": gem_index}
 
-func are_cells_adjacent(gemcell1:GemCell, gemcell2:GemCell) -> bool:
+func are_cells_adjacent(gemcell1:GemCell1, gemcell2:GemCell1) -> bool:
 	var cell1 = find_gem_indices(gemcell1)
 	var cell2 = find_gem_indices(gemcell2)
 	var col1 = cell1.column
@@ -119,7 +119,7 @@ func get_all_matches() -> Array:
 		var streak = 0
 		var match_start = 0
 		for column in range(num_columns):
-			var gem_cell = hbox_container.get_child(column).get_child(row) as GemCell
+			var gem_cell = hbox_container.get_child(column).get_child(row) as GemCell1
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
@@ -149,7 +149,7 @@ func get_all_matches() -> Array:
 		var streak = 0
 		var match_start = 0
 		for row in range(num_rows):
-			var gem_cell = hbox_container.get_child(column).get_child(row) as GemCell
+			var gem_cell = hbox_container.get_child(column).get_child(row) as GemCell1
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
@@ -203,7 +203,7 @@ func calculate_scores_for_each_match(matches: Array) -> Dictionary:
 # STEP 1: Handle input (=capture first & second selection), swap gems
 # @desc: calls `swap_gem_cells()` when 2 cells selected and are adjacent
 
-func _on_cell_click(gem_cell:GemCell):
+func _on_cell_click(gem_cell:GemCell1):
 	Enums.debug_print("[_on_cell_click] gem_cell.......: "+JSON.stringify(find_gem_indices(gem_cell)), Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[_on_cell_click] ---------------------------------------------", Enums.DEBUG_LEVEL.INFO)
 	
@@ -213,7 +213,7 @@ func _on_cell_click(gem_cell:GemCell):
 	if selected_cell_2:
 		selected_cell_2.play_selected_anim(false)
 	
-	# STEP 1: Select GemCell logic
+	# STEP 1: Select GemCell1 logic
 	if not selected_cell_1:
 		selected_cell_1 = gem_cell
 	elif selected_cell_1 != gem_cell:
@@ -245,7 +245,7 @@ func _on_cell_click(gem_cell:GemCell):
 
 # STEP 2: Swap gems: capture current gems, move scenes via tween
 
-func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
+func swap_gem_cells(swap_cell_1:GemCell1, swap_cell_2:GemCell1):
 	if not swap_cell_1 or not swap_cell_2:
 		return
 	
@@ -275,7 +275,7 @@ func swap_gem_cells(swap_cell_1:GemCell, swap_cell_2:GemCell):
 	# F:
 	signal_game_props_count_gems()
 
-func setup_tween(gem_cell:GemCell, start_pos:Vector2, end_pos:Vector2):
+func setup_tween(gem_cell:GemCell1, start_pos:Vector2, end_pos:Vector2):
 	gem_cell.sprite.global_position = start_pos # NOTE: Set initial position right before tweening
 	tweens_running_cnt += 1
 	var tween = get_tree().create_tween()
@@ -449,7 +449,7 @@ func signal_game_props_count_gems():
 func debug_print_column_ascii(column: VBoxContainer, column_index: int):
 	var output = ""
 	for i in range(column.get_child_count() - 1, -1, -1):  # Print from top to bottom
-		var gem_cell = column.get_child(i) as GemCell
+		var gem_cell = column.get_child(i) as GemCell1
 		if gem_cell != null:
 			output += "[ " + Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1) + " ]"  # Append each gem's color to the output string
 		else:
@@ -519,13 +519,13 @@ func debug_clear_debug_labels():
 
 func debug_make_match_col():
 	var col0:VBoxContainer = hbox_container.get_child(0)
-	var col0_child4:GemCell = col0.get_child(4)
+	var col0_child4:GemCell1 = col0.get_child(4)
 	col0_child4.initialize(Enums.GemColor.GREEN)
-	var col0_child5:GemCell = col0.get_child(5)
+	var col0_child5:GemCell1 = col0.get_child(5)
 	col0_child5.initialize(Enums.GemColor.GREEN)
-	var col0_child6:GemCell = col0.get_child(6)
+	var col0_child6:GemCell1 = col0.get_child(6)
 	col0_child6.initialize(Enums.GemColor.GREEN)
-	var col0_child7:GemCell = col0.get_child(7)
+	var col0_child7:GemCell1 = col0.get_child(7)
 	col0_child7.initialize(Enums.GemColor.GREEN)
 
 func debug_make_gem_grid():

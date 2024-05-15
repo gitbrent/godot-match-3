@@ -1,0 +1,96 @@
+[gd_scene load_steps=8 format=3 uid="uid://mu2k87xf3lma"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_73dvc"]
+[ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_t1b1c"]
+[ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="2_j1i6k"]
+[ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="3_nqt0h"]
+[ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="4_e0b1k"]
+[ext_resource type="PackedScene" uid="uid://b5bfm2244ywxk" path="res://game_boards/board01/game/game.tscn" id="6_hsxpn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhytr"]
+bg_color = Color(0, 0, 0, 0.133333)
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_73dvc")
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 2000.0
+offset_bottom = 1390.0
+texture = ExtResource("1_t1b1c")
+expand_mode = 2
+
+[node name="GameTopBkgd" type="Panel" parent="."]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 2000.0
+offset_bottom = 400.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhytr")
+
+[node name="RTL-Title" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(2000, 250)
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -2.0
+offset_top = 55.0
+offset_right = 1998.0
+offset_bottom = 305.0
+grow_horizontal = 2
+theme_override_colors/default_color = Color(0.223529, 0.223529, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0, 0.843137, 0.254902, 1)
+theme_override_constants/outline_size = 50
+theme_override_fonts/normal_font = ExtResource("2_j1i6k")
+theme_override_font_sizes/normal_font_size = 210
+bbcode_enabled = true
+text = "[center]MATCH 3[/center]"
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="BtnBoard1" type="TextureButton" parent="."]
+offset_left = 641.0
+offset_top = 600.0
+offset_right = 1800.0
+offset_bottom = 958.0
+scale = Vector2(0.6, 0.6)
+texture_normal = ExtResource("3_nqt0h")
+
+[node name="Label" type="Label" parent="BtnBoard1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.66675
+offset_right = 6.66675
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "BOARD 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnBoard2" type="TextureButton" parent="."]
+offset_left = 641.0
+offset_top = 950.0
+offset_right = 1800.0
+offset_bottom = 1308.0
+scale = Vector2(0.6, 0.6)
+texture_normal = ExtResource("4_e0b1k")
+
+[node name="Label" type="Label" parent="BtnBoard2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.66675
+offset_right = 6.66675
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "BOARD 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameBoard1" parent="." instance=ExtResource("6_hsxpn")]
+visible = false
+
+[connection signal="pressed" from="BtnBoard1" to="." method="_on_btn_board_1_pressed"]

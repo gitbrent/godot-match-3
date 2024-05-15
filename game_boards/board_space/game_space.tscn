@@ -1,0 +1,490 @@
+[gd_scene load_steps=24 format=3 uid="uid://bkaimvifjwkai"]
+
+[ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
+[ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="2_ebh0e"]
+[ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
+[ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
+[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board01/game/animated_cloud.tscn" id="5_mobdb"]
+[ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
+[ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="7_e1iv4"]
+[ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
+[ext_resource type="Texture2D" uid="uid://b8biy2iputyhe" path="res://assets/gems/characters_0002.png" id="9_5qxji"]
+[ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/characters_0003.png" id="10_xo434"]
+[ext_resource type="Texture2D" uid="uid://byliae6aa6ki2" path="res://assets/gems/characters_0005.png" id="11_ok78w"]
+[ext_resource type="Texture2D" uid="uid://2vrsevjv4w43" path="res://assets/gems/characters_0007.png" id="12_4tjwg"]
+[ext_resource type="Texture2D" uid="uid://b1o34xq1pq82y" path="res://assets/gems/characters_0006.png" id="13_lu1md"]
+[ext_resource type="PackedScene" uid="uid://x4qq2j3l7nvb" path="res://game_boards/board01/game_board/board.tscn" id="14_4biqb"]
+[ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
+[ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
+[ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="17_oxovp"]
+[ext_resource type="Theme" uid="uid://duftrpb020ewi" path="res://themes/game_msg_btm.tres" id="18_jrjnv"]
+[ext_resource type="Theme" uid="uid://c68uhjmxln8ao" path="res://themes/game_msg_top.tres" id="19_iidij"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_103kv"]
+bg_color = Color(0, 0, 0, 0.666667)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
+bg_color = Color(0, 0, 0, 0.133333)
+
+[sub_resource type="Animation" id="Animation_3xeuw"]
+resource_name = "show_msg_amazing"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ContMessages/Msg-Amazing:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ContMessages/Msg-Amazing/RTL-Btm-Amazing:theme_override_font_sizes/normal_font_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ContMessages/Msg-Amazing/RTL-Top-Amazing:theme_override_font_sizes/normal_font_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_htlur"]
+_data = {
+"show_msg_amazing": SubResource("Animation_3xeuw")
+}
+
+[node name="GameSpace" type="Node2D"]
+script = ExtResource("1_w6e46")
+
+[node name="Background" type="TextureRect" parent="."]
+visible = false
+offset_right = 2000.0
+offset_bottom = 1390.0
+texture = ExtResource("2_ebh0e")
+expand_mode = 2
+
+[node name="Background2" type="TextureRect" parent="."]
+offset_right = 2000.0
+offset_bottom = 1390.0
+texture = ExtResource("3_f5frv")
+expand_mode = 2
+
+[node name="DBGBkgdDimmer" type="Panel" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2000.0
+offset_bottom = 1390.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
+
+[node name="AudioGemMove" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_cbs6r")
+
+[node name="ContTopClouds" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="AnimatedCloud1" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
+
+[node name="AnimatedCloud2" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
+position = Vector2(1000, 75)
+
+[node name="AnimatedCloud3" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
+position = Vector2(-1000, 100)
+
+[node name="ContTopBar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="GameTopBkgd" type="Panel" parent="ContTopBar"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 2000.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
+
+[node name="GameTopHBox" type="HBoxContainer" parent="ContTopBar"]
+custom_minimum_size = Vector2(2000, 150)
+layout_mode = 0
+offset_right = 2000.0
+offset_bottom = 150.0
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="ContTopBar/GameTopHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_i6ds6")
+text = "Score "
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_i6ds6")
+text = "0"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ContTopBar/GameTopHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_i6ds6")
+text = "Moves "
+horizontal_alignment = 2
+
+[node name="Value" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_i6ds6")
+text = "0"
+
+[node name="ContGameStats" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameStatsBkgd" type="Panel" parent="ContGameStats"]
+layout_mode = 0
+offset_left = 75.0
+offset_top = 250.0
+offset_right = 425.0
+offset_bottom = 1274.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
+
+[node name="GameStats" type="VBoxContainer" parent="ContGameStats"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 280.0
+offset_right = 370.0
+offset_bottom = 1304.0
+theme_override_constants/separation = 40
+
+[node name="HBoxContainer1" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer1"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer1/Control"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_e1iv4")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer1"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_5qxji")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer3"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer3/Control"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("10_xo434")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
+theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer4"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer4/Control"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("11_ok78w")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer4"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
+theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer5"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer5/Control"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("12_4tjwg")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer5"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
+theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer6"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer6/Control"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("13_lu1md")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer6"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
+theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ContBoard" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 1
+
+[node name="DBGBoardRectArea" type="Panel" parent="ContBoard"]
+visible = false
+layout_mode = 0
+offset_left = 500.0
+offset_top = 250.0
+offset_right = 1524.0
+offset_bottom = 1274.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
+
+[node name="Board" parent="ContBoard" instance=ExtResource("14_4biqb")]
+position = Vector2(500, 250)
+
+[node name="BtnNewGame" type="TextureButton" parent="."]
+offset_left = 1600.0
+offset_top = 250.0
+offset_right = 2759.0
+offset_bottom = 608.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("15_qjgsg")
+
+[node name="Label" type="Label" parent="BtnNewGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "NEW GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnClearDebugLabels" type="TextureButton" parent="."]
+visible = false
+offset_left = 1657.0
+offset_top = 393.0
+offset_right = 2816.0
+offset_bottom = 751.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("16_20lur")
+
+[node name="Label" type="Label" parent="BtnClearDebugLabels"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "Clear Labels"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnMatchCol" type="TextureButton" parent="."]
+offset_left = 1656.0
+offset_top = 519.0
+offset_right = 2815.0
+offset_bottom = 877.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("17_oxovp")
+
+[node name="Label" type="Label" parent="BtnMatchCol"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "CHECKERED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContMessages" type="Control" parent="."]
+custom_minimum_size = Vector2(2000, 230)
+layout_mode = 3
+anchors_preset = 0
+offset_top = 540.0
+offset_right = 2000.0
+offset_bottom = 770.0
+mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ContMessages"]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_htlur")
+}
+autoplay = "show_msg_amazing"
+
+[node name="Msg-Amazing" type="Control" parent="ContMessages"]
+visible = false
+custom_minimum_size = Vector2(2000, 230)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1000.0
+offset_top = -115.0
+offset_right = 1000.0
+offset_bottom = 115.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="RTL-Btm-Amazing" type="RichTextLabel" parent="ContMessages/Msg-Amazing"]
+clip_contents = false
+custom_minimum_size = Vector2(2000, 259)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -115.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("18_jrjnv")
+theme_override_font_sizes/normal_font_size = 204
+bbcode_enabled = true
+text = "[center]Amazing![/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[node name="RTL-Top-Amazing" type="RichTextLabel" parent="ContMessages/Msg-Amazing"]
+clip_contents = false
+custom_minimum_size = Vector2(2000, 259)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -115.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("19_iidij")
+theme_override_font_sizes/normal_font_size = 204
+bbcode_enabled = true
+text = "[center]Amazing![/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[connection signal="pressed" from="BtnNewGame" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="BtnClearDebugLabels" to="." method="_on_btn_clear_debug_labels_pressed"]
+[connection signal="pressed" from="BtnMatchCol" to="." method="_on_btn_make_vert_pressed"]

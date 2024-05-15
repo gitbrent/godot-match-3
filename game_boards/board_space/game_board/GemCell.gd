@@ -1,5 +1,5 @@
 extends Control
-class_name GemCell
+class_name GemCellSpace
 # VARS
 @onready var sprite:Sprite2D = $Sprite2D
 @onready var anim_player_fx:AnimationPlayer = $AnimPlayerFx
