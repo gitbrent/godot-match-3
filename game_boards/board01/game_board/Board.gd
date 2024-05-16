@@ -9,6 +9,7 @@ signal board_match_multi(match_cnt:int)
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
 #VARS
+var common = preload("res://game_boards/all_common/common.gd").new()
 const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
 const GEM_POINTS:int = 25
 var selected_cell_1:GemCell1 = null
@@ -499,13 +500,9 @@ func new_game():
 	# A:
 	board_props_moves = 0
 	board_props_score = 0
-	# A:
-	for vbox in hbox_container.get_children():
-		for gem_cell in vbox.get_children():
-			gem_cell.initialize(GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()])
-			gem_cell.get_child(1).visible = true
-			gem_cell.get_child(1).position = Enums.SRPITE_POS
 	# B:
+	common.new_game_explode_replace(hbox_container, GEM_COLOR_NAMES, Enums.EXPLODE_DELAY)
+	# C:
 	process_game_round()
 
 func debug_clear_debug_labels():

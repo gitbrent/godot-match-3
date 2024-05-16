@@ -9,7 +9,7 @@ signal board_match_multi(match_cnt:int)
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
 #VARS
-var common = preload("res://game_boards/common.gd").new()
+var common = preload("res://game_boards/all_common/common.gd").new()
 const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
 const GEM_POINTS:int = 25
 var selected_cell_1:GemCellSpace = null
