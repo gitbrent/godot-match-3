@@ -31,12 +31,13 @@ func on_board_match_multi(match_cnt:int):
 	if match_cnt >= 2:
 		animation_player.play("show_msg_amazing")
 
-func _on_newgame_button_pressed():
+func _on_btn_newgame_pressed():
 	game_board.new_game()
 
-func _on_btn_clear_debug_labels_pressed():
+func _on_btn_quit_game():
+	# TODO: 20240515: convert to `signal()` for Main.tscn to hide all boards, etc.
 	visible = false
 
-func _on_btn_make_vert_pressed():
+func _on_btn_checkerboard():
 	game_board.debug_make_gem_grid()
 	#game_board.debug_make_match_col()
