@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=30 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
@@ -42,6 +42,16 @@ shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u84gj"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oi0wf"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skchu"]
 shader = ExtResource("6_agf1v")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
@@ -309,6 +319,7 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer5/Control"]
+material = SubResource("ShaderMaterial_oi0wf")
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("11_slkmj")
 centered = false
@@ -332,6 +343,7 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer6/Control"]
+material = SubResource("ShaderMaterial_skchu")
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("12_m7fnu")
 centered = false

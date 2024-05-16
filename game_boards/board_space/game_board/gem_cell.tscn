@@ -21,7 +21,7 @@ bg_color = Color(0, 0, 0, 0.533333)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5baxr"]
 shader = ExtResource("2_gaqvh")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 10.0
+shader_parameter/line_thickness = 7.0
 
 [sub_resource type="Animation" id="Animation_3mn62"]
 resource_name = "explode"
