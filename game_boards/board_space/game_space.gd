@@ -35,7 +35,7 @@ func _on_newgame_button_pressed():
 	game_board.new_game()
 
 func _on_btn_clear_debug_labels_pressed():
-	game_board.debug_clear_debug_labels()
+	visible = false
 
 func _on_btn_make_vert_pressed():
 	game_board.debug_make_gem_grid()

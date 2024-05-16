@@ -21,7 +21,7 @@
 [ext_resource type="Theme" uid="uid://c68uhjmxln8ao" path="res://themes/game_msg_top.tres" id="19_iidij"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_103kv"]
-bg_color = Color(0, 0, 0, 0.533333)
+bg_color = Color(0, 0, 0, 0.933333)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
 bg_color = Color(0, 0, 0, 0.6)
@@ -397,8 +397,7 @@ text = "NEW GAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnClearDebugLabels" type="TextureButton" parent="."]
-visible = false
+[node name="BtnQuitGame" type="TextureButton" parent="."]
 offset_left = 1657.0
 offset_top = 393.0
 offset_right = 2816.0
@@ -406,7 +405,7 @@ offset_bottom = 751.0
 scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("16_20lur")
 
-[node name="Label" type="Label" parent="BtnClearDebugLabels"]
+[node name="Label" type="Label" parent="BtnQuitGame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -414,7 +413,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 120
-text = "Clear Labels"
+text = "Quit"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -514,5 +513,5 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 
 [connection signal="pressed" from="BtnNewGame" to="." method="_on_newgame_button_pressed"]
-[connection signal="pressed" from="BtnClearDebugLabels" to="." method="_on_btn_clear_debug_labels_pressed"]
+[connection signal="pressed" from="BtnQuitGame" to="." method="_on_btn_clear_debug_labels_pressed"]
 [connection signal="pressed" from="BtnMatchCol" to="." method="_on_btn_make_vert_pressed"]
