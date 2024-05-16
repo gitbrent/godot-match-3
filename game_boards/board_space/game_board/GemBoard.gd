@@ -499,12 +499,18 @@ func debug_print_ascii_table(affected_cells: Array):
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
 	# A:
+	board_props_moves = 0
+	board_props_score = 0
+	# B:
 	for vbox in hbox_container.get_children():
 		for gem_cell in vbox.get_children():
-			gem_cell.initialize(GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()])
-			gem_cell.get_child(1).visible = true
-			gem_cell.get_child(1).position = Enums.SRPITE_POS
+			gem_cell.explode_gem(gem_cell.gem_color, 0)
+	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
 	# B:
+	for vbox in hbox_container.get_children():
+		for gem_cell in vbox.get_children():
+			gem_cell.replace_gem(GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()], 1)
+	# C:
 	process_game_round()
 
 func debug_clear_debug_labels():
@@ -513,9 +519,9 @@ func debug_clear_debug_labels():
 			gem_cell.debug_show_debug_panel(false)
 			gem_cell.get_child(1).visible = true
 			gem_cell.get_child(1).position = Enums.SRPITE_POS
-			var debug_name = Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1)
-			var debug_str = "["+debug_name+"] " + str(gem_cell.get_child(1).visible)
-			Enums.debug_print(debug_str, Enums.DEBUG_LEVEL.DEBUG)
+			#var debug_name = Enums.get_color_name_by_value(gem_cell.gem_color).substr(0,1)
+			#var debug_str = "[debug_clear_debug_labels] ["+debug_name+"] " + str(gem_cell.get_child(1).visible)
+			#Enums.debug_print(debug_str, Enums.DEBUG_LEVEL.DEBUG)
 
 func debug_make_match_col():
 	var col0:VBoxContainer = hbox_container.get_child(0)

@@ -41,3 +41,6 @@ func _on_btn_quit_game():
 func _on_btn_checkerboard():
 	game_board.debug_make_gem_grid()
 	#game_board.debug_make_match_col()
+
+func _on_btn_debug_pressed():
+	game_board.debug_clear_debug_labels()

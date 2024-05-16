@@ -497,6 +497,9 @@ func debug_print_ascii_table(affected_cells: Array):
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
 	# A:
+	board_props_moves = 0
+	board_props_score = 0
+	# A:
 	for vbox in hbox_container.get_children():
 		for gem_cell in vbox.get_children():
 			gem_cell.initialize(GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()])

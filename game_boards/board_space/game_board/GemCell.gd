@@ -54,7 +54,8 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 	
 	var beg_pos = Vector2(sprite.position.x, sprite.position.y - drop_height)
 	sprite.position = beg_pos
-
+	sprite.visible = true
+	
 	# Initialize the gem with the new color and ensure it's visible
 	initialize(colorIn)
 	sprite.visible = true  # Make sure the sprite is visible if it was hidden after explosion
@@ -64,9 +65,8 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 
 func drop_in_gem(drop_height: float):
 	# Tween the "fall" animation from the starting point to the final position
-	var end_pos = Vector2(sprite.position.x, sprite.position.y + drop_height)
 	var tween = get_tree().create_tween()
-	tween.tween_property(sprite, "position", end_pos, Enums.TWEEN_TIME)
+	tween.tween_property(sprite, "position", Enums.SRPITE_POS, Enums.TWEEN_TIME)
 
 func update_texture():
 	if gem_color in gem_textures:
@@ -100,7 +100,8 @@ func play_anim_explode(points:int):
 	
 	# C: show points
 	label_points.text = "+"+str(points)
-	anim_player_fx.play("new_points")
+	if points > 0:
+		anim_player_fx.play("new_points")
 	
 	# D: explode animation (exploding sprite)
 	anim_sprite_explode.visible = true
