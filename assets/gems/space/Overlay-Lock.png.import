@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cwnrtr34axkyv"
-path="res://.godot/imported/Gem6.png-db970f95ecd85aed4a1c7a32e85076ac.ctex"
+uid="uid://c4u0bdf7rh0u3"
+path="res://.godot/imported/Overlay-Lock.png-cd8018af4dffec731d2815c717b1c622.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/Gem6.png"
-dest_files=["res://.godot/imported/Gem6.png-db970f95ecd85aed4a1c7a32e85076ac.ctex"]
+source_file="res://assets/gems/space/Overlay-Lock.png"
+dest_files=["res://.godot/imported/Overlay-Lock.png-cd8018af4dffec731d2815c717b1c622.ctex"]
 
 [params]
 

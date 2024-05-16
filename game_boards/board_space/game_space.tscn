@@ -1,18 +1,19 @@
-[gd_scene load_steps=23 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=28 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
 [ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board01/game/animated_cloud.tscn" id="5_mobdb"]
+[ext_resource type="Shader" path="res://game_boards/board_space/game_board/gem_cell.gdshader" id="6_agf1v"]
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
-[ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="7_e1iv4"]
+[ext_resource type="Texture2D" uid="uid://drvn08bq7wqd3" path="res://assets/gems/space/Gem1.png" id="6_pwwac"]
+[ext_resource type="Texture2D" uid="uid://8st0pjjj06t6" path="res://assets/gems/space/Gem2.png" id="8_daeji"]
 [ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
-[ext_resource type="Texture2D" uid="uid://b8biy2iputyhe" path="res://assets/gems/characters_0002.png" id="9_5qxji"]
-[ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/characters_0003.png" id="10_xo434"]
-[ext_resource type="Texture2D" uid="uid://byliae6aa6ki2" path="res://assets/gems/characters_0005.png" id="11_ok78w"]
-[ext_resource type="Texture2D" uid="uid://2vrsevjv4w43" path="res://assets/gems/characters_0007.png" id="12_4tjwg"]
+[ext_resource type="Texture2D" uid="uid://f03xp7kt4yhx" path="res://assets/gems/space/Gem3.png" id="9_r572y"]
+[ext_resource type="Texture2D" uid="uid://demwo7h8k1qio" path="res://assets/gems/space/Gem4.png" id="10_mn2ql"]
+[ext_resource type="Texture2D" uid="uid://dhrwau2byrgig" path="res://assets/gems/space/Gem5.png" id="11_slkmj"]
+[ext_resource type="Texture2D" uid="uid://cwnrtr34axkyv" path="res://assets/gems/space/Gem6.png" id="12_m7fnu"]
 [ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/game_board/gem_board.tscn" id="13_3pfoy"]
-[ext_resource type="Texture2D" uid="uid://b1o34xq1pq82y" path="res://assets/gems/characters_0006.png" id="13_lu1md"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
 [ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
 [ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="17_oxovp"]
@@ -20,10 +21,30 @@
 [ext_resource type="Theme" uid="uid://c68uhjmxln8ao" path="res://themes/game_msg_top.tres" id="19_iidij"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_103kv"]
-bg_color = Color(0, 0, 0, 0.666667)
+bg_color = Color(0, 0, 0, 0.533333)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
-bg_color = Color(0, 0, 0, 0.133333)
+bg_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_csjnx"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v882r"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u84gj"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
 
 [sub_resource type="Animation" id="Animation_3xeuw"]
 resource_name = "show_msg_amazing"
@@ -79,6 +100,7 @@ texture = ExtResource("3_f5frv")
 expand_mode = 2
 
 [node name="DBGBkgdDimmer" type="Panel" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -193,8 +215,9 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer1/Control"]
+material = SubResource("ShaderMaterial_2xg0a")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_e1iv4")
+texture = ExtResource("6_pwwac")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer1"]
@@ -215,8 +238,9 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
+material = SubResource("ShaderMaterial_csjnx")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("9_5qxji")
+texture = ExtResource("8_daeji")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
@@ -237,8 +261,9 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer3/Control"]
+material = SubResource("ShaderMaterial_v882r")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("10_xo434")
+texture = ExtResource("9_r572y")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer3"]
@@ -260,8 +285,9 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer4/Control"]
+material = SubResource("ShaderMaterial_u84gj")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_ok78w")
+texture = ExtResource("10_mn2ql")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer4"]
@@ -284,7 +310,7 @@ layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer5/Control"]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("12_4tjwg")
+texture = ExtResource("11_slkmj")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer5"]
@@ -307,7 +333,7 @@ layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer6/Control"]
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("13_lu1md")
+texture = ExtResource("12_m7fnu")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer6"]
