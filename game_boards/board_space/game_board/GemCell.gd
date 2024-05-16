@@ -61,11 +61,11 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 	sprite.visible = true  # Make sure the sprite is visible if it was hidden after explosion
 
 	# Call the drop animation deferred to ensure it starts after other logic
-	call_deferred("drop_in_gem", drop_height)
+	call_deferred("drop_in_gem")
 
-func drop_in_gem(drop_height: float):
-	# Tween the "fall" animation from the starting point to the final position
+func drop_in_gem():
 	var tween = get_tree().create_tween()
+	# DESIGN: final position should *always* be its default [relative] position
 	tween.tween_property(sprite, "position", Enums.SRPITE_POS, Enums.TWEEN_TIME)
 
 func update_texture():

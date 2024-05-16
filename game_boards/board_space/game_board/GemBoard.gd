@@ -1,5 +1,3 @@
-# WORKLIST:
-# 1. all gems need to explode at once (get_first_match_gems) needs to become return_all_matches!
 extends Node2D
 class_name GemBoardSpace
 # SIGNALS
@@ -11,6 +9,7 @@ signal board_match_multi(match_cnt:int)
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
 #VARS
+var common = preload("res://game_boards/common.gd").new()
 const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
 const GEM_POINTS:int = 25
 var selected_cell_1:GemCellSpace = null
@@ -502,14 +501,7 @@ func new_game():
 	board_props_moves = 0
 	board_props_score = 0
 	# B:
-	for vbox in hbox_container.get_children():
-		for gem_cell in vbox.get_children():
-			gem_cell.explode_gem(gem_cell.gem_color, 0)
-	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
-	# B:
-	for vbox in hbox_container.get_children():
-		for gem_cell in vbox.get_children():
-			gem_cell.replace_gem(GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()], 1)
+	common.new_game_explode_replace(hbox_container, GEM_COLOR_NAMES, Enums.EXPLODE_DELAY)
 	# C:
 	process_game_round()
 
