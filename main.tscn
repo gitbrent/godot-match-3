@@ -5,8 +5,8 @@
 [ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="2_j1i6k"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="3_nqt0h"]
 [ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="4_e0b1k"]
-[ext_resource type="PackedScene" uid="uid://b5bfm2244ywxk" path="res://game_boards/board_food/game/game_food.tscn" id="6_hsxpn"]
-[ext_resource type="PackedScene" uid="uid://bkaimvifjwkai" path="res://game_boards/board_space/game/game_space.tscn" id="7_w5d02"]
+[ext_resource type="PackedScene" uid="uid://b5bfm2244ywxk" path="res://game_boards/board_food/game_food.tscn" id="6_hsxpn"]
+[ext_resource type="PackedScene" uid="uid://bkaimvifjwkai" path="res://game_boards/board_space/game_space.tscn" id="7_w5d02"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhytr"]
 bg_color = Color(0, 0, 0, 0.133333)

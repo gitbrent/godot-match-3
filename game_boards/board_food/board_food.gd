@@ -26,7 +26,9 @@ func _ready():
 	# godot setup
 	randomize()
 	# A: populate board
-	CmnFunc.fill_grid(hbox_container, grid_container, "res://game_boards/board_food/board/board_square_0.tscn", "res://game_boards/board_food/board/board_square_1.tscn")
+	const brd_sq0 = "res://game_boards/board_food/assets/board_square_0.tscn"
+	const brd_sq1 = "res://game_boards/board_food/assets/board_square_1.tscn"
+	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
 	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.FOOD, self._on_cell_click)
 	# B: check board after init
 	process_game_round()
