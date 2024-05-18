@@ -22,7 +22,7 @@ func fill_grid(hbox:HBoxContainer, grid:GridContainer):
 			# Add the instantiated square to the grid container
 			grid.add_child(brdsq)
 
-func fill_hbox(hbox:HBoxContainer):
+func fill_hbox(hbox:HBoxContainer, on_cell_click):
 	for col_idx in range(hbox.get_child_count()):
 		for row_idx in range(8):
 			# A: random gem
@@ -33,7 +33,7 @@ func fill_hbox(hbox:HBoxContainer):
 			hbox.get_child(col_idx).add_child(gem_cell)
 			gem_cell.initialize(gem_type)
 			var control_node = gem_cell.get_node("GemControl")
-			control_node.connect("cell_click", self._on_cell_click)
+			control_node.connect("cell_click", on_cell_click)
 			#control_node.connect("drag_start", self._on_cell_click) # TODO:
 			#control_node.connect("drag_ended", self._on_cell_click) # TODO:
 
@@ -80,7 +80,7 @@ func get_all_matches(hbox:HBoxContainer) -> Array:
 		var streak = 0
 		var match_start = 0
 		for row in range(num_rows):
-			var gem_cell = hbox.get_child(column).get_child(row) as GemCell1
+			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:

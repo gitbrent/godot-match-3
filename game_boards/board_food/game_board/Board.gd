@@ -27,7 +27,7 @@ func _ready():
 	randomize()
 	# A: populate board
 	CmnFunc.fill_grid(hbox_container, grid_container)
-	CmnFunc.fill_hbox(hbox_container)
+	CmnFunc.fill_hbox(hbox_container, self._on_cell_click)
 	# B: check board after init
 	process_game_round()
 
