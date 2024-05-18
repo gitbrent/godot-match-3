@@ -18,20 +18,20 @@ var gem_color:Enums.GemColor
 var gem_dict:Enums.GemDict
 # Declare and preload textures
 const gem_textures_gems: Dictionary = {
-	Enums.GemColor.WHITE: preload("res://assets/gems/space/gem1.png"),
-	Enums.GemColor.RED: preload("res://assets/gems/space/gem2.png"),
-	Enums.GemColor.YELLOW: preload("res://assets/gems/space/gem3.png"),
-	Enums.GemColor.GREEN: preload("res://assets/gems/space/gem4.png"),
-	Enums.GemColor.PURPLE: preload("res://assets/gems/space/gem5.png"),
-	Enums.GemColor.BROWN: preload("res://assets/gems/space/gem6.png")
+	Enums.GemColor.WHITE: preload("res://assets/gems/gems/gem1.png"),
+	Enums.GemColor.RED: preload("res://assets/gems/gems/gem2.png"),
+	Enums.GemColor.YELLOW: preload("res://assets/gems/gems/gem3.png"),
+	Enums.GemColor.GREEN: preload("res://assets/gems/gems/gem4.png"),
+	Enums.GemColor.PURPLE: preload("res://assets/gems/gems/gem5.png"),
+	Enums.GemColor.BROWN: preload("res://assets/gems/gems/gem6.png")
 }
 const gem_textures_food: Dictionary = {
-	Enums.GemColor.WHITE: preload("res://assets/gems/characters_0001.png"),
-	Enums.GemColor.RED: preload("res://assets/gems/characters_0002.png"),
-	Enums.GemColor.YELLOW: preload("res://assets/gems/characters_0003.png"),
-	Enums.GemColor.GREEN: preload("res://assets/gems/characters_0005.png"),
-	Enums.GemColor.PURPLE: preload("res://assets/gems/characters_0007.png"),
-	Enums.GemColor.BROWN: preload("res://assets/gems/characters_0006.png")
+	Enums.GemColor.WHITE: preload("res://assets/gems/food/characters_0001.png"),
+	Enums.GemColor.RED: preload("res://assets/gems/food/characters_0002.png"),
+	Enums.GemColor.YELLOW: preload("res://assets/gems/food/characters_0003.png"),
+	Enums.GemColor.GREEN: preload("res://assets/gems/food/characters_0005.png"),
+	Enums.GemColor.PURPLE: preload("res://assets/gems/food/characters_0007.png"),
+	Enums.GemColor.BROWN: preload("res://assets/gems/food/characters_0006.png")
 }
 var gem_textures:Dictionary = {}
 

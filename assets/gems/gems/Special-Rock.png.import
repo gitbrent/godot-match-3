@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://drvn08bq7wqd3"
-path="res://.godot/imported/Gem1.png-0cacc50ce08a679d3a6db140dbe7d7d3.ctex"
+uid="uid://cd1clgb1p24h2"
+path="res://.godot/imported/Special-Rock.png-1d1fc822a9b2aa1625ae04c9eedb3bac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/space/Gem1.png"
-dest_files=["res://.godot/imported/Gem1.png-0cacc50ce08a679d3a6db140dbe7d7d3.ctex"]
+source_file="res://assets/gems/gems/Special-Rock.png"
+dest_files=["res://.godot/imported/Special-Rock.png-1d1fc822a9b2aa1625ae04c9eedb3bac.ctex"]
 
 [params]
 

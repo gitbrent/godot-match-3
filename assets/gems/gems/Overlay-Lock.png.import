@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7gt64tslpp7g"
-path="res://.godot/imported/special-rock.png-3c8de7e42afccdc6cb8bc69e4f235e4d.ctex"
+uid="uid://c4u0bdf7rh0u3"
+path="res://.godot/imported/Overlay-Lock.png-d4e3d07a3897b1d132964f62dc314465.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/space/special-rock.png"
-dest_files=["res://.godot/imported/special-rock.png-3c8de7e42afccdc6cb8bc69e4f235e4d.ctex"]
+source_file="res://assets/gems/gems/Overlay-Lock.png"
+dest_files=["res://.godot/imported/Overlay-Lock.png-d4e3d07a3897b1d132964f62dc314465.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7gt64tslpp7g"
-path="res://.godot/imported/special-rock.png-3c8de7e42afccdc6cb8bc69e4f235e4d.ctex"
+uid="uid://b8biy2iputyhe"
+path="res://.godot/imported/characters_0002.png-4e2c1e7b750973429ada8f71e151dc2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/space/special-rock.png"
-dest_files=["res://.godot/imported/special-rock.png-3c8de7e42afccdc6cb8bc69e4f235e4d.ctex"]
+source_file="res://assets/gems/food/characters_0002.png"
+dest_files=["res://.godot/imported/characters_0002.png-4e2c1e7b750973429ada8f71e151dc2a.ctex"]
 
 [params]
 

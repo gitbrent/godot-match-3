@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://djje8avawcq2p"
-path="res://.godot/imported/characters_0004.png-8e87d033be62f0b81482f293e2b083e2.ctex"
+uid="uid://lvwus1km7wxq"
+path="res://.godot/imported/special-flame.png-5b47ba831cac375c6b4813fb6fa447b5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/characters_0004.png"
-dest_files=["res://.godot/imported/characters_0004.png-8e87d033be62f0b81482f293e2b083e2.ctex"]
+source_file="res://assets/gems/space/special-flame.png"
+dest_files=["res://.godot/imported/special-flame.png-5b47ba831cac375c6b4813fb6fa447b5.ctex"]
 
 [params]
 

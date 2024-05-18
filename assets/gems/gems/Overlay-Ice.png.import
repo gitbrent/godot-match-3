@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7gt64tslpp7g"
-path="res://.godot/imported/special-rock.png-3c8de7e42afccdc6cb8bc69e4f235e4d.ctex"
+uid="uid://cooat8cgq2rb4"
+path="res://.godot/imported/Overlay-Ice.png-14b92730fb3e98cbe4f073ec276567ec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/space/special-rock.png"
-dest_files=["res://.godot/imported/special-rock.png-3c8de7e42afccdc6cb8bc69e4f235e4d.ctex"]
+source_file="res://assets/gems/gems/Overlay-Ice.png"
+dest_files=["res://.godot/imported/Overlay-Ice.png-14b92730fb3e98cbe4f073ec276567ec.ctex"]
 
 [params]
 

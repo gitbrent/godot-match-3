@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://duau66qew6757"
-path="res://.godot/imported/characters_0001.png-bcab894a362bd3d1cc53141221f63df3.ctex"
+uid="uid://2vrsevjv4w43"
+path="res://.godot/imported/characters_0007.png-a11229eeaa1796dd9930d685d857046c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/characters_0001.png"
-dest_files=["res://.godot/imported/characters_0001.png-bcab894a362bd3d1cc53141221f63df3.ctex"]
+source_file="res://assets/gems/food/characters_0007.png"
+dest_files=["res://.godot/imported/characters_0007.png-a11229eeaa1796dd9930d685d857046c.ctex"]
 
 [params]
 
