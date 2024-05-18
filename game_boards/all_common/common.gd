@@ -22,7 +22,7 @@ func fill_grid(hbox:HBoxContainer, grid:GridContainer):
 			# Add the instantiated square to the grid container
 			grid.add_child(brdsq)
 
-func fill_hbox(hbox:HBoxContainer, on_cell_click):
+func fill_hbox(hbox:HBoxContainer, gem_dict:Enums.GemDict, on_cell_click):
 	for col_idx in range(hbox.get_child_count()):
 		for row_idx in range(8):
 			# A: random gem
@@ -31,7 +31,7 @@ func fill_hbox(hbox:HBoxContainer, on_cell_click):
 			var gem_cell_scene = load("res://game_boards/all_common/cmn_gem_cell.tscn")
 			var gem_cell:CommonGemCell = gem_cell_scene.instantiate()
 			hbox.get_child(col_idx).add_child(gem_cell)
-			gem_cell.initialize(gem_type)
+			gem_cell.initialize(gem_type, gem_dict)
 			var control_node = gem_cell.get_node("GemControl")
 			control_node.connect("cell_click", on_cell_click)
 			#control_node.connect("drag_start", self._on_cell_click) # TODO:

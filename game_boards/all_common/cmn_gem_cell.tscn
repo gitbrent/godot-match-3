@@ -1,7 +1,6 @@
-[gd_scene load_steps=92 format=3 uid="uid://8rbpehubrrps"]
+[gd_scene load_steps=90 format=3 uid="uid://8rbpehubrrps"]
 
 [ext_resource type="Script" path="res://game_boards/all_common/cmn_gem_cell.gd" id="1_taq7m"]
-[ext_resource type="Shader" path="res://game_boards/all_common/gem_cell.gdshader" id="2_5jui1"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/characters_0001.png" id="2_nap56"]
 [ext_resource type="Texture2D" uid="uid://c4u0bdf7rh0u3" path="res://assets/gems/space/Overlay-Lock.png" id="3_ry8vu"]
 [ext_resource type="Texture2D" uid="uid://cooat8cgq2rb4" path="res://assets/gems/space/Overlay-Ice.png" id="4_r411p"]
@@ -17,11 +16,6 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lpbyf"]
 bg_color = Color(0, 0, 0, 0.533333)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_geoqq"]
-shader = ExtResource("2_5jui1")
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
 
 [sub_resource type="Animation" id="Animation_3mn62"]
 resource_name = "explode"
@@ -644,7 +638,6 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lpbyf")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_geoqq")
 position = Vector2(64, 64)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_nap56")

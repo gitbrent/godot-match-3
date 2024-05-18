@@ -34,6 +34,10 @@ func on_board_match_multi(match_cnt:int):
 func _on_newgame_button_pressed():
 	game_board.new_game()
 
+func _on_btn_quit_game():
+	# TODO: 20240515: convert to `signal()` for Main.tscn to hide all boards, etc.
+	visible = false
+
 func _on_btn_clear_debug_labels_pressed():
 	game_board.debug_clear_debug_labels()
 

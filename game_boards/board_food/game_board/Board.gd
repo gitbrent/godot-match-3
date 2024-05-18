@@ -27,7 +27,7 @@ func _ready():
 	randomize()
 	# A: populate board
 	CmnFunc.fill_grid(hbox_container, grid_container)
-	CmnFunc.fill_hbox(hbox_container, self._on_cell_click)
+	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.FOOD, self._on_cell_click)
 	# B: check board after init
 	process_game_round()
 
@@ -103,8 +103,8 @@ func swap_gem_cells(swap_cell_1:CommonGemCell, swap_cell_2:CommonGemCell):
 	# C: logially swap
 	var gem_cell_1 = swap_cell_1.gem_color
 	var gem_cell_2 = swap_cell_2.gem_color
-	swap_cell_1.initialize(gem_cell_2)
-	swap_cell_2.initialize(gem_cell_1)
+	swap_cell_1.initialize(gem_cell_2, Enums.GemDict.FOOD)
+	swap_cell_2.initialize(gem_cell_1, Enums.GemDict.FOOD)
 	#debug_print_ascii_table([swap_cell_1,swap_cell_2])
 	
 	# D: get position to restore to after move so tween sets/flows smoothly

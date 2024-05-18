@@ -15,30 +15,40 @@ class_name CommonGemCell
 const SPRITE_SCALE:Vector2 = Vector2(0.5, 0.5)
 const DROP_OFFSET:int = 128 # (the sprite is centered in the 128x128 container, and uses a 64,64 position)
 var gem_color:Enums.GemColor
+var gem_dict:Enums.GemDict
 # Declare and preload textures
-var gem_textures: Dictionary = {
+const gem_textures_gems: Dictionary = {
 	Enums.GemColor.WHITE: preload("res://assets/gems/space/gem1.png"),
 	Enums.GemColor.RED: preload("res://assets/gems/space/gem2.png"),
 	Enums.GemColor.YELLOW: preload("res://assets/gems/space/gem3.png"),
 	Enums.GemColor.GREEN: preload("res://assets/gems/space/gem4.png"),
-	Enums.GemColor.BROWN: preload("res://assets/gems/space/gem5.png"),
-	Enums.GemColor.PURPLE: preload("res://assets/gems/space/gem6.png")
+	Enums.GemColor.PURPLE: preload("res://assets/gems/space/gem5.png"),
+	Enums.GemColor.BROWN: preload("res://assets/gems/space/gem6.png")
 }
-var gem_textures_food: Dictionary = {
+const gem_textures_food: Dictionary = {
 	Enums.GemColor.WHITE: preload("res://assets/gems/characters_0001.png"),
 	Enums.GemColor.RED: preload("res://assets/gems/characters_0002.png"),
 	Enums.GemColor.YELLOW: preload("res://assets/gems/characters_0003.png"),
 	Enums.GemColor.GREEN: preload("res://assets/gems/characters_0005.png"),
-	Enums.GemColor.BROWN: preload("res://assets/gems/characters_0006.png"),
-	Enums.GemColor.PURPLE: preload("res://assets/gems/characters_0007.png")
+	Enums.GemColor.PURPLE: preload("res://assets/gems/characters_0007.png"),
+	Enums.GemColor.BROWN: preload("res://assets/gems/characters_0006.png")
 }
+var gem_textures:Dictionary = {}
 
-func initialize(colorIn: Enums.GemColor):
+func initialize(colorIn: Enums.GemColor, dictIn:Enums.GemDict):
 	# A:
 	gem_color = colorIn
+	gem_dict = dictIn
 	# B:
-	update_texture()
+	if dictIn == Enums.GemDict.FOOD:
+		gem_textures = gem_textures_food
+	elif dictIn == Enums.GemDict.GEMS:
+		gem_textures = gem_textures_gems
+	else:
+		print("ERROR: Unknown `GemDict`!")
 	# C:
+	update_texture()
+	# D:
 	#panel_hover.visible = false
 
 func explode_gem(colorIn: Enums.GemColor, pointsIn:int):
@@ -65,7 +75,7 @@ func replace_gem(colorIn: Enums.GemColor, rows_to_drop: int = 1):
 	sprite.visible = true
 	
 	# Initialize the gem with the new color and ensure it's visible
-	initialize(colorIn)
+	initialize(colorIn, gem_dict)
 	sprite.visible = true  # Make sure the sprite is visible if it was hidden after explosion
 
 	# Call the drop animation deferred to ensure it starts after other logic
@@ -81,7 +91,8 @@ func update_texture():
 		sprite.texture = gem_textures[gem_color]
 		#print("[gem_cell] loaded sprite.texture: ", gem_color)
 	else:
-		print("ERROR: Texture for gem color not found")
+		print("ERROR: Texture for gem color not found!")
+		print("gem_textures: ", gem_textures)
 
 # =========================================================
 
