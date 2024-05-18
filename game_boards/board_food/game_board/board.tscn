@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://x4qq2j3l7nvb"]
 
-[ext_resource type="Script" path="res://game_boards/board01/game_board/Board.gd" id="1_0vcii"]
-[ext_resource type="PackedScene" uid="uid://bh2knk60qbton" path="res://game_boards/board01/game_board/board_square_0.tscn" id="2_o5ud0"]
-[ext_resource type="PackedScene" uid="uid://cry3vnlah6fkx" path="res://game_boards/board01/game_board/board_square_1.tscn" id="3_a576l"]
+[ext_resource type="Script" path="res://game_boards/board_food/game_board/Board.gd" id="1_0vcii"]
+[ext_resource type="PackedScene" uid="uid://bh2knk60qbton" path="res://game_boards/board_food/game_board/board_square_0.tscn" id="2_o5ud0"]
+[ext_resource type="PackedScene" uid="uid://cry3vnlah6fkx" path="res://game_boards/board_food/game_board/board_square_1.tscn" id="3_a576l"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yj5kd"]
 bg_color = Color(0, 0, 0, 0.411765)

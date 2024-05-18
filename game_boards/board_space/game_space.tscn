@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
-[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board01/game/animated_cloud.tscn" id="5_mobdb"]
+[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/game/animated_cloud.tscn" id="5_mobdb"]
 [ext_resource type="Shader" path="res://game_boards/board_space/game_board/gem_cell.gdshader" id="6_agf1v"]
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
 [ext_resource type="Texture2D" uid="uid://drvn08bq7wqd3" path="res://assets/gems/space/Gem1.png" id="6_pwwac"]

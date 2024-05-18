@@ -1,5 +1,5 @@
 extends Node2D
-class_name GemBoardSpace
+class_name GameBoard
 # SIGNALS
 signal props_updated_moves(moves:int)
 signal props_updated_score(score:int)
@@ -105,6 +105,7 @@ func swap_gem_cells(swap_cell_1:CommonGemCell, swap_cell_2:CommonGemCell):
 	var gem_cell_2 = swap_cell_2.gem_color
 	swap_cell_1.initialize(gem_cell_2)
 	swap_cell_2.initialize(gem_cell_1)
+	#debug_print_ascii_table([swap_cell_1,swap_cell_2])
 	
 	# D: get position to restore to after move so tween sets/flows smoothly
 	var orig_pos_cell_1 = swap_cell_1.sprite.global_position
@@ -285,10 +286,3 @@ func signal_game_props_count_gems():
 	
 	# Emit signal with the updated gems dictionary
 	emit_signal("props_updated_gemsdict", gems_dict)
-
-func debug_make_gem_grid():
-	CmnDbg.debug_make_gem_grid(hbox_container)
-	signal_game_props_count_gems()
-
-func debug_clear_debug_labels():
-	CmnDbg.debug_clear_debug_labels(hbox_container)
