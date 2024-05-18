@@ -6,14 +6,14 @@ const GEM_POINTS:int = 25
 
 # =========================================================
 
-func fill_grid(hbox:HBoxContainer, grid:GridContainer):
+func fill_grid(hbox:HBoxContainer, grid:GridContainer, square0:String, square1:String):
 	var size = hbox.get_child_count()
 	for i in range(size):
 		for j in range(size):
 			# Load the appropriate scene based on the checkerboard pattern
-			var brdsq_scene_path = "res://game_boards/board_space/game_board/board_square_1.tscn"  # Assume light square
+			var brdsq_scene_path = square0  # Light square
 			if (i + j) % 2 == 0:
-				brdsq_scene_path = "res://game_boards/board_space/game_board/board_square_0.tscn"  # Dark square
+				brdsq_scene_path = square1  # Dark square
 			
 			# Load and instantiate the scene
 			var brdsq_scene = load(brdsq_scene_path)

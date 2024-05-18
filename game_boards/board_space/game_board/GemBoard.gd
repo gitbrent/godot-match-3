@@ -26,7 +26,7 @@ func _ready():
 	# godot setup
 	randomize()
 	# A: populate board
-	CmnFunc.fill_grid(hbox_container, grid_container)
+	CmnFunc.fill_grid(hbox_container, grid_container, "res://game_boards/board_space/game_board/board_square_0.tscn", "res://game_boards/board_space/game_board/board_square_1.tscn")
 	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.GEMS, self._on_cell_click)
 	# B: check board after init
 	process_game_round()
@@ -36,6 +36,8 @@ func new_game():
 	# A:
 	board_props_moves = 0
 	board_props_score = 0
+	emit_signal("props_updated_score", board_props_score)
+	emit_signal("props_updated_moves", board_props_moves)
 	# B:
 	CmnFunc.new_game_explode_replace(hbox_container, GEM_COLOR_NAMES, Enums.EXPLODE_DELAY)
 	# C:
