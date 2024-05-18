@@ -2,18 +2,18 @@
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
+[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/assets/animated_cloud.tscn" id="4_731ya"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
-[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/game/animated_cloud.tscn" id="5_mobdb"]
-[ext_resource type="Shader" path="res://game_boards/board_space/game_board/gem_cell.gdshader" id="6_agf1v"]
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
 [ext_resource type="Texture2D" uid="uid://drvn08bq7wqd3" path="res://assets/gems/gems/Gem1.png" id="6_pwwac"]
+[ext_resource type="Shader" path="res://game_boards/board_space/assets/gem_cell.gdshader" id="6_tywfq"]
 [ext_resource type="Texture2D" uid="uid://8st0pjjj06t6" path="res://assets/gems/gems/Gem2.png" id="8_daeji"]
 [ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
 [ext_resource type="Texture2D" uid="uid://f03xp7kt4yhx" path="res://assets/gems/gems/Gem3.png" id="9_r572y"]
 [ext_resource type="Texture2D" uid="uid://demwo7h8k1qio" path="res://assets/gems/gems/Gem4.png" id="10_mn2ql"]
 [ext_resource type="Texture2D" uid="uid://dhrwau2byrgig" path="res://assets/gems/gems/Gem5.png" id="11_slkmj"]
 [ext_resource type="Texture2D" uid="uid://cwnrtr34axkyv" path="res://assets/gems/gems/Gem6.png" id="12_m7fnu"]
-[ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/game_board/gem_board.tscn" id="13_3pfoy"]
+[ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/board_space.tscn" id="14_xjwh6"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
 [ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
 [ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="17_oxovp"]
@@ -28,32 +28,32 @@ bg_color = Color(0, 0, 0, 0.933333)
 bg_color = Color(0, 0, 0, 0.6)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
-shader = ExtResource("6_agf1v")
+shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_csjnx"]
-shader = ExtResource("6_agf1v")
+shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v882r"]
-shader = ExtResource("6_agf1v")
+shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u84gj"]
-shader = ExtResource("6_agf1v")
+shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oi0wf"]
-shader = ExtResource("6_agf1v")
+shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_skchu"]
-shader = ExtResource("6_agf1v")
+shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
 shader_parameter/line_thickness = 7.0
 
@@ -130,12 +130,12 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="AnimatedCloud1" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
+[node name="AnimatedCloud1" parent="ContTopClouds" instance=ExtResource("4_731ya")]
 
-[node name="AnimatedCloud2" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
+[node name="AnimatedCloud2" parent="ContTopClouds" instance=ExtResource("4_731ya")]
 position = Vector2(1000, 75)
 
-[node name="AnimatedCloud3" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
+[node name="AnimatedCloud3" parent="ContTopClouds" instance=ExtResource("4_731ya")]
 position = Vector2(-1000, 100)
 
 [node name="ContTopBar" type="Control" parent="."]
@@ -375,7 +375,7 @@ offset_bottom = 1274.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
-[node name="GemBoard" parent="ContBoard" instance=ExtResource("13_3pfoy")]
+[node name="GemBoard" parent="ContBoard" instance=ExtResource("14_xjwh6")]
 position = Vector2(500, 250)
 
 [node name="BtnNewGame" type="TextureButton" parent="."]

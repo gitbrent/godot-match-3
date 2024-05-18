@@ -1,5 +1,5 @@
 extends Node2D
-class_name GameBoard
+class_name GemBoardSpace
 # SIGNALS
 signal props_updated_moves(moves:int)
 signal props_updated_score(score:int)
@@ -26,8 +26,10 @@ func _ready():
 	# godot setup
 	randomize()
 	# A: populate board
-	CmnFunc.fill_grid(hbox_container, grid_container, "res://game_boards/board_food/game_board/board_square_0.tscn", "res://game_boards/board_food/game_board/board_square_1.tscn")
-	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.FOOD, self._on_cell_click)
+	const brd_sq0 = "res://game_boards/board_space/assets/board_square_0.tscn"
+	const brd_sq1 = "res://game_boards/board_space/assets/board_square_1.tscn"
+	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
+	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.GEMS, self._on_cell_click)
 	# B: check board after init
 	process_game_round()
 
@@ -105,9 +107,8 @@ func swap_gem_cells(swap_cell_1:CommonGemCell, swap_cell_2:CommonGemCell):
 	# C: logially swap
 	var gem_cell_1 = swap_cell_1.gem_color
 	var gem_cell_2 = swap_cell_2.gem_color
-	swap_cell_1.initialize(gem_cell_2, Enums.GemDict.FOOD)
-	swap_cell_2.initialize(gem_cell_1, Enums.GemDict.FOOD)
-	#debug_print_ascii_table([swap_cell_1,swap_cell_2])
+	swap_cell_1.initialize(gem_cell_2, Enums.GemDict.GEMS)
+	swap_cell_2.initialize(gem_cell_1, Enums.GemDict.GEMS)
 	
 	# D: get position to restore to after move so tween sets/flows smoothly
 	var orig_pos_cell_1 = swap_cell_1.sprite.global_position
@@ -288,3 +289,12 @@ func signal_game_props_count_gems():
 	
 	# Emit signal with the updated gems dictionary
 	emit_signal("props_updated_gemsdict", gems_dict)
+
+# === Following are for buttons that arent on Food-Board
+
+func debug_make_gem_grid():
+	CmnDbg.debug_make_gem_grid(hbox_container, Enums.GemDict.GEMS)
+	signal_game_props_count_gems()
+
+func debug_clear_debug_labels():
+	CmnDbg.debug_clear_debug_labels(hbox_container)
