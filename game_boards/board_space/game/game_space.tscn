@@ -1,31 +1,61 @@
-[gd_scene load_steps=25 format=3 uid="uid://b5bfm2244ywxk"]
+[gd_scene load_steps=31 format=3 uid="uid://bkaimvifjwkai"]
 
-[ext_resource type="Script" path="res://game_boards/board_food/game/game.gd" id="1_ewnxx"]
-[ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
-[ext_resource type="PackedScene" uid="uid://x4qq2j3l7nvb" path="res://game_boards/board_food/game_board/board.tscn" id="2_2ltbx"]
-[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/game/animated_cloud.tscn" id="3_a1y13"]
-[ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_latsb"]
-[ext_resource type="Texture2D" uid="uid://b8biy2iputyhe" path="res://assets/gems/food/characters_0002.png" id="3_qywvx"]
-[ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/food/characters_0001.png" id="3_sh4xh"]
-[ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="4_1evut"]
-[ext_resource type="Texture2D" uid="uid://vu6oui2n7024" path="res://assets/gems/food/characters_0003.png" id="4_2reex"]
-[ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="4_xf0vf"]
-[ext_resource type="Texture2D" uid="uid://byliae6aa6ki2" path="res://assets/gems/food/characters_0005.png" id="5_g428h"]
-[ext_resource type="Texture2D" uid="uid://2vrsevjv4w43" path="res://assets/gems/food/characters_0007.png" id="6_ot4tf"]
-[ext_resource type="Texture2D" uid="uid://b1o34xq1pq82y" path="res://assets/gems/food/characters_0006.png" id="7_o4d3d"]
-[ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="8_7jpwb"]
-[ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="10_qtl06"]
-[ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="11_bw3je"]
-[ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="12_4fgvl"]
-[ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="16_d1duj"]
-[ext_resource type="Theme" uid="uid://c68uhjmxln8ao" path="res://themes/game_msg_top.tres" id="17_j7spk"]
-[ext_resource type="Theme" uid="uid://duftrpb020ewi" path="res://themes/game_msg_btm.tres" id="18_p5dta"]
+[ext_resource type="Script" path="res://game_boards/board_space/game/game_space.gd" id="1_w6e46"]
+[ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
+[ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
+[ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/game/animated_cloud.tscn" id="5_mobdb"]
+[ext_resource type="Shader" path="res://game_boards/board_space/board/gem_cell.gdshader" id="6_agf1v"]
+[ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
+[ext_resource type="Texture2D" uid="uid://drvn08bq7wqd3" path="res://assets/gems/gems/Gem1.png" id="6_pwwac"]
+[ext_resource type="Texture2D" uid="uid://8st0pjjj06t6" path="res://assets/gems/gems/Gem2.png" id="8_daeji"]
+[ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
+[ext_resource type="Texture2D" uid="uid://f03xp7kt4yhx" path="res://assets/gems/gems/Gem3.png" id="9_r572y"]
+[ext_resource type="Texture2D" uid="uid://demwo7h8k1qio" path="res://assets/gems/gems/Gem4.png" id="10_mn2ql"]
+[ext_resource type="Texture2D" uid="uid://dhrwau2byrgig" path="res://assets/gems/gems/Gem5.png" id="11_slkmj"]
+[ext_resource type="Texture2D" uid="uid://cwnrtr34axkyv" path="res://assets/gems/gems/Gem6.png" id="12_m7fnu"]
+[ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/board/gem_board.tscn" id="13_3pfoy"]
+[ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
+[ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
+[ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="17_oxovp"]
+[ext_resource type="Theme" uid="uid://duftrpb020ewi" path="res://themes/game_msg_btm.tres" id="18_jrjnv"]
+[ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="18_y8cds"]
+[ext_resource type="Theme" uid="uid://c68uhjmxln8ao" path="res://themes/game_msg_top.tres" id="19_iidij"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_103kv"]
-bg_color = Color(0, 0, 0, 0.666667)
+bg_color = Color(0, 0, 0, 0.933333)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
-bg_color = Color(0, 0, 0, 0.133333)
+bg_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_csjnx"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v882r"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u84gj"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oi0wf"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skchu"]
+shader = ExtResource("6_agf1v")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 7.0
 
 [sub_resource type="Animation" id="Animation_3xeuw"]
 resource_name = "show_msg_amazing"
@@ -71,20 +101,13 @@ _data = {
 "show_msg_amazing": SubResource("Animation_3xeuw")
 }
 
-[node name="Game" type="Node2D"]
-script = ExtResource("1_ewnxx")
+[node name="GameSpace" type="Node2D"]
+script = ExtResource("1_w6e46")
 
 [node name="Background" type="TextureRect" parent="."]
 offset_right = 2000.0
 offset_bottom = 1390.0
-texture = ExtResource("1_h8otn")
-expand_mode = 2
-
-[node name="Background2" type="TextureRect" parent="."]
-visible = false
-offset_right = 2000.0
-offset_bottom = 1390.0
-texture = ExtResource("3_latsb")
+texture = ExtResource("3_f5frv")
 expand_mode = 2
 
 [node name="DBGBkgdDimmer" type="Panel" parent="."]
@@ -99,7 +122,7 @@ grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="AudioGemMove" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_7jpwb")
+stream = ExtResource("4_cbs6r")
 
 [node name="ContTopClouds" type="Control" parent="."]
 layout_mode = 3
@@ -107,12 +130,12 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="AnimatedCloud1" parent="ContTopClouds" instance=ExtResource("3_a1y13")]
+[node name="AnimatedCloud1" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
 
-[node name="AnimatedCloud2" parent="ContTopClouds" instance=ExtResource("3_a1y13")]
+[node name="AnimatedCloud2" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
 position = Vector2(1000, 75)
 
-[node name="AnimatedCloud3" parent="ContTopClouds" instance=ExtResource("3_a1y13")]
+[node name="AnimatedCloud3" parent="ContTopClouds" instance=ExtResource("5_mobdb")]
 position = Vector2(-1000, 100)
 
 [node name="ContTopBar" type="Control" parent="."]
@@ -143,14 +166,14 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_1evut")
+theme = ExtResource("6_i6ds6")
 text = "Score "
 horizontal_alignment = 2
 
 [node name="Value" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_1evut")
+theme = ExtResource("6_i6ds6")
 text = "0"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="ContTopBar/GameTopHBox"]
@@ -160,14 +183,14 @@ size_flags_horizontal = 3
 [node name="Label" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_1evut")
+theme = ExtResource("6_i6ds6")
 text = "Moves "
 horizontal_alignment = 2
 
 [node name="Value" type="Label" parent="ContTopBar/GameTopHBox/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_1evut")
+theme = ExtResource("6_i6ds6")
 text = "0"
 
 [node name="ContGameStats" type="Control" parent="."]
@@ -203,14 +226,15 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer1/Control"]
+material = SubResource("ShaderMaterial_2xg0a")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_sh4xh")
+texture = ExtResource("6_pwwac")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer1"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_xf0vf")
+theme = ExtResource("8_nteo6")
 theme_override_font_sizes/font_size = 96
 text = "0"
 horizontal_alignment = 2
@@ -225,14 +249,15 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
+material = SubResource("ShaderMaterial_csjnx")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_qywvx")
+texture = ExtResource("8_daeji")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_xf0vf")
+theme = ExtResource("8_nteo6")
 theme_override_font_sizes/font_size = 96
 text = "0"
 horizontal_alignment = 2
@@ -247,14 +272,15 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer3/Control"]
+material = SubResource("ShaderMaterial_v882r")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("4_2reex")
+texture = ExtResource("9_r572y")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_xf0vf")
+theme = ExtResource("8_nteo6")
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 96
 text = "0"
@@ -270,14 +296,15 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer4/Control"]
+material = SubResource("ShaderMaterial_u84gj")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("5_g428h")
+texture = ExtResource("10_mn2ql")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer4"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_xf0vf")
+theme = ExtResource("8_nteo6")
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 96
 text = "0"
@@ -293,14 +320,15 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer5/Control"]
+material = SubResource("ShaderMaterial_oi0wf")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("6_ot4tf")
+texture = ExtResource("11_slkmj")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer5"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_xf0vf")
+theme = ExtResource("8_nteo6")
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 96
 text = "0"
@@ -316,14 +344,15 @@ custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer6/Control"]
+material = SubResource("ShaderMaterial_skchu")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_o4d3d")
+texture = ExtResource("12_m7fnu")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer6"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource("4_xf0vf")
+theme = ExtResource("8_nteo6")
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
 theme_override_font_sizes/font_size = 96
 text = "0"
@@ -338,7 +367,6 @@ offset_bottom = 40.0
 mouse_filter = 1
 
 [node name="DBGBoardRectArea" type="Panel" parent="ContBoard"]
-visible = false
 layout_mode = 0
 offset_left = 500.0
 offset_top = 250.0
@@ -347,7 +375,7 @@ offset_bottom = 1274.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
-[node name="Board" parent="ContBoard" instance=ExtResource("2_2ltbx")]
+[node name="GemBoard" parent="ContBoard" instance=ExtResource("13_3pfoy")]
 position = Vector2(500, 250)
 
 [node name="BtnNewGame" type="TextureButton" parent="."]
@@ -356,7 +384,7 @@ offset_top = 250.0
 offset_right = 2759.0
 offset_bottom = 608.0
 scale = Vector2(0.3, 0.3)
-texture_normal = ExtResource("10_qtl06")
+texture_normal = ExtResource("15_qjgsg")
 
 [node name="Label" type="Label" parent="BtnNewGame"]
 layout_mode = 1
@@ -370,13 +398,53 @@ text = "NEW GAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="BtnDebug" type="TextureButton" parent="."]
+offset_left = 1657.0
+offset_top = 393.0
+offset_right = 2816.0
+offset_bottom = 751.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("16_20lur")
+
+[node name="Label" type="Label" parent="BtnDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "CLEAR/RESET"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnCheckerboard" type="TextureButton" parent="."]
+offset_left = 1656.0
+offset_top = 519.0
+offset_right = 2815.0
+offset_bottom = 877.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("17_oxovp")
+
+[node name="Label" type="Label" parent="BtnCheckerboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "CHECKERED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="BtnQuitGame" type="TextureButton" parent="."]
 offset_left = 1659.0
 offset_top = 696.0
 offset_right = 2818.0
 offset_bottom = 1054.0
 scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("16_d1duj")
+texture_normal = ExtResource("18_y8cds")
 
 [node name="Label" type="Label" parent="BtnQuitGame"]
 layout_mode = 1
@@ -387,47 +455,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 120
 text = "Quit"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BtnClearDebugLabels" type="TextureButton" parent="."]
-visible = false
-offset_left = 1657.0
-offset_top = 393.0
-offset_right = 2816.0
-offset_bottom = 751.0
-scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("11_bw3je")
-
-[node name="Label" type="Label" parent="BtnClearDebugLabels"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 120
-text = "Clear Labels"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BtnMatchCol" type="TextureButton" parent="."]
-offset_left = 1656.0
-offset_top = 519.0
-offset_right = 2815.0
-offset_bottom = 877.0
-scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("12_4fgvl")
-
-[node name="Label" type="Label" parent="BtnMatchCol"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 120
-text = "CHECKERED"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -476,7 +503,7 @@ offset_top = -115.0
 offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("18_p5dta")
+theme = ExtResource("18_jrjnv")
 theme_override_font_sizes/normal_font_size = 204
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
@@ -497,7 +524,7 @@ offset_top = -115.0
 offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("17_j7spk")
+theme = ExtResource("19_iidij")
 theme_override_font_sizes/normal_font_size = 204
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
@@ -506,7 +533,7 @@ scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
 
-[connection signal="pressed" from="BtnNewGame" to="." method="_on_newgame_button_pressed"]
+[connection signal="pressed" from="BtnNewGame" to="." method="_on_btn_newgame_pressed"]
+[connection signal="pressed" from="BtnDebug" to="." method="_on_btn_debug_pressed"]
+[connection signal="pressed" from="BtnCheckerboard" to="." method="_on_btn_checkerboard"]
 [connection signal="pressed" from="BtnQuitGame" to="." method="_on_btn_quit_game"]
-[connection signal="pressed" from="BtnClearDebugLabels" to="." method="_on_btn_clear_debug_labels_pressed"]
-[connection signal="pressed" from="BtnMatchCol" to="." method="_on_btn_make_vert_pressed"]
