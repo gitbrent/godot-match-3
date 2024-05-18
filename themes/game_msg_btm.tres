@@ -1,0 +1,13 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://duftrpb020ewi"]
+
+[ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="1_65jam"]
+
+[resource]
+RichTextLabel/colors/default_color = Color(0.807843, 0.647059, 0, 1)
+RichTextLabel/colors/font_outline_color = Color(0.364706, 0.270588, 0.00784314, 1)
+RichTextLabel/colors/font_shadow_color = Color(0, 0, 0, 0.411765)
+RichTextLabel/constants/outline_size = 75
+RichTextLabel/constants/shadow_offset_x = 3
+RichTextLabel/constants/shadow_offset_y = 3
+RichTextLabel/font_sizes/normal_font_size = 204
+RichTextLabel/fonts/normal_font = ExtResource("1_65jam")
