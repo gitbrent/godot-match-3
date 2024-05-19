@@ -1,7 +1,7 @@
 extends Node
 
-const APP_VER:String = "0.4.0"
-const APP_BLD:String = "20240517"
+const APP_VER:String = "0.5.0"
+const APP_BLD:String = "20240519"
 const TWEEN_TIME:float = 0.25
 const EXPLODE_DELAY:float = TWEEN_TIME*2.0
 const SRPITE_POS:Vector2 = Vector2(64,64)
