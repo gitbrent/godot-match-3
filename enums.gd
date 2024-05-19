@@ -10,12 +10,12 @@ var current_debug_level = DEBUG_LEVEL.INFO  # Global variable to set the current
 # =========================================================
 
 enum GemColor {
-	WHITE,
 	RED,
-	YELLOW,
-	GREEN,
-	PURPLE,
-	BROWN
+	ORG,
+	YLW,
+	GRN,
+	BLU,
+	PRP
 }
 
 func get_color_name_by_value(value: int) -> String:
@@ -28,7 +28,8 @@ func get_color_name_by_value(value: int) -> String:
 
 enum GemDict {
 	FOOD,
-	GEMS
+	GEMS,
+	SPACE
 }
 
 # =========================================================

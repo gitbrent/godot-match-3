@@ -11,8 +11,9 @@ signal board_match_multi(match_cnt:int)
 #VARS
 var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 var CmnDbg = preload("res://game_boards/all_common/common_debug.gd").new()
-const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
+const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
 const GEM_POINTS:int = 25
+const GEM_DICT:Enums.GemDict = Enums.GemDict.SPACE
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
 var undo_cell_1:CommonGemCell = null
@@ -29,7 +30,7 @@ func _ready():
 	const brd_sq0 = "res://game_boards/board_space/assets/board_square_0.tscn"
 	const brd_sq1 = "res://game_boards/board_space/assets/board_square_1.tscn"
 	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
-	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.GEMS, self._on_cell_click)
+	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
 	# B: check board after init
 	process_game_round()
 
@@ -107,8 +108,8 @@ func swap_gem_cells(swap_cell_1:CommonGemCell, swap_cell_2:CommonGemCell):
 	# C: logially swap
 	var gem_cell_1 = swap_cell_1.gem_color
 	var gem_cell_2 = swap_cell_2.gem_color
-	swap_cell_1.initialize(gem_cell_2, Enums.GemDict.GEMS)
-	swap_cell_2.initialize(gem_cell_1, Enums.GemDict.GEMS)
+	swap_cell_1.initialize(gem_cell_2, GEM_DICT)
+	swap_cell_2.initialize(gem_cell_1, GEM_DICT)
 	
 	# D: get position to restore to after move so tween sets/flows smoothly
 	var orig_pos_cell_1 = swap_cell_1.sprite.global_position
@@ -293,7 +294,7 @@ func signal_game_props_count_gems():
 # === Following are for buttons that arent on Food-Board
 
 func debug_make_gem_grid():
-	CmnDbg.debug_make_gem_grid(hbox_container, Enums.GemDict.GEMS)
+	CmnDbg.debug_make_gem_grid(hbox_container, GEM_DICT)
 	signal_game_props_count_gems()
 
 func debug_clear_debug_labels():

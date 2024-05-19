@@ -17,21 +17,29 @@ const DROP_OFFSET:int = 128 # (the sprite is centered in the 128x128 container, 
 var gem_color:Enums.GemColor
 var gem_dict:Enums.GemDict
 # Declare and preload textures
-const gem_textures_gems: Dictionary = {
-	Enums.GemColor.WHITE: preload("res://assets/gems/gems/gem1.png"),
-	Enums.GemColor.RED: preload("res://assets/gems/gems/gem2.png"),
-	Enums.GemColor.YELLOW: preload("res://assets/gems/gems/gem3.png"),
-	Enums.GemColor.GREEN: preload("res://assets/gems/gems/gem4.png"),
-	Enums.GemColor.PURPLE: preload("res://assets/gems/gems/gem5.png"),
-	Enums.GemColor.BROWN: preload("res://assets/gems/gems/gem6.png")
-}
 const gem_textures_food: Dictionary = {
-	Enums.GemColor.WHITE: preload("res://assets/gems/food/characters_0001.png"),
-	Enums.GemColor.RED: preload("res://assets/gems/food/characters_0002.png"),
-	Enums.GemColor.YELLOW: preload("res://assets/gems/food/characters_0003.png"),
-	Enums.GemColor.GREEN: preload("res://assets/gems/food/characters_0005.png"),
-	Enums.GemColor.PURPLE: preload("res://assets/gems/food/characters_0007.png"),
-	Enums.GemColor.BROWN: preload("res://assets/gems/food/characters_0006.png")
+	Enums.GemColor.RED: preload("res://assets/gems/food/characters_0001.png"),
+	Enums.GemColor.ORG: preload("res://assets/gems/food/characters_0002.png"),
+	Enums.GemColor.YLW: preload("res://assets/gems/food/characters_0003.png"),
+	Enums.GemColor.GRN: preload("res://assets/gems/food/characters_0005.png"),
+	Enums.GemColor.BLU: preload("res://assets/gems/food/characters_0007.png"),
+	Enums.GemColor.PRP: preload("res://assets/gems/food/characters_0006.png")
+}
+const gem_textures_gems: Dictionary = {
+	Enums.GemColor.RED: preload("res://assets/gems/gems/gem1.png"),
+	Enums.GemColor.ORG: preload("res://assets/gems/gems/gem2.png"),
+	Enums.GemColor.YLW: preload("res://assets/gems/gems/gem3.png"),
+	Enums.GemColor.GRN: preload("res://assets/gems/gems/gem4.png"),
+	Enums.GemColor.BLU: preload("res://assets/gems/gems/gem5.png"),
+	Enums.GemColor.PRP: preload("res://assets/gems/gems/gem6.png")
+}
+const gem_textures_space: Dictionary = {
+	Enums.GemColor.RED: preload("res://assets/gems/space/Space_B.png"),
+	Enums.GemColor.ORG: preload("res://assets/gems/space/Space_Y.png"),
+	Enums.GemColor.YLW: preload("res://assets/gems/space/Gem2.png"),
+	Enums.GemColor.GRN: preload("res://assets/gems/space/Space_G.png"),
+	Enums.GemColor.BLU: preload("res://assets/gems/space/Space_P.png"),
+	Enums.GemColor.PRP: preload("res://assets/gems/space/Gem3.png")
 }
 var gem_textures:Dictionary = {}
 
@@ -44,6 +52,8 @@ func initialize(colorIn: Enums.GemColor, dictIn:Enums.GemDict):
 		gem_textures = gem_textures_food
 	elif dictIn == Enums.GemDict.GEMS:
 		gem_textures = gem_textures_gems
+	elif dictIn == Enums.GemDict.SPACE:
+		gem_textures = gem_textures_space
 	else:
 		print("ERROR: Unknown `GemDict`!")
 	# C:
