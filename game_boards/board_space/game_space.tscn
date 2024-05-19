@@ -5,14 +5,14 @@
 [ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/assets/animated_cloud.tscn" id="4_731ya"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
-[ext_resource type="Texture2D" uid="uid://drvn08bq7wqd3" path="res://assets/gems/gems/Gem1.png" id="6_pwwac"]
 [ext_resource type="Shader" path="res://game_boards/board_space/assets/gem_cell.gdshader" id="6_tywfq"]
-[ext_resource type="Texture2D" uid="uid://8st0pjjj06t6" path="res://assets/gems/gems/Gem2.png" id="8_daeji"]
+[ext_resource type="Texture2D" uid="uid://dt14wt38x2ddb" path="res://assets/gems/space/Space_R.png" id="7_8sijq"]
 [ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
-[ext_resource type="Texture2D" uid="uid://f03xp7kt4yhx" path="res://assets/gems/gems/Gem3.png" id="9_r572y"]
-[ext_resource type="Texture2D" uid="uid://demwo7h8k1qio" path="res://assets/gems/gems/Gem4.png" id="10_mn2ql"]
-[ext_resource type="Texture2D" uid="uid://dhrwau2byrgig" path="res://assets/gems/gems/Gem5.png" id="11_slkmj"]
-[ext_resource type="Texture2D" uid="uid://cwnrtr34axkyv" path="res://assets/gems/gems/Gem6.png" id="12_m7fnu"]
+[ext_resource type="Texture2D" uid="uid://c3gf2kl8ex7ru" path="res://assets/gems/space/Space_O.png" id="9_vnsth"]
+[ext_resource type="Texture2D" uid="uid://cavqcc5satl8d" path="res://assets/gems/space/Space_Y.png" id="10_yghiu"]
+[ext_resource type="Texture2D" uid="uid://c37gqqvuu16v3" path="res://assets/gems/space/Space_G.png" id="11_1nee1"]
+[ext_resource type="Texture2D" uid="uid://cvlodafggu8vg" path="res://assets/gems/space/Space_B.png" id="12_rwo65"]
+[ext_resource type="Texture2D" uid="uid://cnx5i4dv14xma" path="res://assets/gems/space/Space_P.png" id="13_wc6j4"]
 [ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/board_space.tscn" id="14_xjwh6"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
 [ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
@@ -228,7 +228,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer1/Control"]
 material = SubResource("ShaderMaterial_2xg0a")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("6_pwwac")
+texture = ExtResource("7_8sijq")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer1"]
@@ -251,7 +251,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
 material = SubResource("ShaderMaterial_csjnx")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("8_daeji")
+texture = ExtResource("9_vnsth")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
@@ -274,7 +274,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer3/Control"]
 material = SubResource("ShaderMaterial_v882r")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("9_r572y")
+texture = ExtResource("10_yghiu")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer3"]
@@ -298,7 +298,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer4/Control"]
 material = SubResource("ShaderMaterial_u84gj")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("10_mn2ql")
+texture = ExtResource("11_1nee1")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer4"]
@@ -322,7 +322,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer5/Control"]
 material = SubResource("ShaderMaterial_oi0wf")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_slkmj")
+texture = ExtResource("12_rwo65")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer5"]
@@ -346,7 +346,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer6/Control"]
 material = SubResource("ShaderMaterial_skchu")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("12_m7fnu")
+texture = ExtResource("13_wc6j4")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer6"]
