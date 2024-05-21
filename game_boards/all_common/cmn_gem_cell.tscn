@@ -642,12 +642,6 @@ position = Vector2(64, 64)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_nap56")
 
-[node name="Overlay-Lock" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_ry8vu")
-offset = Vector2(128, 128)
-
 [node name="Overlay-Ice" type="Sprite2D" parent="."]
 visible = false
 scale = Vector2(0.5, 0.5)
@@ -658,6 +652,12 @@ offset = Vector2(128, 128)
 visible = false
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hugfh")
+offset = Vector2(128, 128)
+
+[node name="Overlay-Lock" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_ry8vu")
 offset = Vector2(128, 128)
 
 [node name="GemControl" type="Control" parent="."]
