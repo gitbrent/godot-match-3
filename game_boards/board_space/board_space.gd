@@ -5,6 +5,7 @@ signal props_updated_moves(moves:int)
 signal props_updated_score(score:int)
 signal props_updated_gemsdict(gems_dict:Dictionary)
 signal board_match_multi(match_cnt:int)
+signal show_game_msg(msg:String)
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
@@ -30,8 +31,28 @@ func _ready():
 	const brd_sq0 = "res://game_boards/board_space/assets/board_square_0.tscn"
 	const brd_sq1 = "res://game_boards/board_space/assets/board_square_1.tscn"
 	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
-	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
+	# 20240520: WIP: moved below to "init_game"
+	#CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
 	# B: check board after init
+	#process_game_round()
+
+# NOTE: iOS [Xcode] has no cells if "CmnFunc.fill_hbox()" is in the _ready() func above
+# So, instead of having [game_space.gd] flip `visible` flag on this scene, let's do both of these here to alleviate the issue
+# Plus, even when calling both fill_grid funcs, then "process_game_round()" - it made the matching sound sin the background on main game launch, etc.
+func init_game():
+	# A: clear all GemCells
+	for vbox in hbox_container.get_children():
+		for cell in vbox.get_children():
+			vbox.remove_child(cell)
+			cell.queue_free()
+	# B:
+	emit_signal("show_game_msg", "Let's Play!")
+	# C: Animation runtime for msg is 0.5-sec
+	await CmnFunc.delay_time(self.get_child(0), 0.5)
+	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
+	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
+	# E: check board after init
+	await CmnFunc.delay_time(self, 0.25)
 	process_game_round()
 
 func new_game():

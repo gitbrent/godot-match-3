@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=32 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
@@ -96,9 +96,51 @@ tracks/2/keys = {
 "values": [204, 240, 204]
 }
 
+[sub_resource type="Animation" id="Animation_qap41"]
+resource_name = "show_msg_game"
+length = 0.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ContMessages/CenterContainer:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, null]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ContMessages/CenterContainer/LabelMsgBtm:theme_override_font_sizes/normal_font_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ContMessages/CenterContainer/LabelMsgTop:theme_override_font_sizes/normal_font_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_htlur"]
 _data = {
-"show_msg_amazing": SubResource("Animation_3xeuw")
+"show_msg_amazing": SubResource("Animation_3xeuw"),
+"show_msg_game": SubResource("Animation_qap41")
 }
 
 [node name="GameSpace" type="Node2D"]
@@ -472,7 +514,6 @@ root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_htlur")
 }
-autoplay = "show_msg_amazing"
 
 [node name="Msg-Amazing" type="Control" parent="ContMessages"]
 visible = false
@@ -504,7 +545,7 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("18_jrjnv")
-theme_override_font_sizes/normal_font_size = 204
+theme_override_font_sizes/normal_font_size = 240
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
 fit_content = true
@@ -525,9 +566,40 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("19_iidij")
-theme_override_font_sizes/normal_font_size = 204
+theme_override_font_sizes/normal_font_size = 240
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[node name="CenterContainer" type="CenterContainer" parent="ContMessages"]
+visible = false
+layout_mode = 0
+offset_right = 2000.0
+offset_bottom = 259.0
+mouse_filter = 2
+
+[node name="LabelMsgBtm" type="RichTextLabel" parent="ContMessages/CenterContainer"]
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("18_jrjnv")
+theme_override_font_sizes/normal_font_size = 204
+bbcode_enabled = true
+text = "Message"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[node name="LabelMsgTop" type="RichTextLabel" parent="ContMessages/CenterContainer"]
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("19_iidij")
+theme_override_font_sizes/normal_font_size = 204
+bbcode_enabled = true
+text = "Message"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0
