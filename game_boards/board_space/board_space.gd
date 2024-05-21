@@ -40,6 +40,11 @@ func _ready():
 # So, instead of having [game_space.gd] flip `visible` flag on this scene, let's do both of these here to alleviate the issue
 # Plus, even when calling both fill_grid funcs, then "process_game_round()" - it made the matching sound sin the background on main game launch, etc.
 func init_game():
+	# IMPORTANT: This game scene was just made visible before this func is called, 
+	# so give the engine a render frame to set the HBoxs or they wont exist yet
+	call_deferred("init_game2")
+
+func init_game2():
 	# A: clear all GemCells
 	for vbox in hbox_container.get_children():
 		for cell in vbox.get_children():

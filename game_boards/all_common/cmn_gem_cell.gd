@@ -41,7 +41,7 @@ const gem_textures_space: Dictionary = {
 	Enums.GemColor.BLU: preload("res://assets/gems/space/Space_B.png"),
 	Enums.GemColor.PRP: preload("res://assets/gems/space/Space_P.png")
 }
-var gem_textures:Dictionary = {}
+var gem_textures:Dictionary = gem_textures_food
 
 func initialize(colorIn: Enums.GemColor, dictIn:Enums.GemDict):
 	# A:
