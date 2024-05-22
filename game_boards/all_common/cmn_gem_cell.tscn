@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://8rbpehubrrps"]
+[gd_scene load_steps=91 format=3 uid="uid://8rbpehubrrps"]
 
 [ext_resource type="Script" path="res://game_boards/all_common/cmn_gem_cell.gd" id="1_taq7m"]
 [ext_resource type="Texture2D" uid="uid://duau66qew6757" path="res://assets/gems/food/characters_0001.png" id="2_nap56"]
@@ -31,6 +31,36 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(0.5, 0.5), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xv0ay"]
+resource_name = "highlight"
+length = 3.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath("Highlight:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Highlight:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 3.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.533333), Color(1, 1, 1, 0), Color(1, 1, 1, 0.533333), Color(1, 1, 1, 0), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_cqy0g"]
@@ -115,6 +145,7 @@ tracks/2/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u2ci8"]
 _data = {
 "explode": SubResource("Animation_3mn62"),
+"highlight": SubResource("Animation_xv0ay"),
 "new_points": SubResource("Animation_cqy0g"),
 "selected": SubResource("Animation_xkhqk")
 }
@@ -637,6 +668,15 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lpbyf")
 
+[node name="Highlight" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(64, 64)
 scale = Vector2(0.5, 0.5)
@@ -728,6 +768,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_lpbyf")
 
 [node name="GridContainer" type="GridContainer" parent="DebugUIPanel"]

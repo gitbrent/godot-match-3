@@ -1,8 +1,11 @@
 extends Node
 class_name Common
-
+#
 const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
 const GEM_POINTS:int = 25
+#
+var highlight_gem1: CommonGemCell = null
+var highlight_gem2: CommonGemCell = null
 
 # =========================================================
 
@@ -36,6 +39,112 @@ func fill_hbox(hbox:HBoxContainer, gem_dict:Enums.GemDict, on_cell_click):
 			control_node.connect("cell_click", on_cell_click)
 			#control_node.connect("drag_start", self._on_cell_click) # TODO:
 			#control_node.connect("drag_ended", self._on_cell_click) # TODO:
+
+# =========================================================
+
+# NEW
+
+func find_first_possible_swap(hbox:HBoxContainer) -> Array:
+	var num_columns: int = hbox.get_child_count()
+	var num_rows: int = hbox.get_child(0).get_child_count()
+	# Create a 2D array to represent the board
+	var board = []
+	for x in range(num_columns):
+		var column = []
+		for y in range(num_rows):
+			column.append(hbox.get_child(x).get_child(y))
+		board.append(column)
+	# Try swapping each gem with its neighbors and check for matches
+	var swaps = [[0, 1], [1, 0]]  # Only right and down to avoid duplicate checks
+	for x in range(num_columns):
+		for y in range(num_rows):
+			for swap in swaps:
+				var dx = swap[0]
+				var dy = swap[1]
+				var nx = x + dx
+				var ny = y + dy
+				if nx < num_columns and ny < num_rows:
+					# Swap using a temporary variable
+					var temp = board[x][y]
+					board[x][y] = board[nx][ny]
+					board[nx][ny] = temp
+					# Check for a match
+					if has_match_at(x, y, board) or has_match_at(nx, ny, board):
+						# Swap back
+						temp = board[x][y]
+						board[x][y] = board[nx][ny]
+						board[nx][ny] = temp
+						# Return the coordinates of the first valid swap
+						return [board[x][y], board[nx][ny]]
+					# Swap back
+					temp = board[x][y]
+					board[x][y] = board[nx][ny]
+					board[nx][ny] = temp
+	return []  # No moves possible
+
+func highlight_first_swap(hbox:HBoxContainer) -> void:
+	var swap = find_first_possible_swap(hbox)
+	if swap.size() == 2:
+		highlight_gem1 = swap[0]
+		highlight_gem2 = swap[1]
+		highlight_gem1.highlight()
+		highlight_gem2.highlight()
+		# Optionally set a timer to remove highlight after a few seconds
+		var timer = Timer.new()
+		timer.wait_time = 3.0  # 3 seconds
+		timer.one_shot = true
+		timer.autostart = true
+		timer.connect("timeout", self._on_HighlightTimer_timeout)
+		add_child(timer)
+		timer.start()
+
+func _on_HighlightTimer_timeout():
+	if highlight_gem1 and highlight_gem2:
+		highlight_gem1.unhighlight()
+		highlight_gem2.unhighlight()
+		# Reset highlight gems to null
+		highlight_gem1 = null
+		highlight_gem2 = null
+
+func has_match_at(x, y, board):
+	var color = board[x][y].gem_color
+
+	# Check horizontal matches
+	var count = 1
+	# Check left
+	var i = x - 1
+	while i >= 0 and board[i][y].gem_color == color:
+		count += 1
+		i -= 1
+	# Check right
+	i = x + 1
+	while i < board.size() and board[i][y].gem_color == color:
+		count += 1
+		i += 1
+	if count >= 3:
+		return true
+
+	# Check vertical matches
+	count = 1
+	# Check up
+	var j = y - 1
+	while j >= 0 and board[x][j].gem_color == color:
+		count += 1
+		j -= 1
+	# Check down
+	j = y + 1
+	while j < board[x].size() and board[x][j].gem_color == color:
+		count += 1
+		j += 1
+	if count >= 3:
+		return true
+	
+	return false
+
+func check_for_possible_moves(hbox:HBoxContainer) -> bool:
+	if find_first_possible_swap(hbox).size() > 0:
+		return true
+	return false
 
 # UTILS
 
@@ -113,24 +222,6 @@ func extract_gem_cells_from_matches(matches: Array) -> Array:
 		all_gem_cells += match["cells"]  # Append all cells in this match to the master list
 	return all_gem_cells
 
-func calculate_score_for_matches(matches: Array) -> int:
-	var score = 0
-	for match in matches:
-		var match_length = match["count"]
-		# Define scoring logic, e.g., exponential growth for larger matches
-		var match_score = match_length * match_length  # Example: score grows quadratically with match length
-		score += match_score * GEM_POINTS
-	return score
-
-func calculate_scores_for_each_match(matches: Array) -> Dictionary:
-	var scores = {}
-	for match in matches:
-		var count = match["count"]
-		var score = count * GEM_POINTS
-		for cell in match["cells"]:
-			scores[cell] = score
-	return scores
-
 func find_gem_indices(gem_cell:CommonGemCell) -> Dictionary:
 	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
 	var hbox = parent_vbox.get_parent()      # Assuming direct parent of VBox is the HBoxContainer
@@ -170,6 +261,26 @@ func are_cells_adjacent(gemcell1:CommonGemCell, gemcell2:CommonGemCell) -> bool:
 	
 	# Cells are not adjacent
 	return false
+
+# =========================================================
+
+func calculate_score_for_matches(matches: Array) -> int:
+	var score = 0
+	for match in matches:
+		var match_length = match["count"]
+		# Define scoring logic, e.g., exponential growth for larger matches
+		var match_score = match_length * match_length  # Example: score grows quadratically with match length
+		score += match_score * GEM_POINTS
+	return score
+
+func calculate_scores_for_each_match(matches: Array) -> Dictionary:
+	var scores = {}
+	for match in matches:
+		var count = match["count"]
+		var score = count * GEM_POINTS
+		for cell in match["cells"]:
+			scores[cell] = score
+	return scores
 
 # =========================================================
 

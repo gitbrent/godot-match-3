@@ -212,6 +212,10 @@ func process_game_round():
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A:
 		# B: TODO: check for "NO MORE MOVES"
+		var brent = CmnFunc.check_for_possible_moves(hbox_container)
+		print("CHECK FOR MOVES = ", str(brent))
+		# C: TODO: highlight available moves after short delay
+		CmnFunc.highlight_first_swap(hbox_container)
 		# C: Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
 			swap_gem_cells(undo_cell_2, undo_cell_1)

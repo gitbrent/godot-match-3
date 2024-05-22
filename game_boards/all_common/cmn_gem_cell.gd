@@ -11,6 +11,7 @@ class_name CommonGemCell
 @onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
 @onready var audio_gem_move:AudioStreamPlayer = $AudioGemMove
 @onready var label_points:Label = $LabelPoints
+@onready var highlight_rect:ColorRect = $Highlight
 # PROPS
 const SPRITE_SCALE:Vector2 = Vector2(0.5, 0.5)
 const DROP_OFFSET:int = 128 # (the sprite is centered in the 128x128 container, and uses a 64,64 position)
@@ -105,6 +106,13 @@ func update_texture():
 		print("gem_textures: ", gem_textures)
 
 # =========================================================
+
+func highlight():
+	anim_player_fx.play("highlight")
+
+func unhighlight():
+	anim_player_fx.stop()
+	highlight_rect.color = Color('ffffff00')
 
 func play_audio_gem_move():
 	audio_gem_move.play()
