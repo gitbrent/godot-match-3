@@ -84,3 +84,9 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
+
+[node name="InactivityTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="timeout" from="InactivityTimer" to="." method="_on_inactivity_timer_timeout"]

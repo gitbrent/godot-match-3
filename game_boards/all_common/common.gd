@@ -89,17 +89,6 @@ func highlight_first_swap(hbox:HBoxContainer) -> void:
 		highlight_gem2 = swap[1]
 		highlight_gem1.highlight()
 		highlight_gem2.highlight()
-		# Optionally set a timer to remove highlight after a few seconds
-		await delay_time(hbox, 3)
-		_on_HighlightTimer_timeout()
-
-func _on_HighlightTimer_timeout():
-	if highlight_gem1 and highlight_gem2:
-		highlight_gem1.unhighlight()
-		highlight_gem2.unhighlight()
-		# Reset highlight gems to null
-		highlight_gem1 = null
-		highlight_gem2 = null
 
 func has_match_at(x, y, board):
 	var color = board[x][y].gem_color

@@ -1,5 +1,5 @@
 extends Node2D
-#
+# VARS
 var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 # SCENES
 @onready var game_top_h_box:HBoxContainer = $ContTopBar/GameTopHBox
@@ -19,6 +19,8 @@ func _ready():
 	game_board.connect("show_game_msg", self._on_show_game_msg)
 	# B:
 	center_container.visible = false
+
+# =========================================================
 
 func _on_props_updated_gemsdict(gems_dict:Dictionary):
 	# EX: `{ "RED": 9, "ORG": 11, "YLW": 14, "GRN": 9, "BLU": 9, "PRP": 12 }`
@@ -60,6 +62,8 @@ func _on_btn_checkerboard():
 
 func _on_btn_debug_pressed():
 	game_board.debug_clear_debug_labels()
+
+# =========================================================
 
 func init_game():
 	game_board.init_game()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=34 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
@@ -14,8 +14,10 @@
 [ext_resource type="Texture2D" uid="uid://cvlodafggu8vg" path="res://assets/gems/space/Space_B.png" id="12_rwo65"]
 [ext_resource type="Texture2D" uid="uid://cnx5i4dv14xma" path="res://assets/gems/space/Space_P.png" id="13_wc6j4"]
 [ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/board_space.tscn" id="14_xjwh6"]
+[ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="15_qcr5o"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
 [ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
+[ext_resource type="FontFile" uid="uid://bylgyjavx5yts" path="res://assets/fonts/Quicksand-Regular.ttf" id="16_donlk"]
 [ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="17_oxovp"]
 [ext_resource type="Theme" uid="uid://duftrpb020ewi" path="res://themes/game_msg_btm.tres" id="18_jrjnv"]
 [ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="18_y8cds"]
@@ -419,6 +421,52 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="GemBoard" parent="ContBoard" instance=ExtResource("14_xjwh6")]
 position = Vector2(500, 250)
+
+[node name="ContDebug" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1642.0
+offset_top = 881.0
+offset_right = 1892.0
+offset_bottom = 1231.0
+
+[node name="ContDebugBkgd" type="Panel" parent="ContDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ContDebugLabel" type="Label" parent="ContDebug/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("15_qcr5o")
+theme_override_font_sizes/font_size = 32
+text = "ContDebugLabel"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="ContDebugValue" type="Label" parent="ContDebug/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("16_donlk")
+theme_override_font_sizes/font_size = 52
+text = "Cont
+Debug
+Value"
 
 [node name="BtnNewGame" type="TextureButton" parent="."]
 offset_left = 1600.0
