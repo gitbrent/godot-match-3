@@ -1,10 +1,13 @@
 extends Node
-
+# APP
 const APP_VER:String = "0.5.0"
-const APP_BLD:String = "20240519"
+const APP_BLD:String = "20240524"
+# GAME
 const TWEEN_TIME:float = 0.25
 const EXPLODE_DELAY:float = TWEEN_TIME*2.0
 const SRPITE_POS:Vector2 = Vector2(64,64)
+const HINT_DELAY:int = 10
+# VARS
 var current_debug_level = DEBUG_LEVEL.INFO  # Global variable to set the current debug level
 
 # =========================================================
