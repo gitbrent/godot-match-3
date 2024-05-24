@@ -66,13 +66,13 @@ func debug_clear_debug_labels(hbox:HBoxContainer):
 func debug_make_match_col(hbox:HBoxContainer, gemDict:Enums.GemDict):
 	var col0:VBoxContainer = hbox.get_child(0)
 	var col0_child4:CommonGemCell = col0.get_child(4)
-	col0_child4.initialize(Enums.GemColor.GREEN, gemDict)
+	col0_child4.initialize(Enums.GemColor.PRP, gemDict)
 	var col0_child5:CommonGemCell = col0.get_child(5)
-	col0_child5.initialize(Enums.GemColor.GREEN, gemDict)
+	col0_child5.initialize(Enums.GemColor.PRP, gemDict)
 	var col0_child6:CommonGemCell = col0.get_child(6)
-	col0_child6.initialize(Enums.GemColor.GREEN, gemDict)
+	col0_child6.initialize(Enums.GemColor.PRP, gemDict)
 	var col0_child7:CommonGemCell = col0.get_child(7)
-	col0_child7.initialize(Enums.GemColor.GREEN, gemDict)
+	col0_child7.initialize(Enums.GemColor.PRP, gemDict)
 
 func debug_make_gem_grid(hbox:HBoxContainer, gemDict:Enums.GemDict):
 	var size = hbox.get_child_count()
@@ -81,7 +81,7 @@ func debug_make_gem_grid(hbox:HBoxContainer, gemDict:Enums.GemDict):
 		for j in range(size):
 			var gem = vbox.get_child(j)
 			# Load the appropriate scene based on the checkerboard pattern
-			gem.initialize(Enums.GemColor.GREEN, gemDict)
+			gem.initialize(Enums.GemColor.PRP, gemDict)
 			if (i + j) % 2 == 0:
-				gem.initialize(Enums.GemColor.WHITE, gemDict)
+				gem.initialize(Enums.GemColor.YLW, gemDict)
 				gem.get_child(1).position = Enums.SRPITE_POS

@@ -1,21 +1,24 @@
 extends Node
-
-const APP_VER:String = "0.4.0"
-const APP_BLD:String = "20240517"
+# APP
+const APP_VER:String = "0.5.0"
+const APP_BLD:String = "20240524"
+# GAME
 const TWEEN_TIME:float = 0.25
 const EXPLODE_DELAY:float = TWEEN_TIME*2.0
 const SRPITE_POS:Vector2 = Vector2(64,64)
+const HINT_DELAY:int = 10
+# VARS
 var current_debug_level = DEBUG_LEVEL.INFO  # Global variable to set the current debug level
 
 # =========================================================
 
 enum GemColor {
-	WHITE,
 	RED,
-	YELLOW,
-	GREEN,
-	PURPLE,
-	BROWN
+	ORG,
+	YLW,
+	GRN,
+	BLU,
+	PRP
 }
 
 func get_color_name_by_value(value: int) -> String:
@@ -28,7 +31,8 @@ func get_color_name_by_value(value: int) -> String:
 
 enum GemDict {
 	FOOD,
-	GEMS
+	GEMS,
+	SPACE
 }
 
 # =========================================================

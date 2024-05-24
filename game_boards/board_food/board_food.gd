@@ -11,7 +11,7 @@ signal board_match_multi(match_cnt:int)
 #VARS
 var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 var CmnDbg = preload("res://game_boards/all_common/common_debug.gd").new()
-const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
+const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
 const GEM_POINTS:int = 25
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null

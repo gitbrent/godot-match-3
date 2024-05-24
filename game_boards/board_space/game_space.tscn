@@ -1,21 +1,23 @@
-[gd_scene load_steps=31 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=34 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
 [ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/assets/animated_cloud.tscn" id="4_731ya"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
-[ext_resource type="Texture2D" uid="uid://drvn08bq7wqd3" path="res://assets/gems/gems/Gem1.png" id="6_pwwac"]
 [ext_resource type="Shader" path="res://game_boards/board_space/assets/gem_cell.gdshader" id="6_tywfq"]
-[ext_resource type="Texture2D" uid="uid://8st0pjjj06t6" path="res://assets/gems/gems/Gem2.png" id="8_daeji"]
+[ext_resource type="Texture2D" uid="uid://dt14wt38x2ddb" path="res://assets/gems/space/Space_R.png" id="7_8sijq"]
 [ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
-[ext_resource type="Texture2D" uid="uid://f03xp7kt4yhx" path="res://assets/gems/gems/Gem3.png" id="9_r572y"]
-[ext_resource type="Texture2D" uid="uid://demwo7h8k1qio" path="res://assets/gems/gems/Gem4.png" id="10_mn2ql"]
-[ext_resource type="Texture2D" uid="uid://dhrwau2byrgig" path="res://assets/gems/gems/Gem5.png" id="11_slkmj"]
-[ext_resource type="Texture2D" uid="uid://cwnrtr34axkyv" path="res://assets/gems/gems/Gem6.png" id="12_m7fnu"]
+[ext_resource type="Texture2D" uid="uid://dwf6yosfhinvi" path="res://assets/gems/space/Space_Z.png" id="9_ygwn3"]
+[ext_resource type="Texture2D" uid="uid://cavqcc5satl8d" path="res://assets/gems/space/Space_Y.png" id="10_yghiu"]
+[ext_resource type="Texture2D" uid="uid://c37gqqvuu16v3" path="res://assets/gems/space/Space_G.png" id="11_1nee1"]
+[ext_resource type="Texture2D" uid="uid://cvlodafggu8vg" path="res://assets/gems/space/Space_B.png" id="12_rwo65"]
+[ext_resource type="Texture2D" uid="uid://cnx5i4dv14xma" path="res://assets/gems/space/Space_P.png" id="13_wc6j4"]
 [ext_resource type="PackedScene" uid="uid://b02gonq6mjgh8" path="res://game_boards/board_space/board_space.tscn" id="14_xjwh6"]
+[ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="15_qcr5o"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="15_qjgsg"]
 [ext_resource type="Texture2D" uid="uid://bebhmcgujnoxc" path="res://assets/gui/ButtonText_Large_GreyOutline_Round.png" id="16_20lur"]
+[ext_resource type="FontFile" uid="uid://bylgyjavx5yts" path="res://assets/fonts/Quicksand-Regular.ttf" id="16_donlk"]
 [ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="17_oxovp"]
 [ext_resource type="Theme" uid="uid://duftrpb020ewi" path="res://themes/game_msg_btm.tres" id="18_jrjnv"]
 [ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="18_y8cds"]
@@ -30,32 +32,32 @@ bg_color = Color(0, 0, 0, 0.6)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_csjnx"]
-shader = ExtResource("6_tywfq")
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v882r"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u84gj"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oi0wf"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_skchu"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_csjnx"]
+shader = ExtResource("6_tywfq")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="Animation" id="Animation_3xeuw"]
 resource_name = "show_msg_amazing"
@@ -96,9 +98,51 @@ tracks/2/keys = {
 "values": [204, 240, 204]
 }
 
+[sub_resource type="Animation" id="Animation_qap41"]
+resource_name = "show_msg_game"
+length = 0.5
+step = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ContMessages/CenterContainer:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, null]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ContMessages/CenterContainer/LabelMsgBtm:theme_override_font_sizes/normal_font_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ContMessages/CenterContainer/LabelMsgTop:theme_override_font_sizes/normal_font_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [204, 240, 204]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_htlur"]
 _data = {
-"show_msg_amazing": SubResource("Animation_3xeuw")
+"show_msg_amazing": SubResource("Animation_3xeuw"),
+"show_msg_game": SubResource("Animation_qap41")
 }
 
 [node name="GameSpace" type="Node2D"]
@@ -228,33 +272,10 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer1/Control"]
 material = SubResource("ShaderMaterial_2xg0a")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("6_pwwac")
+texture = ExtResource("7_8sijq")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer1"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("8_nteo6")
-theme_override_font_sizes/font_size = 96
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="ContGameStats/GameStats"]
-layout_mode = 2
-theme_override_constants/separation = 25
-
-[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer2"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
-material = SubResource("ShaderMaterial_csjnx")
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("8_daeji")
-centered = false
-
-[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("8_nteo6")
@@ -274,7 +295,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer3/Control"]
 material = SubResource("ShaderMaterial_v882r")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("9_r572y")
+texture = ExtResource("10_yghiu")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer3"]
@@ -298,7 +319,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer4/Control"]
 material = SubResource("ShaderMaterial_u84gj")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("10_mn2ql")
+texture = ExtResource("11_1nee1")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer4"]
@@ -322,7 +343,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer5/Control"]
 material = SubResource("ShaderMaterial_oi0wf")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("11_slkmj")
+texture = ExtResource("12_rwo65")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer5"]
@@ -346,7 +367,7 @@ layout_mode = 2
 [node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer6/Control"]
 material = SubResource("ShaderMaterial_skchu")
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("12_m7fnu")
+texture = ExtResource("13_wc6j4")
 centered = false
 
 [node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer6"]
@@ -354,6 +375,29 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("8_nteo6")
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
+material = SubResource("ShaderMaterial_csjnx")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_ygwn3")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
 theme_override_font_sizes/font_size = 96
 text = "0"
 horizontal_alignment = 2
@@ -377,6 +421,55 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="GemBoard" parent="ContBoard" instance=ExtResource("14_xjwh6")]
 position = Vector2(500, 250)
+
+[node name="ContDebug" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1642.0
+offset_top = 881.0
+offset_right = 1892.0
+offset_bottom = 1231.0
+
+[node name="ContDebugBkgd" type="Panel" parent="ContDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ContDebugLabel" type="Label" parent="ContDebug/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("15_qcr5o")
+theme_override_font_sizes/font_size = 32
+text = "ContDebugLabel"
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="ContDebugValue" type="Label" parent="ContDebug/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("16_donlk")
+theme_override_font_sizes/font_size = 52
+text = "Cont
+Debug
+Value"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BtnNewGame" type="TextureButton" parent="."]
 offset_left = 1600.0
@@ -472,7 +565,6 @@ root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_htlur")
 }
-autoplay = "show_msg_amazing"
 
 [node name="Msg-Amazing" type="Control" parent="ContMessages"]
 visible = false
@@ -504,7 +596,7 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("18_jrjnv")
-theme_override_font_sizes/normal_font_size = 204
+theme_override_font_sizes/normal_font_size = 240
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
 fit_content = true
@@ -525,9 +617,40 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("19_iidij")
-theme_override_font_sizes/normal_font_size = 204
+theme_override_font_sizes/normal_font_size = 240
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[node name="CenterContainer" type="CenterContainer" parent="ContMessages"]
+visible = false
+layout_mode = 0
+offset_right = 2000.0
+offset_bottom = 259.0
+mouse_filter = 2
+
+[node name="LabelMsgBtm" type="RichTextLabel" parent="ContMessages/CenterContainer"]
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("18_jrjnv")
+theme_override_font_sizes/normal_font_size = 204
+bbcode_enabled = true
+text = "Message"
+fit_content = true
+scroll_active = false
+autowrap_mode = 0
+shortcut_keys_enabled = false
+
+[node name="LabelMsgTop" type="RichTextLabel" parent="ContMessages/CenterContainer"]
+clip_contents = false
+layout_mode = 2
+theme = ExtResource("19_iidij")
+theme_override_font_sizes/normal_font_size = 204
+bbcode_enabled = true
+text = "Message"
 fit_content = true
 scroll_active = false
 autowrap_mode = 0

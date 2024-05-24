@@ -7,7 +7,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yj5kd"]
 bg_color = Color(0, 0, 0, 0.411765)
 
-[node name="GemBoard" type="Node2D"]
+[node name="BoardSpace" type="Node2D"]
 script = ExtResource("1_oexew")
 
 [node name="Background" type="Panel" parent="."]
@@ -84,3 +84,9 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme_override_constants/separation = 0
+
+[node name="InactivityTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="timeout" from="InactivityTimer" to="." method="_on_inactivity_timer_timeout"]

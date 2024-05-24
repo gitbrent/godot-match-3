@@ -5,14 +5,21 @@ signal props_updated_moves(moves:int)
 signal props_updated_score(score:int)
 signal props_updated_gemsdict(gems_dict:Dictionary)
 signal board_match_multi(match_cnt:int)
+signal show_game_msg(msg:String)
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
-#VARS
+@onready var inactivity_timer:Timer = $InactivityTimer
+@onready var cont_debug_label:Label = $"../../ContDebug/VBoxContainer/ContDebugLabel"
+@onready var cont_debug_value:Label = $"../../ContDebug/VBoxContainer/ContDebugValue"
+# PRELOAD
 var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 var CmnDbg = preload("res://game_boards/all_common/common_debug.gd").new()
-const GEM_COLOR_NAMES = [Enums.GemColor.WHITE, Enums.GemColor.RED, Enums.GemColor.YELLOW, Enums.GemColor.GREEN, Enums.GemColor.PURPLE, Enums.GemColor.BROWN]
+# CONST
+const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
 const GEM_POINTS:int = 25
+const GEM_DICT:Enums.GemDict = Enums.GemDict.SPACE
+# VARS
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
 var undo_cell_1:CommonGemCell = null
@@ -25,13 +32,41 @@ var board_props_score:int = 0
 func _ready():
 	# godot setup
 	randomize()
+	inactivity_timer.wait_time = Enums.HINT_DELAY # sync UI to logic
 	# A: populate board
 	const brd_sq0 = "res://game_boards/board_space/assets/board_square_0.tscn"
 	const brd_sq1 = "res://game_boards/board_space/assets/board_square_1.tscn"
 	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
-	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.GEMS, self._on_cell_click)
-	# B: check board after init
+
+func _process(_delta):
+	cont_debug_label.text = "TIMER Left (secs)"
+	cont_debug_value.text = str(round(inactivity_timer.time_left))
+
+# NOTE: iOS [Xcode] has no cells if "CmnFunc.fill_hbox()" is in the _ready() func above
+# So, instead of having [game_space.gd] flip `visible` flag on this scene, let's do both of these here to alleviate the issue
+# Plus, even when calling both fill_grid funcs, then "process_game_round()" - it made the matching sound sin the background on main game launch, etc.
+func init_game():
+	# IMPORTANT: This game scene was just made visible before this func is called, 
+	# so give the engine a render frame to set the HBoxs or they wont exist yet
+	call_deferred("init_game2")
+
+func init_game2():
+	# A: clear all GemCells
+	for vbox in hbox_container.get_children():
+		for cell in vbox.get_children():
+			vbox.remove_child(cell)
+			cell.queue_free()
+	# B:
+	emit_signal("show_game_msg", "Let's Play!")
+	# C: Animation runtime for msg is 0.5-sec
+	await CmnFunc.delay_time(self.get_child(0), 0.5)
+	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
+	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
+	# E: check board after init
+	await CmnFunc.delay_time(self, 0.25)
 	process_game_round()
+	# F: start timer
+	inactivity_timer.start()
 
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
@@ -53,6 +88,10 @@ func new_game():
 func _on_cell_click(gem_cell:CommonGemCell):
 	Enums.debug_print("[_on_cell_click] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)), Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[_on_cell_click] ---------------------------------------------", Enums.DEBUG_LEVEL.INFO)
+	
+	# A: Reset the inactivity_timer timer on any user input
+	inactivity_timer.stop()
+	inactivity_timer.start()
 	
 	# Clear first, we'll set later
 	if selected_cell_1:
@@ -107,8 +146,8 @@ func swap_gem_cells(swap_cell_1:CommonGemCell, swap_cell_2:CommonGemCell):
 	# C: logially swap
 	var gem_cell_1 = swap_cell_1.gem_color
 	var gem_cell_2 = swap_cell_2.gem_color
-	swap_cell_1.initialize(gem_cell_2, Enums.GemDict.GEMS)
-	swap_cell_2.initialize(gem_cell_1, Enums.GemDict.GEMS)
+	swap_cell_1.initialize(gem_cell_2, GEM_DICT)
+	swap_cell_2.initialize(gem_cell_1, GEM_DICT)
 	
 	# D: get position to restore to after move so tween sets/flows smoothly
 	var orig_pos_cell_1 = swap_cell_1.sprite.global_position
@@ -185,6 +224,8 @@ func process_game_round():
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A:
 		# B: TODO: check for "NO MORE MOVES"
+		var brent = CmnFunc.check_for_possible_moves(hbox_container)
+		print("CHECK FOR MOVES = ", str(brent))
 		# C: Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
 			swap_gem_cells(undo_cell_2, undo_cell_1)
@@ -293,8 +334,18 @@ func signal_game_props_count_gems():
 # === Following are for buttons that arent on Food-Board
 
 func debug_make_gem_grid():
-	CmnDbg.debug_make_gem_grid(hbox_container, Enums.GemDict.GEMS)
+	CmnDbg.debug_make_gem_grid(hbox_container, GEM_DICT)
 	signal_game_props_count_gems()
 
 func debug_clear_debug_labels():
 	CmnDbg.debug_clear_debug_labels(hbox_container)
+
+func _on_inactivity_timer_timeout():
+	# A: Deselect all (e.g.: maybe one gem was clicked on and is just pulsating on screen)
+	# TODO: ^^^
+	# B: Call the highlight function on timeout
+	# WIP: highlight available moves after short delay
+	#cont_debug_label.text += "- highlight_first_swap! \n"
+	CmnFunc.highlight_first_swap(hbox_container)
+	# C: Restart timer
+	inactivity_timer.start()
