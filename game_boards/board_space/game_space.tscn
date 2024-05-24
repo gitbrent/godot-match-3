@@ -462,11 +462,14 @@ text_overrun_behavior = 1
 
 [node name="ContDebugValue" type="Label" parent="ContDebug/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("16_donlk")
 theme_override_font_sizes/font_size = 52
 text = "Cont
 Debug
 Value"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BtnNewGame" type="TextureButton" parent="."]
 offset_left = 1600.0

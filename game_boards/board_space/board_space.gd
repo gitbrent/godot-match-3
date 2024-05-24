@@ -38,8 +38,8 @@ func _ready():
 	const brd_sq1 = "res://game_boards/board_space/assets/board_square_1.tscn"
 	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
 
-func _process(delta):
-	cont_debug_label.text = "TIMER left secs..."
+func _process(_delta):
+	cont_debug_label.text = "TIMER Left (secs)"
 	cont_debug_value.text = str(round(inactivity_timer.time_left))
 
 # NOTE: iOS [Xcode] has no cells if "CmnFunc.fill_hbox()" is in the _ready() func above
@@ -65,6 +65,8 @@ func init_game2():
 	# E: check board after init
 	await CmnFunc.delay_time(self, 0.25)
 	process_game_round()
+	# F: start timer
+	inactivity_timer.start()
 
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
