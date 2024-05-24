@@ -34,15 +34,15 @@ const gem_textures_gems: Dictionary = {
 	Enums.GemColor.BLU: preload("res://assets/gems/gems/gem5.png"),
 	Enums.GemColor.PRP: preload("res://assets/gems/gems/gem6.png")
 }
-const gem_textures_space2: Dictionary = {
+const gem_textures_space: Dictionary = {
 	Enums.GemColor.RED: preload("res://assets/gems/space/Space_R.png"),
-	Enums.GemColor.ORG: preload("res://assets/gems/space/Space_O.png"),
+	Enums.GemColor.ORG: preload("res://assets/gems/space/Space_Z.png"),
 	Enums.GemColor.YLW: preload("res://assets/gems/space/Space_Y.png"),
 	Enums.GemColor.GRN: preload("res://assets/gems/space/Space_G.png"),
 	Enums.GemColor.BLU: preload("res://assets/gems/space/Space_B.png"),
 	Enums.GemColor.PRP: preload("res://assets/gems/space/Space_P.png")
 }
-const gem_textures_space: Dictionary = {
+const gem_textures_spacefun: Dictionary = {
 	Enums.GemColor.RED: preload("res://assets/gems/gems2/gem_z.png"),
 	Enums.GemColor.ORG: preload("res://assets/gems/gems2/gem_o.png"),
 	Enums.GemColor.YLW: preload("res://assets/gems/gems2/gem_x.png"),

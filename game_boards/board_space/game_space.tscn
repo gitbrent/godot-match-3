@@ -8,7 +8,7 @@
 [ext_resource type="Shader" path="res://game_boards/board_space/assets/gem_cell.gdshader" id="6_tywfq"]
 [ext_resource type="Texture2D" uid="uid://dt14wt38x2ddb" path="res://assets/gems/space/Space_R.png" id="7_8sijq"]
 [ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
-[ext_resource type="Texture2D" uid="uid://c3gf2kl8ex7ru" path="res://assets/gems/space/Space_O.png" id="9_vnsth"]
+[ext_resource type="Texture2D" uid="uid://dwf6yosfhinvi" path="res://assets/gems/space/Space_Z.png" id="9_ygwn3"]
 [ext_resource type="Texture2D" uid="uid://cavqcc5satl8d" path="res://assets/gems/space/Space_Y.png" id="10_yghiu"]
 [ext_resource type="Texture2D" uid="uid://c37gqqvuu16v3" path="res://assets/gems/space/Space_G.png" id="11_1nee1"]
 [ext_resource type="Texture2D" uid="uid://cvlodafggu8vg" path="res://assets/gems/space/Space_B.png" id="12_rwo65"]
@@ -30,32 +30,32 @@ bg_color = Color(0, 0, 0, 0.6)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_csjnx"]
-shader = ExtResource("6_tywfq")
-shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v882r"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u84gj"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oi0wf"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_skchu"]
 shader = ExtResource("6_tywfq")
 shader_parameter/line_color = Color(1, 1, 1, 1)
-shader_parameter/line_thickness = 7.0
+shader_parameter/line_thickness = 5.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_csjnx"]
+shader = ExtResource("6_tywfq")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_thickness = 5.0
 
 [sub_resource type="Animation" id="Animation_3xeuw"]
 resource_name = "show_msg_amazing"
@@ -282,29 +282,6 @@ text = "0"
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="ContGameStats/GameStats"]
-layout_mode = 2
-theme_override_constants/separation = 25
-
-[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer2"]
-custom_minimum_size = Vector2(128, 128)
-layout_mode = 2
-
-[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
-material = SubResource("ShaderMaterial_csjnx")
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("9_vnsth")
-centered = false
-
-[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme = ExtResource("8_nteo6")
-theme_override_font_sizes/font_size = 96
-text = "0"
-horizontal_alignment = 2
-vertical_alignment = 1
-
 [node name="HBoxContainer3" type="HBoxContainer" parent="ContGameStats/GameStats"]
 layout_mode = 2
 theme_override_constants/separation = 25
@@ -396,6 +373,29 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("8_nteo6")
 theme_override_colors/font_color = Color(0.945098, 0.945098, 0.945098, 1)
+theme_override_font_sizes/font_size = 96
+text = "0"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ContGameStats/GameStats"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="Control" type="Control" parent="ContGameStats/GameStats/HBoxContainer2"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="ContGameStats/GameStats/HBoxContainer2/Control"]
+material = SubResource("ShaderMaterial_csjnx")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("9_ygwn3")
+centered = false
+
+[node name="Label" type="Label" parent="ContGameStats/GameStats/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("8_nteo6")
 theme_override_font_sizes/font_size = 96
 text = "0"
 horizontal_alignment = 2
