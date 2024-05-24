@@ -34,13 +34,29 @@ const gem_textures_gems: Dictionary = {
 	Enums.GemColor.BLU: preload("res://assets/gems/gems/gem5.png"),
 	Enums.GemColor.PRP: preload("res://assets/gems/gems/gem6.png")
 }
-const gem_textures_space: Dictionary = {
+const gem_textures_space2: Dictionary = {
 	Enums.GemColor.RED: preload("res://assets/gems/space/Space_R.png"),
 	Enums.GemColor.ORG: preload("res://assets/gems/space/Space_O.png"),
 	Enums.GemColor.YLW: preload("res://assets/gems/space/Space_Y.png"),
 	Enums.GemColor.GRN: preload("res://assets/gems/space/Space_G.png"),
 	Enums.GemColor.BLU: preload("res://assets/gems/space/Space_B.png"),
 	Enums.GemColor.PRP: preload("res://assets/gems/space/Space_P.png")
+}
+const gem_textures_space: Dictionary = {
+	Enums.GemColor.RED: preload("res://assets/gems/gems2/gem_z.png"),
+	Enums.GemColor.ORG: preload("res://assets/gems/gems2/gem_o.png"),
+	Enums.GemColor.YLW: preload("res://assets/gems/gems2/gem_x.png"),
+	Enums.GemColor.GRN: preload("res://assets/gems/gems2/gem_g.png"),
+	Enums.GemColor.BLU: preload("res://assets/gems/gems2/gem_b.png"),
+	Enums.GemColor.PRP: preload("res://assets/gems/gems2/gem_p.png")
+}
+const gem_textures_space1: Dictionary = {
+	Enums.GemColor.RED: preload("res://assets/gems/space-fun/gem-space-fun-r.png"),
+	Enums.GemColor.ORG: preload("res://assets/gems/space-fun/gem-space-fun-o.png"),
+	Enums.GemColor.YLW: preload("res://assets/gems/space-fun/gem-space-fun-y.png"),
+	Enums.GemColor.GRN: preload("res://assets/gems/space-fun/gem-space-fun-g.png"),
+	Enums.GemColor.BLU: preload("res://assets/gems/space-fun/gem-space-fun-b.png"),
+	Enums.GemColor.PRP: preload("res://assets/gems/space-fun/gem-space-fun-p.png")
 }
 var gem_textures:Dictionary = gem_textures_food
 
@@ -111,6 +127,7 @@ func highlight():
 	anim_player_fx.play("highlight")
 
 func unhighlight():
+	print("UNNNNNN")
 	anim_player_fx.stop()
 	highlight_rect.color = Color('ffffff00')
 
