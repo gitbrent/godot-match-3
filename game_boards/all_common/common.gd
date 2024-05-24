@@ -90,13 +90,8 @@ func highlight_first_swap(hbox:HBoxContainer) -> void:
 		highlight_gem1.highlight()
 		highlight_gem2.highlight()
 		# Optionally set a timer to remove highlight after a few seconds
-		var timer = Timer.new()
-		timer.wait_time = 3.0  # 3 seconds
-		timer.one_shot = true
-		timer.autostart = true
-		timer.connect("timeout", self._on_HighlightTimer_timeout)
-		add_child(timer)
-		timer.start()
+		await delay_time(hbox, 3)
+		_on_HighlightTimer_timeout()
 
 func _on_HighlightTimer_timeout():
 	if highlight_gem1 and highlight_gem2:
