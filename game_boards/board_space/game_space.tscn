@@ -422,13 +422,63 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 [node name="GemBoard" parent="ContBoard" instance=ExtResource("14_xjwh6")]
 position = Vector2(500, 250)
 
+[node name="ContDebugBtns" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1653.0
+offset_top = 598.0
+offset_right = 1961.0
+offset_bottom = 848.0
+
+[node name="BtnDebug" type="TextureButton" parent="ContDebugBtns"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 16.0
+offset_right = 1163.0
+offset_bottom = 374.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("16_20lur")
+
+[node name="Label" type="Label" parent="ContDebugBtns/BtnDebug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "CLEAR/RESET"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnCheckerboard" type="TextureButton" parent="ContDebugBtns"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 124.0
+offset_right = 1163.0
+offset_bottom = 482.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("17_oxovp")
+
+[node name="Label" type="Label" parent="ContDebugBtns/BtnCheckerboard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "CHECKERED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="ContDebug" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1642.0
-offset_top = 881.0
-offset_right = 1892.0
-offset_bottom = 1231.0
+offset_left = 1675.0
+offset_top = 914.0
+offset_right = 1925.0
+offset_bottom = 1264.0
 
 [node name="ContDebugBkgd" type="Panel" parent="ContDebug"]
 layout_mode = 1
@@ -491,51 +541,11 @@ text = "NEW GAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnDebug" type="TextureButton" parent="."]
-offset_left = 1657.0
-offset_top = 393.0
-offset_right = 2816.0
-offset_bottom = 751.0
-scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("16_20lur")
-
-[node name="Label" type="Label" parent="BtnDebug"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 120
-text = "CLEAR/RESET"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="BtnCheckerboard" type="TextureButton" parent="."]
-offset_left = 1656.0
-offset_top = 519.0
-offset_right = 2815.0
-offset_bottom = 877.0
-scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("17_oxovp")
-
-[node name="Label" type="Label" parent="BtnCheckerboard"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 120
-text = "CHECKERED"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="BtnQuitGame" type="TextureButton" parent="."]
-offset_left = 1659.0
-offset_top = 696.0
-offset_right = 2818.0
-offset_bottom = 1054.0
+offset_left = 1656.0
+offset_top = 415.0
+offset_right = 2815.0
+offset_bottom = 773.0
 scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("18_y8cds")
 
@@ -656,7 +666,7 @@ scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
 
+[connection signal="pressed" from="ContDebugBtns/BtnDebug" to="." method="_on_btn_debug_pressed"]
+[connection signal="pressed" from="ContDebugBtns/BtnCheckerboard" to="." method="_on_btn_checkerboard"]
 [connection signal="pressed" from="BtnNewGame" to="." method="_on_btn_newgame_pressed"]
-[connection signal="pressed" from="BtnDebug" to="." method="_on_btn_debug_pressed"]
-[connection signal="pressed" from="BtnCheckerboard" to="." method="_on_btn_checkerboard"]
 [connection signal="pressed" from="BtnQuitGame" to="." method="_on_btn_quit_game"]
