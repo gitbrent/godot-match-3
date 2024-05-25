@@ -1,23 +1,26 @@
 extends Control
 class_name CommonGemCell
-# VARS
+# UI
 @onready var sprite:Sprite2D = $Sprite2D
 @onready var anim_player_fx:AnimationPlayer = $AnimPlayerFx
 @onready var anim_sprite_explode:AnimatedSprite2D = $AnimSpriteExplode
 @onready var anim_burst_1:AnimatedSprite2D = $AnimatedBurst1
 @onready var anim_burst_3:AnimatedSprite2D = $AnimatedBurst3
-@onready var debug_label_sel_num:Label = $DebugLabelSelNum
-@onready var debug_ui_panel:Panel = $DebugUIPanel
 @onready var audio_gem_explode:AudioStreamPlayer = $AudioGemExplode
 @onready var audio_gem_move:AudioStreamPlayer = $AudioGemMove
 @onready var label_points:Label = $LabelPoints
 @onready var highlight_rect:ColorRect = $Highlight
-# PROPS
+@onready var debug_ui_panel:Panel = $DebugUIPanel
+@onready var debug_label_sel_num:Label = $DebugLabelSelNum
+@onready var overlay_lock:Sprite2D = $OverlayLock
+# CONST
 const SPRITE_SCALE:Vector2 = Vector2(0.5, 0.5)
 const DROP_OFFSET:int = 128 # (the sprite is centered in the 128x128 container, and uses a 64,64 position)
+# VARS
+var is_locked:bool = false
 var gem_color:Enums.GemColor
 var gem_dict:Enums.GemDict
-# Declare and preload textures
+# VARS: Declare and preload textures
 const gem_textures_food: Dictionary = {
 	Enums.GemColor.RED: preload("res://assets/gems/food/characters_0001.png"),
 	Enums.GemColor.ORG: preload("res://assets/gems/food/characters_0002.png"),
@@ -60,7 +63,9 @@ const gem_textures_space1: Dictionary = {
 }
 var gem_textures:Dictionary = gem_textures_food
 
-func initialize(colorIn: Enums.GemColor, dictIn:Enums.GemDict):
+# =========================================================
+
+func initialize(colorIn: Enums.GemColor, dictIn: Enums.GemDict):
 	# A:
 	gem_color = colorIn
 	gem_dict = dictIn
@@ -120,6 +125,11 @@ func update_texture():
 	else:
 		print("ERROR: Texture for gem color not found!")
 		print("gem_textures: ", gem_textures)
+
+# TODO: WIP:
+func lock_cell(is_lock:bool):
+	is_locked = is_lock
+	overlay_lock.visible = true
 
 # =========================================================
 

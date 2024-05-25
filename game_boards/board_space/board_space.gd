@@ -56,17 +56,21 @@ func init_game2():
 		for cell in vbox.get_children():
 			vbox.remove_child(cell)
 			cell.queue_free()
-	# B:
+	# B: show awesome welcome message
 	emit_signal("show_game_msg", "Let's Play!")
 	# C: Animation runtime for msg is 0.5-sec
 	await CmnFunc.delay_time(self.get_child(0), 0.5)
 	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
 	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
-	# E: check board after init
+	# E: check board after init (wait a 1/4 sec) for UI updates
 	await CmnFunc.delay_time(self, 0.25)
 	process_game_round()
-	# F: start timer
+	# F: start inactivity timer
 	inactivity_timer.start()
+	# G: *GAME-SPECIFIC*: frozen gems
+	# TODO: NEW!
+	print("WIP:")
+	print(GEM_DICT)
 
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)

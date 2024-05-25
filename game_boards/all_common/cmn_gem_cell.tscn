@@ -681,19 +681,19 @@ position = Vector2(64, 64)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_nap56")
 
-[node name="Overlay-Ice" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("4_r411p")
-offset = Vector2(128, 128)
-
-[node name="Special-Rock" type="Sprite2D" parent="."]
+[node name="SpecialRock" type="Sprite2D" parent="."]
 visible = false
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_hugfh")
 offset = Vector2(128, 128)
 
-[node name="Overlay-Lock" type="Sprite2D" parent="."]
+[node name="OverlayIce" type="Sprite2D" parent="."]
+visible = false
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("4_r411p")
+offset = Vector2(128, 128)
+
+[node name="OverlayLock" type="Sprite2D" parent="."]
 visible = false
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("3_ry8vu")
