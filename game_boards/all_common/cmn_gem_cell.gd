@@ -84,7 +84,7 @@ func initialize(colorIn: Enums.GemColor, dictIn: Enums.GemDict):
 	#panel_hover.visible = false
 
 func explode_gem(colorIn: Enums.GemColor, pointsIn:int):
-	# A: set color immediately so code in `GameBoard.gd` canstart checking this cell's color
+	# A: set color immediately so code in `GameBoard.gd` can start checking this cell's color
 	gem_color = colorIn
 	# B:
 	play_selected_anim(false)

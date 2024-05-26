@@ -7,7 +7,7 @@ const GEM_POINTS:int = 25
 var highlight_gem1: CommonGemCell = null
 var highlight_gem2: CommonGemCell = null
 
-# =========================================================
+# FILLERS =========================================================
 
 func fill_grid(hbox:HBoxContainer, grid:GridContainer, square0:String, square1:String):
 	var size = hbox.get_child_count()
@@ -40,9 +40,7 @@ func fill_hbox(hbox:HBoxContainer, gem_dict:Enums.GemDict, on_cell_click):
 			#control_node.connect("drag_start", self._on_cell_click) # TODO:
 			#control_node.connect("drag_ended", self._on_cell_click) # TODO:
 
-# =========================================================
-
-# NEW
+# GEM LOGIC =========================================================
 
 func find_first_possible_swap(hbox:HBoxContainer) -> Array:
 	var num_columns: int = hbox.get_child_count()
@@ -82,15 +80,7 @@ func find_first_possible_swap(hbox:HBoxContainer) -> Array:
 					board[nx][ny] = temp
 	return []  # No moves possible
 
-func highlight_first_swap(hbox:HBoxContainer) -> void:
-	var swap = find_first_possible_swap(hbox)
-	if swap.size() == 2:
-		highlight_gem1 = swap[0]
-		highlight_gem2 = swap[1]
-		highlight_gem1.highlight()
-		highlight_gem2.highlight()
-
-func has_match_at(x, y, board):
+func has_match_at(x:int, y:int, board:Array):
 	var color = board[x][y].gem_color
 
 	# Check horizontal matches
@@ -130,7 +120,15 @@ func check_for_possible_moves(hbox:HBoxContainer) -> bool:
 		return true
 	return false
 
-# UTILS
+func highlight_first_swap(hbox:HBoxContainer) -> void:
+	var swap = find_first_possible_swap(hbox)
+	if swap.size() == 2:
+		highlight_gem1 = swap[0]
+		highlight_gem2 = swap[1]
+		highlight_gem1.highlight()
+		highlight_gem2.highlight()
+
+# UTILS =========================================================
 
 func get_all_matches(hbox:HBoxContainer) -> Array:
 	var num_columns: int = hbox.get_child_count()
@@ -199,7 +197,7 @@ func get_all_matches(hbox:HBoxContainer) -> Array:
 
 	return matches
 
-func extract_gem_cells_from_matches(matches: Array) -> Array:
+func extract_gem_cells_from_matches(matches:Array) -> Array:
 	var all_gem_cells = []
 	for match in matches:
 		# `match["cells"]` is the array of gem cells for this particular match
@@ -246,9 +244,17 @@ func are_cells_adjacent(gemcell1:CommonGemCell, gemcell2:CommonGemCell) -> bool:
 	# Cells are not adjacent
 	return false
 
+func lock_bottom_two_rows(hbox:HBoxContainer):
+	for vbox in hbox.get_children():
+		if vbox is VBoxContainer:
+			var children = vbox.get_children()
+			var num_children = len(children)
+			for i in range(num_children - 2, num_children):
+				children[i].lock_cell(true)
+
 # =========================================================
 
-func calculate_score_for_matches(matches: Array) -> int:
+func calculate_score_for_matches(matches:Array) -> int:
 	var score = 0
 	for match in matches:
 		var match_length = match["count"]
@@ -257,7 +263,7 @@ func calculate_score_for_matches(matches: Array) -> int:
 		score += match_score * GEM_POINTS
 	return score
 
-func calculate_scores_for_each_match(matches: Array) -> Dictionary:
+func calculate_scores_for_each_match(matches:Array) -> Dictionary:
 	var scores = {}
 	for match in matches:
 		var count = match["count"]
@@ -280,7 +286,7 @@ func new_game_explode_replace(hbox:HBoxContainer, colors:Array, delay:float):
 		for gem_cell in vbox.get_children():
 			gem_cell.replace_gem(colors[randi() % colors.size()], 1)
 
-func delay_time(node: Node, time_sec: float) -> void:
+func delay_time(node:Node, time_sec:float) -> void:
 	var tnode = node.get_parent()
 	var timer = Timer.new()
 	timer.wait_time = time_sec

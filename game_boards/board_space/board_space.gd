@@ -70,7 +70,8 @@ func init_game2():
 	# G: *GAME-SPECIFIC*: frozen gems
 	# TODO: NEW!
 	print("WIP:")
-	print(GEM_DICT)
+	# TODO: look bottom two rows
+	CmnFunc.lock_bottom_two_rows(hbox_container)
 
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
@@ -92,6 +93,10 @@ func new_game():
 func _on_cell_click(gem_cell:CommonGemCell):
 	Enums.debug_print("[_on_cell_click] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)), Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[_on_cell_click] ---------------------------------------------", Enums.DEBUG_LEVEL.INFO)
+	
+	# WIP: NEW:
+	if (gem_cell.is_locked):
+		return
 	
 	# A: Reset the inactivity_timer timer on any user input
 	inactivity_timer.stop()
