@@ -8,7 +8,7 @@ const EXPLODE_DELAY:float = TWEEN_TIME*2.0
 const SRPITE_POS:Vector2 = Vector2(64,64)
 const HINT_DELAY:int = 10
 # VARS
-var current_debug_level = DEBUG_LEVEL.INFO  # Global variable to set the current debug level
+var current_debug_level = DEBUG_LEVEL.NONE #.INFO  # Global variable to set the current debug level
 
 # =========================================================
 
