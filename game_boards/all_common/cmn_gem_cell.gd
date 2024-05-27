@@ -129,7 +129,7 @@ func update_texture():
 # TODO: WIP:
 func lock_cell(is_lock:bool):
 	is_locked = is_lock
-	overlay_lock.visible = true
+	overlay_lock.visible = is_lock
 
 # =========================================================
 

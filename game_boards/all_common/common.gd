@@ -430,9 +430,9 @@ func delay_time(node:Node, time_sec:float) -> void:
 # WIP: trying to unlock cells when neighbors explode
 
 func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
-	var position = gem_cell.get_position()
-	var x = int(position.x)
-	var y = int(position.y)
+	var indices = find_gem_indices(gem_cell)
+	var x = indices["column"]
+	var y = indices["row"]
 	
 	var adjacent_positions = [
 		Vector2(x + 1, y), Vector2(x - 1, y),
@@ -440,8 +440,11 @@ func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
 	]
 	
 	for pos in adjacent_positions:
+		Enums.debug_print("[UALC] Checking adjacent position: ("+ str(pos.x) +", "+ str(pos.y)+ ")", Enums.DEBUG_LEVEL.INFO)
 		if pos.x >= 0 and pos.y >= 0 and pos.x < hbox.get_child_count() and pos.y < hbox.get_child(0).get_child_count():
-			var adjacent_cell = hbox.get_child(int(pos.x)).get_child(int(pos.y)) as CommonGemCell
-			print("adjacent_cell.is_locked = ", str(adjacent_cell.is_locked))
+			var adjacent_vbox = hbox.get_child(int(pos.x)) as VBoxContainer
+			var adjacent_cell = adjacent_vbox.get_child(int(pos.y)) as CommonGemCell
+			Enums.debug_print("[UALC] - adjacent cell at ("+ str(pos.x) +", "+ str(pos.y) +") is_locked = "+ str(adjacent_cell.is_locked), Enums.DEBUG_LEVEL.INFO)
 			if adjacent_cell.is_locked:
+				Enums.debug_print("[UALC] - unlocking adjacent locked cell at position: ("+ str(pos.x) +", "+ str(pos.y) +")", Enums.DEBUG_LEVEL.INFO)
 				adjacent_cell.lock_cell(false)

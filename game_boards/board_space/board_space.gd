@@ -264,8 +264,6 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 			var score = match_scores[gem_cell]
 			gem_cell.explode_gem(gem_cell.gem_color, score)
 			CmnFunc.unlock_adjacent_locked_cells(hbox_container, gem_cell)
-			# TODO: NEW: below
-			# FIXME: this isnt working
 	
 	# B: Show game messages (ex: "Amazing!")
 	emit_signal("board_match_multi", matches.size())
