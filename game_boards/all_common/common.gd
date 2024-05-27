@@ -1,9 +1,9 @@
 extends Node
 class_name Common
-#
+# CONST
 const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
 const GEM_POINTS:int = 25
-#
+# VAR
 var highlight_gem1: CommonGemCell = null
 var highlight_gem2: CommonGemCell = null
 
@@ -13,135 +13,110 @@ func fill_grid(hbox:HBoxContainer, grid:GridContainer, square0:String, square1:S
 	var size = hbox.get_child_count()
 	for i in range(size):
 		for j in range(size):
-			# Load the appropriate scene based on the checkerboard pattern
-			var brdsq_scene_path = square0  # Light square
+			var brdsq_scene_path = square0
 			if (i + j) % 2 == 0:
-				brdsq_scene_path = square1  # Dark square
-			
-			# Load and instantiate the scene
+				brdsq_scene_path = square1
 			var brdsq_scene = load(brdsq_scene_path)
 			var brdsq = brdsq_scene.instantiate()
-			
-			# Add the instantiated square to the grid container
 			grid.add_child(brdsq)
 
 func fill_hbox(hbox:HBoxContainer, gem_dict:Enums.GemDict, on_cell_click):
 	for col_idx in range(hbox.get_child_count()):
 		for row_idx in range(8):
-			# A: random gem
 			var gem_type = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
-			# B: create/add
 			var gem_cell_scene = load("res://game_boards/all_common/cmn_gem_cell.tscn")
 			var gem_cell:CommonGemCell = gem_cell_scene.instantiate()
 			hbox.get_child(col_idx).add_child(gem_cell)
 			gem_cell.initialize(gem_type, gem_dict)
 			var control_node = gem_cell.get_node("GemControl")
 			control_node.connect("cell_click", on_cell_click)
-			#control_node.connect("drag_start", self._on_cell_click) # TODO:
-			#control_node.connect("drag_ended", self._on_cell_click) # TODO:
 
 # GEM LOGIC =========================================================
 
 func find_first_possible_swap(hbox:HBoxContainer) -> Array:
 	var num_columns: int = hbox.get_child_count()
 	var num_rows: int = hbox.get_child(0).get_child_count()
-	# Create a 2D array to represent the board
 	var board = []
+
 	for x in range(num_columns):
 		var column = []
 		for y in range(num_rows):
-			column.append(hbox.get_child(x).get_child(y))
+			var gem_cell = hbox.get_child(x).get_child(y)
+			column.append(gem_cell)
 		board.append(column)
-	# Try swapping each gem with its neighbors and check for matches
-	var swaps = [[0, 1], [1, 0]]  # Only right and down to avoid duplicate checks
+
 	for x in range(num_columns):
 		for y in range(num_rows):
-			for swap in swaps:
-				var dx = swap[0]
-				var dy = swap[1]
-				var nx = x + dx
-				var ny = y + dy
-				if nx < num_columns and ny < num_rows:
-					# Swap using a temporary variable
-					var temp = board[x][y]
-					board[x][y] = board[nx][ny]
-					board[nx][ny] = temp
-					# Check for a match
-					if has_match_at(x, y, board) or has_match_at(nx, ny, board):
-						# Swap back
-						temp = board[x][y]
-						board[x][y] = board[nx][ny]
-						board[nx][ny] = temp
-						# Return the coordinates of the first valid swap
-						return [board[x][y], board[nx][ny]]
-					# Swap back
-					temp = board[x][y]
-					board[x][y] = board[nx][ny]
-					board[nx][ny] = temp
-	return []  # No moves possible
+			var gem_cell = board[x][y]
+			if gem_cell.is_locked:
+				continue
 
-func has_match_at(x:int, y:int, board:Array):
-	var color = board[x][y].gem_color
+			if x < num_columns - 1 and not board[x + 1][y].is_locked:
+				swap(board, x, y, x + 1, y)
+				if check_match(board):
+					swap(board, x, y, x + 1, y)
+					return [gem_cell, board[x + 1][y]]
+				swap(board, x, y, x + 1, y)
 
-	# Check horizontal matches
-	var count = 1
-	# Check left
-	var i = x - 1
-	while i >= 0 and board[i][y].gem_color == color:
-		count += 1
-		i -= 1
-	# Check right
-	i = x + 1
-	while i < board.size() and board[i][y].gem_color == color:
-		count += 1
-		i += 1
-	if count >= 3:
-		return true
+			if y < num_rows - 1 and not board[x][y + 1].is_locked:
+				swap(board, x, y, x, y + 1)
+				if check_match(board):
+					swap(board, x, y, x, y + 1)
+					return [gem_cell, board[x][y + 1]]
+				swap(board, x, y, x, y + 1)
 
-	# Check vertical matches
-	count = 1
-	# Check up
-	var j = y - 1
-	while j >= 0 and board[x][j].gem_color == color:
-		count += 1
-		j -= 1
-	# Check down
-	j = y + 1
-	while j < board[x].size() and board[x][j].gem_color == color:
-		count += 1
-		j += 1
-	if count >= 3:
-		return true
-	
+	return []
+
+func swap(board, x1, y1, x2, y2):
+	var temp = board[x1][y1]
+	board[x1][y1] = board[x2][y2]
+	board[x2][y2] = temp
+
+func check_match(board) -> bool:
+	var num_columns = board.size()
+	var num_rows = board[0].size()
+
+	for x in range(num_columns):
+		for y in range(num_rows):
+			var gem_cell = board[x][y]
+			if gem_cell.is_locked:
+				continue
+
+			if x < num_columns - 2:
+				if not board[x + 1][y].is_locked and not board[x + 2][y].is_locked:
+					if gem_cell.gem_color == board[x + 1][y].gem_color and gem_cell.gem_color == board[x + 2][y].gem_color:
+						return true
+
+			if y < num_rows - 2:
+				if not board[x][y + 1].is_locked and not board[x][y + 2].is_locked:
+					if gem_cell.gem_color == board[x][y + 1].gem_color and gem_cell.gem_color == board[x][y + 2].gem_color:
+						return true
+
 	return false
 
-func check_for_possible_moves(hbox:HBoxContainer) -> bool:
-	if find_first_possible_swap(hbox).size() > 0:
-		return true
-	return false
-
-func highlight_first_swap(hbox:HBoxContainer) -> void:
-	var swap = find_first_possible_swap(hbox)
-	if swap.size() == 2:
-		highlight_gem1 = swap[0]
-		highlight_gem2 = swap[1]
-		highlight_gem1.highlight()
-		highlight_gem2.highlight()
-
-# UTILS =========================================================
-
-func get_all_matches(hbox:HBoxContainer) -> Array:
-	var num_columns: int = hbox.get_child_count()
-	var num_rows: int = hbox.get_child(0).get_child_count()
+func get_matches(hbox: HBoxContainer) -> Array:
 	var matches = []
+	var num_columns = hbox.get_child_count()
+	var num_rows = hbox.get_child(0).get_child_count()
 
-	# Horizontal Check (check each row)
 	for row in range(num_rows):
 		var last_color = null
 		var streak = 0
 		var match_start = 0
 		for column in range(num_columns):
 			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
+			if gem_cell.is_locked:
+				if streak >= 3:
+					var match_cells = []
+					for i in range(match_start, column):
+						match_cells.append(hbox.get_child(i).get_child(row))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
+				streak = 0
+				continue
+
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
@@ -156,6 +131,7 @@ func get_all_matches(hbox:HBoxContainer) -> Array:
 				streak = 1
 				match_start = column
 				last_color = gem_cell.gem_color
+
 		if streak >= 3:
 			var match_cells = []
 			for i in range(match_start, num_columns):
@@ -165,13 +141,24 @@ func get_all_matches(hbox:HBoxContainer) -> Array:
 				"count": streak
 			})
 
-	# Vertical Check (check each column)
 	for column in range(num_columns):
 		var last_color = null
 		var streak = 0
 		var match_start = 0
 		for row in range(num_rows):
 			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
+			if gem_cell.is_locked:
+				if streak >= 3:
+					var match_cells = []
+					for i in range(match_start, row):
+						match_cells.append(hbox.get_child(column).get_child(i))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
+				streak = 0
+				continue
+
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
@@ -186,6 +173,7 @@ func get_all_matches(hbox:HBoxContainer) -> Array:
 				streak = 1
 				match_start = row
 				last_color = gem_cell.gem_color
+
 		if streak >= 3:
 			var match_cells = []
 			for i in range(match_start, num_rows):
@@ -197,12 +185,153 @@ func get_all_matches(hbox:HBoxContainer) -> Array:
 
 	return matches
 
-func extract_gem_cells_from_matches(matches:Array) -> Array:
-	var all_gem_cells = []
+func has_match_at(x:int, y:int, board:Array) -> bool:
+	if board[x][y].is_locked:
+		return false
+	
+	var color = board[x][y].gem_color
+
+	# Check horizontal matches
+	var count = 1
+	var i = x - 1
+	while i >= 0 and not board[i][y].is_locked and board[i][y].gem_color == color:
+		count += 1
+		i -= 1
+	i = x + 1
+	while i < board.size() and not board[i][y].is_locked and board[i][y].gem_color == color:
+		count += 1
+		i += 1
+	if count >= 3:
+		return true
+
+	# Check vertical matches
+	count = 1
+	var j = y - 1
+	while j >= 0 and not board[x][j].is_locked and board[x][j].gem_color == color:
+		count += 1
+		j -= 1
+	j = y + 1
+	while j < board[x].size() and not board[x][j].is_locked and board[x][j].gem_color == color:
+		count += 1
+		j += 1
+	if count >= 3:
+		return true
+
+	return false
+
+func check_for_possible_moves(hbox:HBoxContainer) -> bool:
+	if find_first_possible_swap(hbox).size() > 0:
+		return true
+	return false
+
+func highlight_first_swap(hbox:HBoxContainer) -> void:
+	var findswap = find_first_possible_swap(hbox)
+	if findswap.size() == 2:
+		highlight_gem1 = findswap[0]
+		highlight_gem2 = findswap[1]
+		highlight_gem1.highlight()
+		highlight_gem2.highlight()
+
+# UTILS =========================================================
+
+func get_all_matches(hbox:HBoxContainer) -> Array:
+	var num_columns: int = hbox.get_child_count()
+	var num_rows: int = hbox.get_child(0).get_child_count()
+	var matches = []
+
+	for row in range(num_rows):
+		var last_color = null
+		var streak = 0
+		var match_start = 0
+		for column in range(num_columns):
+			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
+			if gem_cell.is_locked:
+				if streak >= 3:
+					var match_cells = []
+					for i in range(match_start, column):
+						match_cells.append(hbox.get_child(i).get_child(row))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
+				streak = 0
+				continue
+
+			if gem_cell.gem_color == last_color:
+				streak += 1
+			else:
+				if streak >= 3:
+					var match_cells = []
+					for i in range(match_start, column):
+						match_cells.append(hbox.get_child(i).get_child(row))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
+				streak = 1
+				match_start = column
+				last_color = gem_cell.gem_color
+
+		if streak >= 3:
+			var match_cells = []
+			for i in range(match_start, num_columns):
+				match_cells.append(hbox.get_child(i).get_child(row))
+			matches.append({
+				"cells": match_cells,
+				"count": streak
+			})
+
+	for column in range(num_columns):
+		var last_color = null
+		var streak = 0
+		var match_start = 0
+		for row in range(num_rows):
+			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
+			if gem_cell.is_locked:
+				if streak >= 3:
+					var match_cells = []
+					for i in range(match_start, row):
+						match_cells.append(hbox.get_child(column).get_child(i))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
+				streak = 0
+				continue
+
+			if gem_cell.gem_color == last_color:
+				streak += 1
+			else:
+				if streak >= 3:
+					var match_cells = []
+					for i in range(match_start, row):
+						match_cells.append(hbox.get_child(column).get_child(i))
+					matches.append({
+						"cells": match_cells,
+						"count": streak
+					})
+				streak = 1
+				match_start = row
+				last_color = gem_cell.gem_color
+
+		if streak >= 3:
+			var match_cells = []
+			for i in range(match_start, num_rows):
+				match_cells.append(hbox.get_child(column).get_child(i))
+			matches.append({
+				"cells": match_cells,
+				"count": streak
+			})
+
+	return matches
+
+func extract_gem_cells_from_matches(matches: Array) -> Array:
+	var gem_cells = []
 	for match in matches:
-		# `match["cells"]` is the array of gem cells for this particular match
-		all_gem_cells += match["cells"]  # Append all cells in this match to the master list
-	return all_gem_cells
+		for cell in match.cells:
+			if not cell.is_locked:
+				gem_cells.append(cell)
+	return gem_cells
 
 func find_gem_indices(gem_cell:CommonGemCell) -> Dictionary:
 	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
@@ -296,3 +425,25 @@ func delay_time(node:Node, time_sec:float) -> void:
 	await timer.timeout
 	tnode.remove_child(timer)
 	timer.queue_free()
+
+# Locked Gems =========================================================
+
+func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
+	var indices = find_gem_indices(gem_cell)
+	var x = indices["column"]
+	var y = indices["row"]
+	
+	var adjacent_positions = [
+		Vector2(x + 1, y), Vector2(x - 1, y),
+		Vector2(x, y + 1), Vector2(x, y - 1)
+	]
+	
+	for pos in adjacent_positions:
+		Enums.debug_print("[UALC] Checking adjacent position: ("+ str(pos.x) +", "+ str(pos.y)+ ")", Enums.DEBUG_LEVEL.INFO)
+		if pos.x >= 0 and pos.y >= 0 and pos.x < hbox.get_child_count() and pos.y < hbox.get_child(0).get_child_count():
+			var adjacent_vbox = hbox.get_child(int(pos.x)) as VBoxContainer
+			var adjacent_cell = adjacent_vbox.get_child(int(pos.y)) as CommonGemCell
+			Enums.debug_print("[UALC] - adjacent cell at ("+ str(pos.x) +", "+ str(pos.y) +") is_locked = "+ str(adjacent_cell.is_locked), Enums.DEBUG_LEVEL.INFO)
+			if adjacent_cell.is_locked:
+				Enums.debug_print("[UALC] - unlocking adjacent locked cell at position: ("+ str(pos.x) +", "+ str(pos.y) +")", Enums.DEBUG_LEVEL.INFO)
+				adjacent_cell.lock_cell(false)

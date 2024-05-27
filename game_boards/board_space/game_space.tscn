@@ -475,10 +475,10 @@ vertical_alignment = 1
 [node name="ContDebug" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1675.0
-offset_top = 914.0
-offset_right = 1925.0
-offset_bottom = 1264.0
+offset_left = 1680.0
+offset_top = 920.0
+offset_right = 1930.0
+offset_bottom = 1270.0
 
 [node name="ContDebugBkgd" type="Panel" parent="ContDebug"]
 layout_mode = 1
@@ -606,7 +606,7 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("18_jrjnv")
-theme_override_font_sizes/normal_font_size = 240
+theme_override_font_sizes/normal_font_size = 204
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
 fit_content = true
@@ -627,7 +627,7 @@ offset_bottom = 144.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("19_iidij")
-theme_override_font_sizes/normal_font_size = 240
+theme_override_font_sizes/normal_font_size = 204
 bbcode_enabled = true
 text = "[center]Amazing![/center]"
 fit_content = true
@@ -636,7 +636,6 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 
 [node name="CenterContainer" type="CenterContainer" parent="ContMessages"]
-visible = false
 layout_mode = 0
 offset_right = 2000.0
 offset_bottom = 259.0

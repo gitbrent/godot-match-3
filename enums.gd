@@ -1,7 +1,7 @@
 extends Node
 # APP
-const APP_VER:String = "0.5.0"
-const APP_BLD:String = "20240524"
+const APP_VER:String = "0.6.0"
+const APP_BLD:String = "20240527"
 # GAME
 const TWEEN_TIME:float = 0.25
 const EXPLODE_DELAY:float = TWEEN_TIME*2.0
