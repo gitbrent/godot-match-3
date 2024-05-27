@@ -1,10 +1,11 @@
 extends Node2D
-class_name GameBoard
+class_name GameBoardFood
 # SIGNALS
 signal props_updated_moves(moves:int)
 signal props_updated_score(score:int)
 signal props_updated_gemsdict(gems_dict:Dictionary)
 signal board_match_multi(match_cnt:int)
+signal show_game_msg(msg:String)
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
@@ -13,6 +14,7 @@ var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 var CmnDbg = preload("res://game_boards/all_common/common_debug.gd").new()
 const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
 const GEM_POINTS:int = 25
+const GEM_DICT:Enums.GemDict = Enums.GemDict.FOOD
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
 var undo_cell_1:CommonGemCell = null
@@ -29,8 +31,29 @@ func _ready():
 	const brd_sq0 = "res://game_boards/board_food/assets/board_square_0.tscn"
 	const brd_sq1 = "res://game_boards/board_food/assets/board_square_1.tscn"
 	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
-	CmnFunc.fill_hbox(hbox_container, Enums.GemDict.FOOD, self._on_cell_click)
-	# B: check board after init
+
+# NOTE: iOS [Xcode] has no cells if "CmnFunc.fill_hbox()" is in the _ready() func above
+# So, instead of having [game_space.gd] flip `visible` flag on this scene, let's do both of these here to alleviate the issue
+# Plus, even when calling both fill_grid funcs, then "process_game_round()" - it made the matching sound sin the background on main game launch, etc.
+func init_game():
+	# IMPORTANT: This game scene was just made visible before this func is called, 
+	# so give the engine a render frame to set the HBoxs or they wont exist yet
+	call_deferred("init_game2")
+
+func init_game2():
+	# A: clear all GemCells
+	for vbox in hbox_container.get_children():
+		for cell in vbox.get_children():
+			vbox.remove_child(cell)
+			cell.queue_free()
+	# B: show awesome welcome message
+	emit_signal("show_game_msg", "Let's Play!")
+	# C: Animation runtime for msg is 0.5-sec
+	await CmnFunc.delay_time(self.get_child(0), 0.5)
+	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
+	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
+	# E: check board after init (wait a 1/4 sec) for UI updates
+	await CmnFunc.delay_time(self, 0.25)
 	process_game_round()
 
 func new_game():
@@ -107,8 +130,8 @@ func swap_gem_cells(swap_cell_1:CommonGemCell, swap_cell_2:CommonGemCell):
 	# C: logially swap
 	var gem_cell_1 = swap_cell_1.gem_color
 	var gem_cell_2 = swap_cell_2.gem_color
-	swap_cell_1.initialize(gem_cell_2, Enums.GemDict.FOOD)
-	swap_cell_2.initialize(gem_cell_1, Enums.GemDict.FOOD)
+	swap_cell_1.initialize(gem_cell_2, GEM_DICT)
+	swap_cell_2.initialize(gem_cell_1, GEM_DICT)
 	#debug_print_ascii_table([swap_cell_1,swap_cell_2])
 	
 	# D: get position to restore to after move so tween sets/flows smoothly

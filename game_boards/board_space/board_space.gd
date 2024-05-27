@@ -68,9 +68,6 @@ func init_game2():
 	# F: start inactivity timer
 	inactivity_timer.start()
 	# G: *GAME-SPECIFIC*: frozen gems
-	# TODO: NEW!
-	print("WIP:")
-	# TODO: look bottom two rows
 	CmnFunc.lock_bottom_two_rows(hbox_container)
 
 func new_game():
