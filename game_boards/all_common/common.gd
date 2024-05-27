@@ -426,8 +426,7 @@ func delay_time(node:Node, time_sec:float) -> void:
 	tnode.remove_child(timer)
 	timer.queue_free()
 
-# TODO: NEW: below
-# WIP: trying to unlock cells when neighbors explode
+# Locked Gems =========================================================
 
 func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
 	var indices = find_gem_indices(gem_cell)
