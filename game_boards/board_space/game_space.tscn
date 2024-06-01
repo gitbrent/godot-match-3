@@ -1,11 +1,13 @@
-[gd_scene load_steps=34 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=37 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
 [ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/assets/animated_cloud.tscn" id="4_731ya"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
+[ext_resource type="Texture2D" uid="uid://niaauagll4b7" path="res://assets/space_top_bar.png" id="6_tboc8"]
 [ext_resource type="Shader" path="res://game_boards/board_space/assets/gem_cell.gdshader" id="6_tywfq"]
+[ext_resource type="Texture2D" uid="uid://q50v1qucnb61" path="res://assets/space_progress_bar.png" id="7_6r8ct"]
 [ext_resource type="Texture2D" uid="uid://dt14wt38x2ddb" path="res://assets/gems/space/Space_R.png" id="7_8sijq"]
 [ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
 [ext_resource type="Texture2D" uid="uid://dwf6yosfhinvi" path="res://assets/gems/space/Space_Z.png" id="9_ygwn3"]
@@ -28,6 +30,9 @@ bg_color = Color(0, 0, 0, 0.933333)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
 bg_color = Color(0, 0, 0, 0.6)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ay78g"]
+bg_color = Color(0.552941, 0.992157, 0.933333, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
 shader = ExtResource("6_tywfq")
@@ -189,6 +194,7 @@ anchor_right = 1.0
 grow_horizontal = 2
 
 [node name="GameTopBkgd" type="Panel" parent="ContTopBar"]
+visible = false
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -198,6 +204,7 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
 
 [node name="GameTopHBox" type="HBoxContainer" parent="ContTopBar"]
+visible = false
 custom_minimum_size = Vector2(2000, 150)
 layout_mode = 0
 offset_right = 2000.0
@@ -237,7 +244,36 @@ size_flags_horizontal = 3
 theme = ExtResource("6_i6ds6")
 text = "0"
 
+[node name="NinePatchRect" type="NinePatchRect" parent="ContTopBar"]
+layout_mode = 0
+offset_left = 334.0
+offset_top = 29.0
+offset_right = 1734.0
+offset_bottom = 189.0
+texture = ExtResource("6_tboc8")
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 34
+
+[node name="ProgressBar" type="ProgressBar" parent="ContTopBar"]
+layout_mode = 0
+offset_left = 150.0
+offset_top = 279.0
+offset_right = 394.0
+offset_bottom = 309.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_ay78g")
+step = 1.0
+value = 80.0
+show_percentage = false
+
+[node name="Sprite2D" type="Sprite2D" parent="ContTopBar"]
+position = Vector2(120, 259)
+texture = ExtResource("7_6r8ct")
+centered = false
+
 [node name="ContGameStats" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -423,6 +459,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 position = Vector2(500, 250)
 
 [node name="ContDebugBtns" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1653.0
@@ -473,6 +510,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ContDebug" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1680.0
@@ -636,6 +674,7 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 
 [node name="CenterContainer" type="CenterContainer" parent="ContMessages"]
+visible = false
 layout_mode = 0
 offset_right = 2000.0
 offset_bottom = 259.0
