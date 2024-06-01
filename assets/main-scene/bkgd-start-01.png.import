@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://q50v1qucnb61"
-path="res://.godot/imported/space_progress_bar.png-0c17a394b60eef941306b90eda4fe7ab.ctex"
+uid="uid://bs85baln30tig"
+path="res://.godot/imported/bkgd-start-01.png-ce0576508c92a5274360d9efc1b9296b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/space_progress_bar.png"
-dest_files=["res://.godot/imported/space_progress_bar.png-0c17a394b60eef941306b90eda4fe7ab.ctex"]
+source_file="res://assets/main-scene/bkgd-start-01.png"
+dest_files=["res://.godot/imported/bkgd-start-01.png-ce0576508c92a5274360d9efc1b9296b.ctex"]
 
 [params]
 

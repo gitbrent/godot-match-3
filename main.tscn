@@ -1,27 +1,49 @@
-[gd_scene load_steps=10 format=3 uid="uid://mu2k87xf3lma"]
+[gd_scene load_steps=23 format=3 uid="uid://mu2k87xf3lma"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_73dvc"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_t1b1c"]
 [ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="2_j1i6k"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="3_nqt0h"]
+[ext_resource type="Texture2D" uid="uid://bs85baln30tig" path="res://assets/main-scene/bkgd-start-01.png" id="3_qynd5"]
 [ext_resource type="Texture2D" uid="uid://c4hpyl2askghn" path="res://assets/gui/Box_Blue_Rounded.png" id="4_wttq0"]
+[ext_resource type="Texture2D" uid="uid://cq1o12gw7w07m" path="res://assets/main-scene/title-match-3.png" id="5_mjc3p"]
 [ext_resource type="Texture2D" uid="uid://dcow071sb2a7i" path="res://assets/gui/ButtonText_Large_Orange_Round.png" id="6_2tan1"]
 [ext_resource type="PackedScene" uid="uid://b5bfm2244ywxk" path="res://game_boards/board_food/game_food.tscn" id="6_hsxpn"]
 [ext_resource type="PackedScene" uid="uid://bkaimvifjwkai" path="res://game_boards/board_space/game_space.tscn" id="7_w5d02"]
+[ext_resource type="Texture2D" uid="uid://bobwppgysrosa" path="res://assets/main-scene/UI-03.png" id="9_lgj16"]
+[ext_resource type="Texture2D" uid="uid://b1yee6wp7fvlg" path="res://assets/main-scene/level-panel-food.png" id="10_f6h17"]
+[ext_resource type="Texture2D" uid="uid://dmdbncevubru8" path="res://assets/gui/ButtonText_Large_Green_Square.png" id="10_hjx06"]
+[ext_resource type="Texture2D" uid="uid://3hukivssjv3y" path="res://assets/main-scene/level-panel-space-250x650.png" id="10_itbvq"]
+[ext_resource type="Texture2D" uid="uid://26oggt734vaj" path="res://assets/gui/Box_Blue_Square.png" id="12_upkve"]
+[ext_resource type="Texture2D" uid="uid://bjuycedhfgsj8" path="res://assets/main-scene/yellow_button07.png" id="13_ffncg"]
+[ext_resource type="Texture2D" uid="uid://b0noylx34wt0y" path="res://assets/main-scene/UI-01.png" id="13_t7uvn"]
+[ext_resource type="Theme" uid="uid://dtjv2f8gbraba" path="res://assets/main-scene/level_buttons.tres" id="14_xkhin"]
+[ext_resource type="Texture2D" uid="uid://jgy06dpilgjd" path="res://assets/main-scene/NineRect-green.png" id="16_6l0pj"]
+[ext_resource type="Texture2D" uid="uid://bfm8ofobq7p8k" path="res://assets/main-scene/level-panel-jungle.png" id="16_frh2l"]
+[ext_resource type="Texture2D" uid="uid://bdhgbdtnre0xk" path="res://assets/main-scene/UI-05.png" id="17_k1d2n"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhytr"]
-bg_color = Color(0, 0, 0, 0.133333)
+bg_color = Color(0, 0, 0, 0.0666667)
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_73dvc")
 
 [node name="Background" type="TextureRect" parent="."]
+visible = false
 offset_right = 2000.0
 offset_bottom = 1390.0
 texture = ExtResource("1_t1b1c")
 expand_mode = 2
 
+[node name="BackgroundNew" type="TextureRect" parent="."]
+offset_left = -230.0
+offset_right = 1562.0
+offset_bottom = 1024.0
+scale = Vector2(1.36, 1.36)
+texture = ExtResource("3_qynd5")
+
 [node name="GameTopBkgd" type="Panel" parent="."]
+visible = false
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = 2000.0
@@ -30,6 +52,7 @@ grow_horizontal = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uhytr")
 
 [node name="RTL-Title" type="RichTextLabel" parent="GameTopBkgd"]
+visible = false
 custom_minimum_size = Vector2(2000, 250)
 layout_mode = 2
 offset_top = 50.0
@@ -46,23 +69,82 @@ text = "[center]MATCH 3[/center]"
 scroll_active = false
 shortcut_keys_enabled = false
 
-[node name="TextureRect" type="TextureRect" parent="."]
-offset_left = 542.0
-offset_top = 409.0
-offset_right = 2051.0
-offset_bottom = 1919.0
+[node name="RTL-Title4" type="RichTextLabel" parent="GameTopBkgd"]
+custom_minimum_size = Vector2(2000, 250)
+layout_mode = 0
+offset_top = 50.0
+offset_right = 2000.0
+offset_bottom = 300.0
+grow_horizontal = 2
+theme_override_colors/default_color = Color(0.223529, 0.223529, 0.223529, 1)
+theme_override_colors/font_outline_color = Color(0.223529, 0.223529, 0.223529, 1)
+theme_override_constants/outline_size = 64
+theme_override_fonts/normal_font = ExtResource("2_j1i6k")
+theme_override_font_sizes/normal_font_size = 210
+bbcode_enabled = true
+text = "[center]MATCH 3[/center]"
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="RTL-Title3" type="RichTextLabel" parent="GameTopBkgd"]
+custom_minimum_size = Vector2(2000, 250)
+layout_mode = 0
+offset_top = 50.0
+offset_right = 2000.0
+offset_bottom = 300.0
+grow_horizontal = 2
+theme_override_colors/default_color = Color(0.909804, 0.266667, 0.12549, 1)
+theme_override_colors/font_outline_color = Color(0.909804, 0.266667, 0.12549, 1)
+theme_override_constants/outline_size = 36
+theme_override_fonts/normal_font = ExtResource("2_j1i6k")
+theme_override_font_sizes/normal_font_size = 210
+bbcode_enabled = true
+text = "[center]MATCH 3[/center]"
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="RTL-Title2" type="RichTextLabel" parent="GameTopBkgd"]
+custom_minimum_size = Vector2(2000, 250)
+layout_mode = 0
+offset_top = 50.0
+offset_right = 2000.0
+offset_bottom = 300.0
+grow_horizontal = 2
+theme_override_colors/default_color = Color(0.909804, 0.654902, 0.12549, 1)
+theme_override_colors/font_outline_color = Color(0.772549, 0.843137, 0.988235, 0.882353)
+theme_override_fonts/normal_font = ExtResource("2_j1i6k")
+theme_override_font_sizes/normal_font_size = 210
+bbcode_enabled = true
+text = "[center]MATCH 3[/center]"
+scroll_active = false
+shortcut_keys_enabled = false
+
+[node name="TextureRectTitle" type="TextureRect" parent="."]
+offset_left = 640.0
+offset_top = 16.0
+offset_right = 1838.0
+offset_bottom = 775.0
 scale = Vector2(0.6, 0.6)
+texture = ExtResource("5_mjc3p")
+
+[node name="ContButtons" type="TextureRect" parent="."]
+visible = false
+offset_left = 634.0
+offset_top = 413.0
+offset_right = 2143.0
+offset_bottom = 1923.0
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("4_wttq0")
 
-[node name="BtnBoard1" type="TextureButton" parent="."]
-offset_left = 651.0
-offset_top = 584.0
-offset_right = 1810.0
-offset_bottom = 942.0
-scale = Vector2(0.6, 0.6)
+[node name="BtnBoard1" type="TextureButton" parent="ContButtons"]
+layout_mode = 0
+offset_left = 181.667
+offset_top = 306.667
+offset_right = 1340.67
+offset_bottom = 664.667
 texture_normal = ExtResource("3_nqt0h")
 
-[node name="Label" type="Label" parent="BtnBoard1"]
+[node name="Label" type="Label" parent="ContButtons/BtnBoard1"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -76,15 +158,15 @@ text = "Level 1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BtnBoard2" type="TextureButton" parent="."]
-offset_left = 659.0
-offset_top = 945.0
-offset_right = 1818.0
-offset_bottom = 1303.0
-scale = Vector2(0.6, 0.6)
+[node name="BtnBoard2" type="TextureButton" parent="ContButtons"]
+layout_mode = 0
+offset_left = 181.667
+offset_top = 860.0
+offset_right = 1340.67
+offset_bottom = 1218.0
 texture_normal = ExtResource("6_2tan1")
 
-[node name="Label" type="Label" parent="BtnBoard2"]
+[node name="Label" type="Label" parent="ContButtons/BtnBoard2"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -97,11 +179,250 @@ text = "Level 2"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 380.0
+offset_top = 500.0
+offset_right = 1620.0
+offset_bottom = 1210.0
+theme_override_constants/separation = 200
+
+[node name="NinePatchRect1" type="NinePatchRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(280, 710)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("16_6l0pj")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="TextureBtnImg" type="TextureButton" parent="HBoxContainer/NinePatchRect1"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 265.0
+offset_bottom = 665.0
+texture_normal = ExtResource("10_f6h17")
+
+[node name="TextureBtnLabel" type="TextureButton" parent="HBoxContainer/NinePatchRect1"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 635.0
+offset_right = 773.0
+offset_bottom = 841.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("13_t7uvn")
+
+[node name="Label" type="Label" parent="HBoxContainer/NinePatchRect1/TextureBtnLabel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("14_xkhin")
+text = "Food"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("16_6l0pj")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="TextureBtnImg" type="TextureButton" parent="HBoxContainer/NinePatchRect2"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 265.0
+offset_bottom = 665.0
+texture_normal = ExtResource("10_itbvq")
+
+[node name="TextureBtnLabel" type="TextureButton" parent="HBoxContainer/NinePatchRect2"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 635.0
+offset_right = 773.0
+offset_bottom = 840.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("9_lgj16")
+
+[node name="Label" type="Label" parent="HBoxContainer/NinePatchRect2/TextureBtnLabel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("14_xkhin")
+text = "Space"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NinePatchRect3" type="NinePatchRect" parent="HBoxContainer"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("16_6l0pj")
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="TextureBtnImg" type="TextureButton" parent="HBoxContainer/NinePatchRect3"]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 265.0
+offset_bottom = 665.0
+texture_normal = ExtResource("16_frh2l")
+
+[node name="TextureBtnLabel" type="TextureButton" parent="HBoxContainer/NinePatchRect3"]
+layout_mode = 0
+offset_left = -20.0
+offset_top = 635.0
+offset_right = 773.0
+offset_bottom = 840.0
+scale = Vector2(0.4, 0.4)
+texture_normal = ExtResource("17_k1d2n")
+
+[node name="Label" type="Label" parent="HBoxContainer/NinePatchRect3/TextureBtnLabel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("14_xkhin")
+text = "Jungle"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContLevels" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 550.0
+offset_top = 500.0
+offset_right = 1450.0
+offset_bottom = 1210.0
+
+[node name="NinePatchRect1" type="NinePatchRect" parent="ContLevels"]
+visible = false
+layout_mode = 0
+offset_right = 290.0
+offset_bottom = 690.0
+texture = ExtResource("10_hjx06")
+patch_margin_left = 50
+patch_margin_top = 50
+patch_margin_right = 50
+patch_margin_bottom = 50
+
+[node name="TextureButton" type="TextureButton" parent="ContLevels/NinePatchRect1"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 270.0
+offset_bottom = 670.0
+texture_normal = ExtResource("10_itbvq")
+
+[node name="NinePatchRect2" type="NinePatchRect" parent="ContLevels"]
+layout_mode = 0
+offset_right = 310.0
+offset_bottom = 710.0
+texture = ExtResource("12_upkve")
+patch_margin_left = 50
+patch_margin_top = 50
+patch_margin_right = 50
+patch_margin_bottom = 50
+
+[node name="TextureButton" type="TextureButton" parent="ContLevels/NinePatchRect2"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 280.0
+offset_bottom = 680.0
+texture_normal = ExtResource("10_itbvq")
+
+[node name="NinePatchRect3" type="NinePatchRect" parent="ContLevels"]
+visible = false
+layout_mode = 0
+offset_right = 310.0
+offset_bottom = 710.0
+texture = ExtResource("13_ffncg")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 9
+
+[node name="TextureButton" type="TextureButton" parent="ContLevels/NinePatchRect3"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 280.0
+offset_bottom = 680.0
+texture_normal = ExtResource("10_itbvq")
+
+[node name="NinePatchRect4" type="NinePatchRect" parent="ContLevels"]
+layout_mode = 0
+offset_left = 400.0
+offset_right = 710.0
+offset_bottom = 710.0
+texture = ExtResource("13_t7uvn")
+patch_margin_left = 30
+patch_margin_top = 30
+patch_margin_right = 30
+patch_margin_bottom = 32
+
+[node name="TextureButton" type="TextureButton" parent="ContLevels/NinePatchRect4"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 280.0
+offset_bottom = 680.0
+texture_normal = ExtResource("10_itbvq")
+
+[node name="TextureButton2" type="TextureButton" parent="ContLevels/NinePatchRect4"]
+layout_mode = 0
+offset_top = 630.0
+offset_right = 793.0
+offset_bottom = 836.0
+scale = Vector2(0.39, 0.39)
+texture_normal = ExtResource("13_t7uvn")
+
+[node name="Label" type="Label" parent="ContLevels/NinePatchRect4/TextureButton2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -26.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("14_xkhin")
+text = "Space"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="GameFood" parent="." instance=ExtResource("6_hsxpn")]
 visible = false
 
 [node name="GameSpace" parent="." instance=ExtResource("7_w5d02")]
 visible = false
 
-[connection signal="pressed" from="BtnBoard1" to="." method="_on_btn_board_1_pressed"]
-[connection signal="pressed" from="BtnBoard2" to="." method="_on_btn_board_2_pressed"]
+[connection signal="pressed" from="ContButtons/BtnBoard1" to="." method="_on_btn_board_1_pressed"]
+[connection signal="pressed" from="ContButtons/BtnBoard2" to="." method="_on_btn_board_2_pressed"]
+[connection signal="pressed" from="HBoxContainer/NinePatchRect1/TextureBtnImg" to="." method="_on_btn_board_1_pressed"]
+[connection signal="pressed" from="HBoxContainer/NinePatchRect1/TextureBtnLabel" to="." method="_on_btn_board_1_pressed"]
+[connection signal="pressed" from="HBoxContainer/NinePatchRect2/TextureBtnImg" to="." method="_on_btn_board_2_pressed"]
+[connection signal="pressed" from="HBoxContainer/NinePatchRect2/TextureBtnLabel" to="." method="_on_btn_board_2_pressed"]
+[connection signal="pressed" from="ContLevels/NinePatchRect2/TextureButton" to="." method="_on_btn_board_2_pressed"]
+[connection signal="pressed" from="ContLevels/NinePatchRect3/TextureButton" to="." method="_on_btn_board_2_pressed"]
+[connection signal="pressed" from="ContLevels/NinePatchRect4/TextureButton" to="." method="_on_btn_board_2_pressed"]
