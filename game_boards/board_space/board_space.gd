@@ -12,6 +12,7 @@ signal show_game_msg(msg:String)
 @onready var inactivity_timer:Timer = $InactivityTimer
 @onready var cont_debug_label:Label = $"../../ContDebug/VBoxContainer/ContDebugLabel"
 @onready var cont_debug_value:Label = $"../../ContDebug/VBoxContainer/ContDebugValue"
+@onready var space_progress_bar:SpaceProgressBar = $"../../ContTopBar/SpaceProgressBar"
 # PRELOAD
 var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 var CmnDbg = preload("res://game_boards/all_common/common_debug.gd").new()
@@ -69,6 +70,7 @@ func init_game2():
 	inactivity_timer.start()
 	# G: *GAME-SPECIFIC*: frozen gems
 	CmnFunc.lock_bottom_two_rows(hbox_container)
+	space_progress_bar.set_progbar(0)
 
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
@@ -229,9 +231,13 @@ func process_game_round():
 	if matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A:
+		if CmnFunc.count_locked_cells(hbox_container) == 0:
+			print("WINNER!!!")
+			# TODO: ^^^
 		# B: TODO: check for "NO MORE MOVES"
 		var brent = CmnFunc.check_for_possible_moves(hbox_container)
 		print("CHECK FOR MOVES = ", str(brent))
+		# TODO: Handle no-more-moves (show msg; explode all (Same as new game btn))
 		# C: Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
 			swap_gem_cells(undo_cell_2, undo_cell_1)
@@ -261,6 +267,9 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 			var score = match_scores[gem_cell]
 			gem_cell.explode_gem(gem_cell.gem_color, score)
 			CmnFunc.unlock_adjacent_locked_cells(hbox_container, gem_cell)
+			# TODO:
+			var prog = 16 - CmnFunc.count_locked_cells(hbox_container)
+			space_progress_bar.set_progbar(prog)
 	
 	# B: Show game messages (ex: "Amazing!")
 	emit_signal("board_match_multi", matches.size())
@@ -346,6 +355,9 @@ func debug_make_gem_grid():
 
 func debug_clear_debug_labels():
 	CmnDbg.debug_clear_debug_labels(hbox_container)
+
+func debug_unlock_cells():
+	CmnDbg.debug_unlock_cells(hbox_container)
 
 func _on_inactivity_timer_timeout():
 	# A: Deselect all (e.g.: maybe one gem was clicked on and is just pulsating on screen)

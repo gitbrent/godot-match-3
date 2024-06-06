@@ -63,6 +63,9 @@ func _on_btn_checkerboard():
 func _on_btn_debug_pressed():
 	game_board.debug_clear_debug_labels()
 
+func _on_btn_unlock_pressed():
+	game_board.debug_unlock_cells()
+
 # =========================================================
 
 func init_game():

@@ -126,7 +126,6 @@ func update_texture():
 		print("ERROR: Texture for gem color not found!")
 		print("gem_textures: ", gem_textures)
 
-# TODO: WIP:
 func lock_cell(is_lock:bool):
 	is_locked = is_lock
 	overlay_lock.visible = is_lock

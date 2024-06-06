@@ -85,3 +85,15 @@ func debug_make_gem_grid(hbox:HBoxContainer, gemDict:Enums.GemDict):
 			if (i + j) % 2 == 0:
 				gem.initialize(Enums.GemColor.YLW, gemDict)
 				gem.get_child(1).position = Enums.SRPITE_POS
+
+# space/locked cells
+
+func debug_unlock_cells(hbox:HBoxContainer):
+	for vbox in hbox.get_children():
+		if vbox is VBoxContainer:
+			for gem_cell in vbox.get_children():
+				if gem_cell.is_locked:
+					gem_cell.lock_cell(false)
+	
+	# Lock just one cell, so we can easily test WINNER scneario
+	hbox.get_child(7).get_child(7).lock_cell(true)

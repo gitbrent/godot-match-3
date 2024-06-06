@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=36 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
@@ -7,8 +7,8 @@
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
 [ext_resource type="Texture2D" uid="uid://niaauagll4b7" path="res://assets/level-space/space_top_bar.png" id="6_tboc8"]
 [ext_resource type="Shader" path="res://game_boards/board_space/assets/gem_cell.gdshader" id="6_tywfq"]
-[ext_resource type="Texture2D" uid="uid://q50v1qucnb61" path="res://assets/level-space/space_progress_bar.png" id="7_6r8ct"]
 [ext_resource type="Texture2D" uid="uid://dt14wt38x2ddb" path="res://assets/gems/space/Space_R.png" id="7_8sijq"]
+[ext_resource type="PackedScene" uid="uid://7bjuflj7lf44" path="res://game_boards/board_space/assets/space_progress_bar.tscn" id="7_irug6"]
 [ext_resource type="Theme" uid="uid://1cdmnqyil8gy" path="res://themes/game_stats_label_theme.tres" id="8_nteo6"]
 [ext_resource type="Texture2D" uid="uid://dwf6yosfhinvi" path="res://assets/gems/space/Space_Z.png" id="9_ygwn3"]
 [ext_resource type="Texture2D" uid="uid://cavqcc5satl8d" path="res://assets/gems/space/Space_Y.png" id="10_yghiu"]
@@ -30,9 +30,6 @@ bg_color = Color(0, 0, 0, 0.933333)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
 bg_color = Color(0, 0, 0, 0.6)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ay78g"]
-bg_color = Color(0.552941, 0.992157, 0.933333, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
 shader = ExtResource("6_tywfq")
@@ -244,33 +241,19 @@ size_flags_horizontal = 3
 theme = ExtResource("6_i6ds6")
 text = "0"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="ContTopBar"]
+[node name="NewSciFiBanner" type="NinePatchRect" parent="ContTopBar"]
 layout_mode = 0
-offset_left = 334.0
-offset_top = 29.0
-offset_right = 1734.0
-offset_bottom = 189.0
+offset_right = 2000.0
+offset_bottom = 175.0
 texture = ExtResource("6_tboc8")
 patch_margin_left = 20
 patch_margin_top = 20
 patch_margin_right = 20
 patch_margin_bottom = 34
 
-[node name="ProgressBar" type="ProgressBar" parent="ContTopBar"]
-layout_mode = 0
-offset_left = 150.0
-offset_top = 279.0
-offset_right = 394.0
-offset_bottom = 309.0
-theme_override_styles/fill = SubResource("StyleBoxFlat_ay78g")
-step = 1.0
-value = 80.0
-show_percentage = false
-
-[node name="Sprite2D" type="Sprite2D" parent="ContTopBar"]
-position = Vector2(120, 259)
-texture = ExtResource("7_6r8ct")
-centered = false
+[node name="SpaceProgressBar" parent="ContTopBar" instance=ExtResource("7_irug6")]
+position = Vector2(30, 10)
+scale = Vector2(2, 2)
 
 [node name="ContGameStats" type="Control" parent="."]
 visible = false
@@ -459,13 +442,12 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 position = Vector2(500, 250)
 
 [node name="ContDebugBtns" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1653.0
 offset_top = 598.0
 offset_right = 1961.0
-offset_bottom = 848.0
+offset_bottom = 998.0
 
 [node name="BtnDebug" type="TextureButton" parent="ContDebugBtns"]
 layout_mode = 0
@@ -506,6 +488,26 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 120
 text = "CHECKERED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnUnlock" type="TextureButton" parent="ContDebugBtns"]
+offset_left = 4.0
+offset_top = 250.0
+offset_right = 1163.0
+offset_bottom = 608.0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("15_qjgsg")
+
+[node name="Label" type="Label" parent="ContDebugBtns/BtnUnlock"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "UNLOCK"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -706,5 +708,6 @@ shortcut_keys_enabled = false
 
 [connection signal="pressed" from="ContDebugBtns/BtnDebug" to="." method="_on_btn_debug_pressed"]
 [connection signal="pressed" from="ContDebugBtns/BtnCheckerboard" to="." method="_on_btn_checkerboard"]
+[connection signal="pressed" from="ContDebugBtns/BtnUnlock" to="." method="_on_btn_unlock_pressed"]
 [connection signal="pressed" from="BtnNewGame" to="." method="_on_btn_newgame_pressed"]
 [connection signal="pressed" from="BtnQuitGame" to="." method="_on_btn_quit_game"]

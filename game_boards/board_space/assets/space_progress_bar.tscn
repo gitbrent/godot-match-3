@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://7bjuflj7lf44"]
+
+[ext_resource type="Script" path="res://game_boards/board_space/assets/space_progress_bar.gd" id="1_uqn38"]
+[ext_resource type="Texture2D" uid="uid://q50v1qucnb61" path="res://assets/level-space/space_progress_bar.png" id="1_w0ue6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epimw"]
+bg_color = Color(0.552941, 0.992157, 0.933333, 1)
+
+[node name="SpaceProgressBar" type="Node2D"]
+script = ExtResource("1_uqn38")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = 26.0
+offset_top = 23.0
+offset_right = 269.0
+offset_bottom = 53.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_epimw")
+max_value = 16.0
+step = 1.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_w0ue6")
+centered = false

@@ -381,6 +381,16 @@ func lock_bottom_two_rows(hbox:HBoxContainer):
 			for i in range(num_children - 2, num_children):
 				children[i].lock_cell(true)
 
+func count_locked_cells(hbox:HBoxContainer) -> int:
+	var locked_count = 0
+	for vbox in hbox.get_children():
+		if vbox is VBoxContainer:
+			for gem_cell in vbox.get_children():
+				if gem_cell is CommonGemCell and gem_cell.is_locked:
+					locked_count += 1
+	# Done
+	return locked_count
+
 # =========================================================
 
 func calculate_score_for_matches(matches:Array) -> int:

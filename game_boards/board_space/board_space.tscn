@@ -10,7 +10,7 @@ bg_color = Color(0, 0, 0, 0.411765)
 [node name="BoardSpace" type="Node2D"]
 script = ExtResource("1_oexew")
 
-[node name="Background" type="Panel" parent="."]
+[node name="DebugBackground" type="Panel" parent="."]
 visible = false
 offset_right = 1024.0
 offset_bottom = 1024.0
