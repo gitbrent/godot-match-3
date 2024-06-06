@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=37 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
@@ -24,6 +24,7 @@
 [ext_resource type="Theme" uid="uid://duftrpb020ewi" path="res://themes/game_msg_btm.tres" id="18_jrjnv"]
 [ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="18_y8cds"]
 [ext_resource type="Theme" uid="uid://c68uhjmxln8ao" path="res://themes/game_msg_top.tres" id="19_iidij"]
+[ext_resource type="Texture2D" uid="uid://c4hpyl2askghn" path="res://assets/gui/Box_Blue_Rounded.png" id="25_hdvp7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_103kv"]
 bg_color = Color(0, 0, 0, 0.933333)
@@ -171,6 +172,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 stream = ExtResource("4_cbs6r")
 
 [node name="ContTopClouds" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -706,8 +708,59 @@ scroll_active = false
 autowrap_mode = 0
 shortcut_keys_enabled = false
 
+[node name="ContWinner" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2000.0
+offset_bottom = 1390.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="ContWinner"]
+layout_mode = 0
+offset_left = 503.0
+offset_top = 170.0
+offset_right = 2027.0
+offset_bottom = 1692.0
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("25_hdvp7")
+
+[node name="Label" type="Label" parent="ContWinner"]
+layout_mode = 0
+offset_left = 716.0
+offset_top = 238.0
+offset_right = 1356.0
+offset_bottom = 487.0
+theme_override_fonts/font = ExtResource("15_qcr5o")
+theme_override_font_sizes/font_size = 196
+text = "Winner!"
+
+[node name="BtnNewGame" type="TextureButton" parent="ContWinner"]
+offset_left = 758.0
+offset_top = 833.0
+offset_right = 1917.0
+offset_bottom = 1191.0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("15_qjgsg")
+
+[node name="Label" type="Label" parent="ContWinner/BtnNewGame"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 120
+text = "NEW GAME"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="pressed" from="ContDebugBtns/BtnDebug" to="." method="_on_btn_debug_pressed"]
 [connection signal="pressed" from="ContDebugBtns/BtnCheckerboard" to="." method="_on_btn_checkerboard"]
 [connection signal="pressed" from="ContDebugBtns/BtnUnlock" to="." method="_on_btn_unlock_pressed"]
 [connection signal="pressed" from="BtnNewGame" to="." method="_on_btn_newgame_pressed"]
 [connection signal="pressed" from="BtnQuitGame" to="." method="_on_btn_quit_game"]
+[connection signal="pressed" from="ContWinner/BtnNewGame" to="." method="_on_btn_newgame_pressed"]

@@ -96,4 +96,4 @@ func debug_unlock_cells(hbox:HBoxContainer):
 					gem_cell.lock_cell(false)
 	
 	# Lock just one cell, so we can easily test WINNER scneario
-	hbox.get_child(7).get_child(7).lock_cell(true)
+	hbox.get_child(3).get_child(3).lock_cell(true)

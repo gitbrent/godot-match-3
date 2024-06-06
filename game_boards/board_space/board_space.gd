@@ -6,6 +6,7 @@ signal props_updated_score(score:int)
 signal props_updated_gemsdict(gems_dict:Dictionary)
 signal board_match_multi(match_cnt:int)
 signal show_game_msg(msg:String)
+signal show_game_winner()
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
@@ -83,6 +84,16 @@ func new_game():
 	CmnFunc.new_game_explode_replace(hbox_container, GEM_COLOR_NAMES, Enums.EXPLODE_DELAY)
 	# C:
 	process_game_round()
+
+func _on_inactivity_timer_timeout():
+	# A: Deselect all (e.g.: maybe one gem was clicked on and is just pulsating on screen)
+	# TODO: ^^^
+	# B: Call the highlight function on timeout
+	# WIP: highlight available moves after short delay
+	#cont_debug_label.text += "- highlight_first_swap! \n"
+	CmnFunc.highlight_first_swap(hbox_container)
+	# C: Restart timer
+	inactivity_timer.start()
 
 # =========================================================
 
@@ -230,10 +241,9 @@ func process_game_round():
 	# D: Handle resuolts: explode matches, or halt
 	if matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
-		# A:
+		# A: [GAME-RULE] WINNER if all cells unlocked
 		if CmnFunc.count_locked_cells(hbox_container) == 0:
-			print("WINNER!!!")
-			# TODO: ^^^
+			handle_game_winner()
 		# B: TODO: check for "NO MORE MOVES"
 		var brent = CmnFunc.check_for_possible_moves(hbox_container)
 		print("CHECK FOR MOVES = ", str(brent))
@@ -347,7 +357,16 @@ func signal_game_props_count_gems():
 	# Emit signal with the updated gems dictionary
 	emit_signal("props_updated_gemsdict", gems_dict)
 
-# === Following are for buttons that arent on Food-Board
+func handle_game_winner():
+	Enums.debug_print("[handle_game_winner]: All unlocked!", Enums.DEBUG_LEVEL.INFO)
+	# A: show awesome welcome message
+	emit_signal("show_game_msg", "Winner!")
+	# B: stop game
+	inactivity_timer.stop()
+	# C: show overlay winner scene
+	emit_signal("show_game_winner")
+
+# === Following are for buttons that are unique to game_space.tscn === #
 
 func debug_make_gem_grid():
 	CmnDbg.debug_make_gem_grid(hbox_container, GEM_DICT)
@@ -358,13 +377,3 @@ func debug_clear_debug_labels():
 
 func debug_unlock_cells():
 	CmnDbg.debug_unlock_cells(hbox_container)
-
-func _on_inactivity_timer_timeout():
-	# A: Deselect all (e.g.: maybe one gem was clicked on and is just pulsating on screen)
-	# TODO: ^^^
-	# B: Call the highlight function on timeout
-	# WIP: highlight available moves after short delay
-	#cont_debug_label.text += "- highlight_first_swap! \n"
-	CmnFunc.highlight_first_swap(hbox_container)
-	# C: Restart timer
-	inactivity_timer.start()

@@ -9,6 +9,7 @@ var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 @onready var center_container:CenterContainer = $ContMessages/CenterContainer
 @onready var label_msg_btm:RichTextLabel = $ContMessages/CenterContainer/LabelMsgBtm
 @onready var label_msg_top:RichTextLabel = $ContMessages/CenterContainer/LabelMsgTop
+@onready var cont_winner:Control = $ContWinner
 
 func _ready():
 	# A:
@@ -17,8 +18,10 @@ func _ready():
 	game_board.connect("props_updated_gemsdict", self._on_props_updated_gemsdict)
 	game_board.connect("board_match_multi", self._on_board_match_multi)
 	game_board.connect("show_game_msg", self._on_show_game_msg)
+	game_board.connect("show_game_winner", self._on_show_game_winner)
 	# B:
 	center_container.visible = false
+	cont_winner.visible = false
 
 # =========================================================
 
@@ -44,12 +47,16 @@ func _on_show_game_msg(msg:String):
 	await CmnFunc.delay_time(self, 0.5)
 	center_container.visible = false
 
+func _on_show_game_winner():
+	cont_winner.visible = true
+
 func _on_board_match_multi(match_cnt:int):
 	# TODO: add more messages
 	if match_cnt >= 2:
 		animation_player.play("show_msg_amazing")
 
 func _on_btn_newgame_pressed():
+	cont_winner.visible = false
 	game_board.new_game()
 
 func _on_btn_quit_game():
