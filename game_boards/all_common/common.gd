@@ -373,24 +373,6 @@ func are_cells_adjacent(gemcell1:CommonGemCell, gemcell2:CommonGemCell) -> bool:
 	# Cells are not adjacent
 	return false
 
-func lock_bottom_two_rows(hbox:HBoxContainer):
-	for vbox in hbox.get_children():
-		if vbox is VBoxContainer:
-			var children = vbox.get_children()
-			var num_children = len(children)
-			for i in range(num_children - 2, num_children):
-				children[i].lock_cell(true)
-
-func count_locked_cells(hbox:HBoxContainer) -> int:
-	var locked_count = 0
-	for vbox in hbox.get_children():
-		if vbox is VBoxContainer:
-			for gem_cell in vbox.get_children():
-				if gem_cell is CommonGemCell and gem_cell.is_locked:
-					locked_count += 1
-	# Done
-	return locked_count
-
 # =========================================================
 
 func calculate_score_for_matches(matches:Array) -> int:
@@ -437,6 +419,30 @@ func delay_time(node:Node, time_sec:float) -> void:
 	timer.queue_free()
 
 # Locked Gems =========================================================
+
+func lock_bottom_two_rows(hbox:HBoxContainer):
+	for vbox in hbox.get_children():
+		if vbox is VBoxContainer:
+			var children = vbox.get_children()
+			var num_children = len(children)
+			for i in range(num_children - 2, num_children):
+				children[i].lock_cell(true)
+
+func unlock_all_gems(hbox:HBoxContainer):
+	for vbox in hbox.get_children():
+		if vbox is VBoxContainer:
+			for gem_cell in vbox.get_children():
+				gem_cell.lock_cell(false)
+
+func count_locked_cells(hbox:HBoxContainer) -> int:
+	var locked_count = 0
+	for vbox in hbox.get_children():
+		if vbox is VBoxContainer:
+			for gem_cell in vbox.get_children():
+				if gem_cell is CommonGemCell and gem_cell.is_locked:
+					locked_count += 1
+	# Done
+	return locked_count
 
 func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
 	var indices = find_gem_indices(gem_cell)

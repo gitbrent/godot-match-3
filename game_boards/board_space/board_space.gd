@@ -22,6 +22,7 @@ const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.
 const GEM_POINTS:int = 25
 const GEM_DICT:Enums.GemDict = Enums.GemDict.SPACE
 # VARS
+var is_new_game:bool = false
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
 var undo_cell_1:CommonGemCell = null
@@ -64,26 +65,31 @@ func init_game2():
 	await CmnFunc.delay_time(self.get_child(0), 0.5)
 	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
 	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
-	# E: check board after init (wait a 1/4 sec) for UI updates
-	await CmnFunc.delay_time(self, 0.25)
-	process_game_round()
-	# F: start inactivity timer
-	inactivity_timer.start()
-	# G: *GAME-SPECIFIC*: frozen gems
-	CmnFunc.lock_bottom_two_rows(hbox_container)
-	space_progress_bar.set_progbar(0)
+	# LAST:
+	new_game()
 
 func new_game():
 	Enums.debug_print("Starting new game, resetting board.", Enums.DEBUG_LEVEL.INFO)
+	
+	# FIRST: flag new game
+	is_new_game = true
+	
 	# A:
 	board_props_moves = 0
 	board_props_score = 0
 	emit_signal("props_updated_score", board_props_score)
 	emit_signal("props_updated_moves", board_props_moves)
+	
 	# B:
+	CmnFunc.unlock_all_gems(hbox_container)
 	CmnFunc.new_game_explode_replace(hbox_container, GEM_COLOR_NAMES, Enums.EXPLODE_DELAY)
-	# C:
+	
+	# C: check board after init (wait for UI updates)
+	await CmnFunc.delay_time(self, Enums.EXPLODE_DELAY)
 	process_game_round()
+	
+	# LAST: start inactivity timer
+	inactivity_timer.start()
 
 func _on_inactivity_timer_timeout():
 	# A: Deselect all (e.g.: maybe one gem was clicked on and is just pulsating on screen)
@@ -242,7 +248,7 @@ func process_game_round():
 	if matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A: [GAME-RULE] WINNER if all cells unlocked
-		if CmnFunc.count_locked_cells(hbox_container) == 0:
+		if not is_new_game and CmnFunc.count_locked_cells(hbox_container) == 0:
 			handle_game_winner()
 		# B: TODO: check for "NO MORE MOVES"
 		var brent = CmnFunc.check_for_possible_moves(hbox_container)
@@ -253,6 +259,14 @@ func process_game_round():
 			swap_gem_cells(undo_cell_2, undo_cell_1)
 			undo_cell_1 = null
 			undo_cell_2 = null
+		# LAST: handle startup
+		if is_new_game:
+			Enums.debug_print("[check_board_explode_matches]: is_new_game!", Enums.DEBUG_LEVEL.INFO)
+			# *GAME-SPECIFIC*: frozen gems
+			await CmnFunc.delay_time(self.get_child(0), Enums.TWEEN_TIME)
+			CmnFunc.lock_bottom_two_rows(hbox_container)
+			space_progress_bar.set_progbar(0)
+			is_new_game = false
 	else:
 		# A: clear undo (swap back) info upon successful match
 		undo_cell_1 = null
