@@ -1,7 +1,8 @@
-[gd_scene load_steps=37 format=3 uid="uid://bkaimvifjwkai"]
+[gd_scene load_steps=39 format=3 uid="uid://bkaimvifjwkai"]
 
 [ext_resource type="Script" path="res://game_boards/board_space/game_space.gd" id="1_w6e46"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_f5frv"]
+[ext_resource type="AudioStream" uid="uid://b8a4cffq3sk1s" path="res://assets/audio/winner_fanfare.mp3" id="4_4drev"]
 [ext_resource type="PackedScene" uid="uid://d0yw6oyw3qib0" path="res://game_boards/board_food/assets/animated_cloud.tscn" id="4_731ya"]
 [ext_resource type="AudioStream" uid="uid://ds53xomd2ha1b" path="res://assets/audio/Abstract2.ogg" id="4_cbs6r"]
 [ext_resource type="Theme" uid="uid://c58sv51ac2qkl" path="res://themes/game_top_label_theme.tres" id="6_i6ds6"]
@@ -25,9 +26,10 @@
 [ext_resource type="Texture2D" uid="uid://chrsqb6yhlqeq" path="res://assets/gui/ButtonText_Large_Blue_Round.png" id="18_y8cds"]
 [ext_resource type="Theme" uid="uid://c68uhjmxln8ao" path="res://themes/game_msg_top.tres" id="19_iidij"]
 [ext_resource type="Texture2D" uid="uid://c4hpyl2askghn" path="res://assets/gui/Box_Blue_Rounded.png" id="25_hdvp7"]
+[ext_resource type="Texture2D" uid="uid://b2hff0i6ooa2b" path="res://assets/level-space/star-07.png" id="27_s5rey"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_103kv"]
-bg_color = Color(0, 0, 0, 0.933333)
+bg_color = Color(0, 0, 0, 0.6)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
 bg_color = Color(0, 0, 0, 0.6)
@@ -170,6 +172,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
 
 [node name="AudioGemMove" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_cbs6r")
+
+[node name="AudioWinner" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_4drev")
 
 [node name="ContTopClouds" type="Control" parent="."]
 visible = false
@@ -709,7 +714,6 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 
 [node name="ContWinner" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -719,34 +723,43 @@ offset_bottom = 1390.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="BkgdDimmer" type="Panel" parent="ContWinner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_103kv")
+
 [node name="TextureRect" type="TextureRect" parent="ContWinner"]
 layout_mode = 0
-offset_left = 503.0
-offset_top = 170.0
-offset_right = 2027.0
-offset_bottom = 1692.0
-scale = Vector2(0.7, 0.7)
+offset_left = 555.0
+offset_top = 246.0
+offset_right = 2079.0
+offset_bottom = 1768.0
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("25_hdvp7")
 
-[node name="Label" type="Label" parent="ContWinner"]
+[node name="Label" type="Label" parent="ContWinner/TextureRect"]
 layout_mode = 0
-offset_left = 716.0
-offset_top = 238.0
-offset_right = 1356.0
-offset_bottom = 487.0
+offset_left = 325.0
+offset_top = 100.0
+offset_right = 1109.0
+offset_bottom = 405.0
 theme_override_fonts/font = ExtResource("15_qcr5o")
-theme_override_font_sizes/font_size = 196
+theme_override_font_sizes/font_size = 256
 text = "Winner!"
 
-[node name="BtnNewGame" type="TextureButton" parent="ContWinner"]
-offset_left = 758.0
-offset_top = 833.0
-offset_right = 1917.0
-offset_bottom = 1191.0
-scale = Vector2(0.5, 0.5)
+[node name="BtnNewGame" type="TextureButton" parent="ContWinner/TextureRect"]
+offset_left = 305.0
+offset_top = 1006.67
+offset_right = 1464.0
+offset_bottom = 1364.67
+scale = Vector2(0.8, 0.8)
 texture_normal = ExtResource("15_qjgsg")
 
-[node name="Label" type="Label" parent="ContWinner/BtnNewGame"]
+[node name="Label" type="Label" parent="ContWinner/TextureRect/BtnNewGame"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -758,9 +771,24 @@ text = "NEW GAME"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="SpriteStar0" type="Sprite2D" parent="ContWinner"]
+position = Vector2(787, 684)
+scale = Vector2(0.42, 0.42)
+texture = ExtResource("27_s5rey")
+
+[node name="SpriteStar1" type="Sprite2D" parent="ContWinner"]
+position = Vector2(1025, 616)
+scale = Vector2(0.42, 0.42)
+texture = ExtResource("27_s5rey")
+
+[node name="SpriteStar2" type="Sprite2D" parent="ContWinner"]
+position = Vector2(1253, 688)
+scale = Vector2(0.42, 0.42)
+texture = ExtResource("27_s5rey")
+
 [connection signal="pressed" from="ContDebugBtns/BtnDebug" to="." method="_on_btn_debug_pressed"]
 [connection signal="pressed" from="ContDebugBtns/BtnCheckerboard" to="." method="_on_btn_checkerboard"]
 [connection signal="pressed" from="ContDebugBtns/BtnUnlock" to="." method="_on_btn_unlock_pressed"]
 [connection signal="pressed" from="BtnNewGame" to="." method="_on_btn_newgame_pressed"]
 [connection signal="pressed" from="BtnQuitGame" to="." method="_on_btn_quit_game"]
-[connection signal="pressed" from="ContWinner/BtnNewGame" to="." method="_on_btn_newgame_pressed"]
+[connection signal="pressed" from="ContWinner/TextureRect/BtnNewGame" to="." method="_on_btn_newgame_pressed"]

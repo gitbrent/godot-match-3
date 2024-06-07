@@ -61,8 +61,8 @@ func init_game2():
 			cell.queue_free()
 	# B: show awesome welcome message
 	emit_signal("show_game_msg", "Let's Play!")
-	# C: Animation runtime for msg is 0.5-sec
-	await CmnFunc.delay_time(self.get_child(0), 0.5)
+	# C: delay to let message complete animation
+	await CmnFunc.delay_time(self.get_child(0), 0.5) # (Animation runtime for msg is 0.5-sec)
 	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
 	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
 	# LAST:
@@ -295,6 +295,13 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 			var prog = 16 - CmnFunc.count_locked_cells(hbox_container)
 			space_progress_bar.set_progbar(prog)
 	
+	# A: [GAME-RULE] WINNER if all cells unlocked
+	# DESC: Check for no more locked gems *HERE* not in process_game_round 
+	# DESC: (so we can show WINNER quickly, instead of letting game contineu to process, explode matches, show msgs, etc!)
+	if not is_new_game and CmnFunc.count_locked_cells(hbox_container) == 0:
+		await CmnFunc.delay_time(self.get_child(0), Enums.EXPLODE_DELAY)
+		handle_game_winner()
+	
 	# B: Show game messages (ex: "Amazing!")
 	emit_signal("board_match_multi", matches.size())
 	
@@ -303,7 +310,7 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 	signal_game_props_count_gems()
 	
 	# B: let explode animation run
-	await get_tree().create_timer(Enums.TWEEN_TIME).timeout
+	await CmnFunc.delay_time(self.get_child(0), Enums.TWEEN_TIME)
 	
 	# C: Dictionary to track columns and the number of gems to add in each column
 	var columns_to_refill = {}
@@ -322,8 +329,10 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 		var details = columns_to_refill[column_index]
 		refill_column(column_index, details["highest"], details["count"])
 	
-	# D:
-	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout # let refill animations above complete (otherwise new, matching gems would start exploding before they're even in place!)
+	# D: 
+	# Delay: let refill animations above complete 
+	# Delay: (otherwise new, matching gems would start exploding before they're even in place!)
+	await CmnFunc.delay_time(self.get_child(0), Enums.EXPLODE_DELAY)
 	process_game_round()
 
 func refill_column(column_index: int, highest_exploded_row: int, count_exploded: int):

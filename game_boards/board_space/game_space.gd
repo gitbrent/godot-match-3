@@ -10,6 +10,7 @@ var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 @onready var label_msg_btm:RichTextLabel = $ContMessages/CenterContainer/LabelMsgBtm
 @onready var label_msg_top:RichTextLabel = $ContMessages/CenterContainer/LabelMsgTop
 @onready var cont_winner:Control = $ContWinner
+@onready var audio_winner:AudioStreamPlayer = $AudioWinner
 
 func _ready():
 	# A:
@@ -49,6 +50,7 @@ func _on_show_game_msg(msg:String):
 
 func _on_show_game_winner():
 	cont_winner.visible = true
+	audio_winner.play(0.9)
 
 func _on_board_match_multi(match_cnt:int):
 	# TODO: add more messages
