@@ -245,9 +245,6 @@ func process_game_round():
 	signal_game_props_count_gems()
 	
 	# D: Handle resuolts: explode matches, or halt
-#	if matches.size() == 0 and not is_new_game and CmnFunc.count_locked_cells(hbox_container) == 0:
-		# A: [GAME-RULE] WINNER if all cells unlocked
-#		handle_game_winner()
 	if matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A: TODO: check for "NO MORE MOVES"
