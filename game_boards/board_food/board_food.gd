@@ -9,9 +9,12 @@ signal show_game_msg(msg:String)
 # SCENES
 @onready var grid_container:GridContainer = $GridContainer
 @onready var hbox_container:HBoxContainer = $HBoxContainer
-#VARS
+# PRELOAD
 var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 var CmnDbg = preload("res://game_boards/all_common/common_debug.gd").new()
+# VARS
+var drag_start_position = Vector2()
+var is_dragging = false
 const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
 const GEM_POINTS:int = 25
 const GEM_DICT:Enums.GemDict = Enums.GemDict.FOOD
@@ -51,7 +54,7 @@ func init_game2():
 	# C: Animation runtime for msg is 0.5-sec
 	await CmnFunc.delay_time(self.get_child(0), 0.5)
 	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
-	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
+	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click, self._on_drag_start, self._on_drag_inprog, self._on_drag_ended)
 	# E: check board after init (wait a 1/4 sec) for UI updates
 	await CmnFunc.delay_time(self, 0.25)
 	process_game_round()
@@ -112,6 +115,22 @@ func _on_cell_click(gem_cell:CommonGemCell):
 		undo_cell_1 = selected_cell_1
 		undo_cell_2 = selected_cell_2
 		swap_gem_cells(selected_cell_1, selected_cell_2)
+
+func _on_drag_start(gem_cell, mouse_position):
+	drag_start_position = mouse_position
+	is_dragging = true
+
+func _on_drag_inprog(gem_cell, mouse_position):
+	if is_dragging:
+		# Optionally visualize the dragging process if needed
+		pass
+
+func _on_drag_ended(gem_cell, mouse_position):
+	if is_dragging:
+		var target_cell =  CmnFunc.get_gem_at_position(mouse_position, hbox_container)
+		if target_cell:
+			swap_gem_cells(gem_cell, target_cell)
+	is_dragging = false
 
 # STEP 2: Swap gems: capture current gems, move scenes via tween
 
