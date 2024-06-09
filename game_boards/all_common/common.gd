@@ -455,11 +455,11 @@ func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
 	]
 	
 	for pos in adjacent_positions:
-		Enums.debug_print("[UALC] Checking adjacent position: ("+ str(pos.x) +", "+ str(pos.y)+ ")", Enums.DEBUG_LEVEL.INFO)
+		Enums.debug_print("[UALC] Checking adjacent position: ("+ str(pos.x) +", "+ str(pos.y)+ ")", Enums.DEBUG_LEVEL.DEBUG)
 		if pos.x >= 0 and pos.y >= 0 and pos.x < hbox.get_child_count() and pos.y < hbox.get_child(0).get_child_count():
 			var adjacent_vbox = hbox.get_child(int(pos.x)) as VBoxContainer
 			var adjacent_cell = adjacent_vbox.get_child(int(pos.y)) as CommonGemCell
-			Enums.debug_print("[UALC] - adjacent cell at ("+ str(pos.x) +", "+ str(pos.y) +") is_locked = "+ str(adjacent_cell.is_locked), Enums.DEBUG_LEVEL.INFO)
+			Enums.debug_print("[UALC] - adjacent cell at ("+ str(pos.x) +", "+ str(pos.y) +") is_locked = "+ str(adjacent_cell.is_locked), Enums.DEBUG_LEVEL.DEBUG)
 			if adjacent_cell.is_locked:
-				Enums.debug_print("[UALC] - unlocking adjacent locked cell at position: ("+ str(pos.x) +", "+ str(pos.y) +")", Enums.DEBUG_LEVEL.INFO)
+				Enums.debug_print("[UALC] - unlocking adjacent locked cell at position: ("+ str(pos.x) +", "+ str(pos.y) +")", Enums.DEBUG_LEVEL.DEBUG)
 				adjacent_cell.lock_cell(false)
