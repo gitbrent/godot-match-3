@@ -245,16 +245,16 @@ func process_game_round():
 	signal_game_props_count_gems()
 	
 	# D: Handle resuolts: explode matches, or halt
+#	if matches.size() == 0 and not is_new_game and CmnFunc.count_locked_cells(hbox_container) == 0:
+		# A: [GAME-RULE] WINNER if all cells unlocked
+#		handle_game_winner()
 	if matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
-		# A: [GAME-RULE] WINNER if all cells unlocked
-		if not is_new_game and CmnFunc.count_locked_cells(hbox_container) == 0:
-			handle_game_winner()
-		# B: TODO: check for "NO MORE MOVES"
+		# A: TODO: check for "NO MORE MOVES"
 		var brent = CmnFunc.check_for_possible_moves(hbox_container)
 		print("CHECK FOR MOVES = ", str(brent))
 		# TODO: Handle no-more-moves (show msg; explode all (Same as new game btn))
-		# C: Reset undo cells or perform other cleanup here.
+		# B: Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
 			swap_gem_cells(undo_cell_2, undo_cell_1)
 			undo_cell_1 = null
@@ -301,6 +301,7 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 	if not is_new_game and CmnFunc.count_locked_cells(hbox_container) == 0:
 		await CmnFunc.delay_time(self.get_child(0), Enums.EXPLODE_DELAY)
 		handle_game_winner()
+		return
 	
 	# B: Show game messages (ex: "Amazing!")
 	emit_signal("board_match_multi", matches.size())
