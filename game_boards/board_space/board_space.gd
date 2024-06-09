@@ -156,11 +156,11 @@ func _on_cell_click(gem_cell:CommonGemCell):
 		undo_cell_2 = selected_cell_2
 		swap_gem_cells(selected_cell_1, selected_cell_2)
 
-func _on_drag_start(gem_cell:CommonGemCell, mouse_position:Vector2):
+func _on_drag_start(_gem_cell:CommonGemCell, mouse_position:Vector2):
 	drag_start_position = mouse_position
 	is_dragging = true
 
-func _on_drag_inprog(gem_cell:CommonGemCell, mouse_position:Vector2):
+func _on_drag_inprog(_gem_cell:CommonGemCell, _mouse_position:Vector2):
 	if is_dragging:
 		# Optionally visualize the dragging process if needed
 		pass
