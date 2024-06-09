@@ -11,6 +11,7 @@ signal drag_ended(gem_cell)
 func _gui_input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
+			emit_signal("cell_click", get_parent())
 			emit_signal("drag_start", get_parent(), get_global_mouse_position())
 		else:
 			emit_signal("drag_ended", get_parent(), get_global_mouse_position())
