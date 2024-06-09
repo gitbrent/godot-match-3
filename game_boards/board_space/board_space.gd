@@ -169,6 +169,8 @@ func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
 	if is_dragging:
 		var target_cell =  CmnFunc.get_gem_at_position(mouse_position, hbox_container)
 		if target_cell and CmnFunc.are_cells_adjacent(gem_cell, target_cell):
+			undo_cell_1 = gem_cell
+			undo_cell_2 = target_cell
 			swap_gem_cells(gem_cell, target_cell)
 	is_dragging = false
 
