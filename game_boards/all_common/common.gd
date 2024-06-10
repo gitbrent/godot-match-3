@@ -20,7 +20,7 @@ func fill_grid(hbox:HBoxContainer, grid:GridContainer, square0:String, square1:S
 			var brdsq = brdsq_scene.instantiate()
 			grid.add_child(brdsq)
 
-func fill_hbox(hbox:HBoxContainer, gem_dict:Enums.GemDict, on_cell_click):
+func fill_hbox(hbox:HBoxContainer, gem_dict:Enums.GemDict, on_cell_click, on_drag_start, on_drag_inprog, on_drag_ended):
 	for col_idx in range(hbox.get_child_count()):
 		for row_idx in range(8):
 			var gem_type = GEM_COLOR_NAMES[randi() % GEM_COLOR_NAMES.size()]
@@ -30,6 +30,9 @@ func fill_hbox(hbox:HBoxContainer, gem_dict:Enums.GemDict, on_cell_click):
 			gem_cell.initialize(gem_type, gem_dict)
 			var control_node = gem_cell.get_node("GemControl")
 			control_node.connect("cell_click", on_cell_click)
+			control_node.connect("drag_start", on_drag_start)
+			control_node.connect("drag_in_prog", on_drag_inprog)
+			control_node.connect("drag_ended", on_drag_ended)
 
 # GEM LOGIC =========================================================
 
@@ -372,6 +375,14 @@ func are_cells_adjacent(gemcell1:CommonGemCell, gemcell2:CommonGemCell) -> bool:
 	
 	# Cells are not adjacent
 	return false
+
+func get_gem_at_position(position:Vector2, hbox:HBoxContainer) -> CommonGemCell:
+	for vbox in hbox.get_children():
+		if vbox is VBoxContainer:
+			for gem_cell in vbox.get_children():
+				if gem_cell is CommonGemCell and gem_cell.get_global_rect().has_point(position):
+					return gem_cell
+	return null
 
 # =========================================================
 

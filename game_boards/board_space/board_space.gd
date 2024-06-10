@@ -22,6 +22,8 @@ const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.
 const GEM_POINTS:int = 25
 const GEM_DICT:Enums.GemDict = Enums.GemDict.SPACE
 # VARS
+var drag_start_position = Vector2()
+var is_dragging = false
 var is_new_game:bool = false
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
@@ -64,7 +66,7 @@ func init_game2():
 	# C: delay to let message complete animation
 	await CmnFunc.delay_time(self.get_child(0), 0.5) # (Animation runtime for msg is 0.5-sec)
 	# D: do this hre instead of _ready() as iOS/Xcode wont fill cells when invisible or something like that
-	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click)
+	CmnFunc.fill_hbox(hbox_container, GEM_DICT, self._on_cell_click, self._on_drag_start, self._on_drag_inprog, self._on_drag_ended)
 	# LAST:
 	new_game()
 
@@ -110,7 +112,7 @@ func _on_cell_click(gem_cell:CommonGemCell):
 	Enums.debug_print("[_on_cell_click] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)), Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[_on_cell_click] ---------------------------------------------", Enums.DEBUG_LEVEL.INFO)
 	
-	# WIP: NEW:
+	# A: *GAME SPECIFIC*: Locked cells
 	if (gem_cell.is_locked):
 		return
 	
@@ -153,6 +155,24 @@ func _on_cell_click(gem_cell:CommonGemCell):
 		undo_cell_1 = selected_cell_1
 		undo_cell_2 = selected_cell_2
 		swap_gem_cells(selected_cell_1, selected_cell_2)
+
+func _on_drag_start(_gem_cell:CommonGemCell, mouse_position:Vector2):
+	drag_start_position = mouse_position
+	is_dragging = true
+
+func _on_drag_inprog(_gem_cell:CommonGemCell, _mouse_position:Vector2):
+	if is_dragging:
+		# Optionally visualize the dragging process if needed
+		pass
+
+func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
+	if is_dragging:
+		var target_cell =  CmnFunc.get_gem_at_position(mouse_position, hbox_container)
+		if target_cell and CmnFunc.are_cells_adjacent(gem_cell, target_cell):
+			undo_cell_1 = gem_cell
+			undo_cell_2 = target_cell
+			swap_gem_cells(gem_cell, target_cell)
+	is_dragging = false
 
 # STEP 2: Swap gems: capture current gems, move scenes via tween
 
@@ -245,9 +265,6 @@ func process_game_round():
 	signal_game_props_count_gems()
 	
 	# D: Handle resuolts: explode matches, or halt
-#	if matches.size() == 0 and not is_new_game and CmnFunc.count_locked_cells(hbox_container) == 0:
-		# A: [GAME-RULE] WINNER if all cells unlocked
-#		handle_game_winner()
 	if matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A: TODO: check for "NO MORE MOVES"
