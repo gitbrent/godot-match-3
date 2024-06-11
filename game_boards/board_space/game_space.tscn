@@ -451,10 +451,10 @@ position = Vector2(500, 250)
 [node name="ContDebugBtns" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = 1653.0
-offset_top = 598.0
-offset_right = 1961.0
-offset_bottom = 998.0
+offset_left = 1655.0
+offset_top = 575.0
+offset_right = 1963.0
+offset_bottom = 935.0
 
 [node name="BtnDebug" type="TextureButton" parent="ContDebugBtns"]
 layout_mode = 0
@@ -520,7 +520,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ContDebug" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 1680.0
@@ -715,6 +714,7 @@ autowrap_mode = 0
 shortcut_keys_enabled = false
 
 [node name="ContWinner" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

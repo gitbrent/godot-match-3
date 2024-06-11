@@ -36,8 +36,7 @@ texture = ExtResource("1_t1b1c")
 expand_mode = 2
 
 [node name="BackgroundNew" type="TextureRect" parent="."]
-offset_left = -230.0
-offset_right = 1562.0
+offset_right = 1792.0
 offset_bottom = 1024.0
 scale = Vector2(1.36, 1.36)
 texture = ExtResource("3_qynd5")
