@@ -23,8 +23,7 @@ Enums="*res://enums.gd"
 
 window/size/viewport_width=2000
 window/size/viewport_height=1390
-window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+window/stretch/mode="canvas_items"
 window/handheld/orientation=4
 
 [rendering]
