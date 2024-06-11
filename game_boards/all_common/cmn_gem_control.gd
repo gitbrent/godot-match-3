@@ -20,8 +20,8 @@ func _gui_input(event):
 	elif event is InputEventScreenTouch:
 		if event.pressed:
 			emit_signal("cell_click", get_parent())
-			emit_signal("drag_start", get_parent(), event.position)
+			emit_signal("drag_start", get_parent(), event.global_position)
 		else:
-			emit_signal("drag_ended", get_parent(), event.position)
+			emit_signal("drag_ended", get_parent(), event.global_position)
 	elif event is InputEventScreenDrag:
-		emit_signal("drag_in_prog", get_parent(), event.position)
+		emit_signal("drag_in_prog", get_parent(), event.global_position)
