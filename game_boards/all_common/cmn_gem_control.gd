@@ -17,7 +17,7 @@ func _gui_input(event):
 		else:
 			emit_signal("drag_ended", get_parent(), get_global_mouse_position())
 	elif event is InputEventMouseMotion:
-		emit_signal("drag_in_prog", get_parent(), event.global_position)
+		emit_signal("drag_in_prog", get_parent(), get_global_mouse_position())
 	elif event is InputEventScreenTouch:
 		if event.pressed:
 			emit_signal("cell_click", get_parent())
