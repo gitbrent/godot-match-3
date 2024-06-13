@@ -29,6 +29,7 @@ var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
 var undo_cell_1:CommonGemCell = null
 var undo_cell_2:CommonGemCell = null
+var current_target_cell:CommonGemCell = null
 var tweens_running_cnt:int = 0
 var board_props_moves:int = 0
 var board_props_score:int = 0
@@ -171,19 +172,25 @@ func _on_drag_start(_gem_cell:CommonGemCell, mouse_position:Vector2):
 	drag_start_position = mouse_position
 	is_dragging = true
 
-func _on_drag_inprog(_gem_cell:CommonGemCell, _mouse_position:Vector2):
+func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
+	#print("[_on_drag_inprog] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)))
 	if is_dragging:
-		# Optionally visualize the dragging process if needed
-		pass
+		var target_cell = CmnFunc.get_gem_at_position(mouse_position, hbox_container)
+		#print("[_on_drag_inprog] target_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(target_cell)))
+		if target_cell and selected_cell_1 and CmnFunc.are_cells_adjacent(selected_cell_1, target_cell):
+			if current_target_cell and current_target_cell != target_cell and selected_cell_1 != current_target_cell:
+				current_target_cell.play_selected_anim(false)
+			current_target_cell = target_cell
+			current_target_cell.play_selected_anim(true)
+		elif current_target_cell:
+			current_target_cell.play_selected_anim(false) # turn off previously anim cell as current cell is invalid choice
 
 func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
 	if is_dragging:
-		print(mouse_position)
+		if current_target_cell:
+			current_target_cell.play_selected_anim(false)
+			current_target_cell = null
 		var target_cell:CommonGemCell = CmnFunc.get_gem_at_position(mouse_position, hbox_container)
-		print(target_cell)
-		if target_cell:
-			#cont_debug_value.text = "[DRAG]: "+JSON.stringify(CmnFunc.find_gem_indices(target_cell))
-			cont_debug_value.text = "[DRAG_ended]"
 		if target_cell and CmnFunc.are_cells_adjacent(gem_cell, target_cell):
 			undo_cell_1 = gem_cell
 			undo_cell_2 = target_cell
