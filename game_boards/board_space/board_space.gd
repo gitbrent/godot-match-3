@@ -44,8 +44,19 @@ func _ready():
 	CmnFunc.fill_grid(hbox_container, grid_container, brd_sq0, brd_sq1)
 
 func _process(_delta):
-	cont_debug_label.text = "TIMER Left (secs)"
-	cont_debug_value.text = str(round(inactivity_timer.time_left))
+	# DEBUG: show timer
+	#cont_debug_label.text = "TIMER Left (secs)"
+	#cont_debug_value.text = str(round(inactivity_timer.time_left))
+	
+	# DEBUG: show selected cells (debugging touch drag sucks)
+	if selected_cell_1:
+		cont_debug_label.text = selected_cell_1.to_string()
+	else:
+		cont_debug_label.text = "[null]"
+	if selected_cell_2:
+		cont_debug_value.text = selected_cell_2.to_string()
+	else:
+		cont_debug_value.text = "[null]"
 
 # NOTE: iOS [Xcode] has no cells if "CmnFunc.fill_hbox()" is in the _ready() func above
 # So, instead of having [game_space.gd] flip `visible` flag on this scene, let's do both of these here to alleviate the issue
@@ -167,7 +178,12 @@ func _on_drag_inprog(_gem_cell:CommonGemCell, _mouse_position:Vector2):
 
 func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
 	if is_dragging:
-		var target_cell =  CmnFunc.get_gem_at_position(mouse_position, hbox_container)
+		print(mouse_position)
+		var target_cell:CommonGemCell = CmnFunc.get_gem_at_position(mouse_position, hbox_container)
+		print(target_cell)
+		if target_cell:
+			#cont_debug_value.text = "[DRAG]: "+JSON.stringify(CmnFunc.find_gem_indices(target_cell))
+			cont_debug_value.text = "[DRAG_ended]"
 		if target_cell and CmnFunc.are_cells_adjacent(gem_cell, target_cell):
 			undo_cell_1 = gem_cell
 			undo_cell_2 = target_cell

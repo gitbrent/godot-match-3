@@ -21,10 +21,16 @@ func _gui_input(event):
 	elif event is InputEventScreenTouch:
 		if event.pressed:
 			emit_signal("cell_click", get_parent())
-			emit_signal("drag_start", get_parent(), event.position)
+			emit_signal("drag_start", get_parent(), _get_global_pos_from_touch(event.position))
 		else:
-			emit_signal("drag_ended", get_parent(), event.position)
+			emit_signal("drag_ended", get_parent(), _get_global_pos_from_touch(event.position))
 	elif event is InputEventScreenDrag:
 		# Use touch delta for smoother dragging
-		var touch_delta = event.position - event.get_position_in_parent(self) 
+		var touch_delta = _get_global_pos_from_touch(event.position) - event.get_position_in_parent(self) 
 		emit_signal("drag_in_prog", get_parent(), touch_delta)
+
+func _get_global_pos_from_touch(event):
+	if not is_instance_of(event, InputEventScreenTouch):
+		return Vector2.ZERO  # Not a touch event, return zero
+	var root = get_tree().get_root()
+	return root.to_global(event.position)  # Convert to global position
