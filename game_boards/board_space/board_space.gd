@@ -109,9 +109,8 @@ func _on_inactivity_timer_timeout():
 	# A: Deselect all (e.g.: maybe one gem was clicked on and is just pulsating on screen)
 	# TODO: ^^^
 	# B: Call the highlight function on timeout
-	# WIP: highlight available moves after short delay
-	#cont_debug_label.text += "- highlight_first_swap! \n"
-	CmnFunc.highlight_first_swap(hbox_container)
+	if not is_dragging:
+		CmnFunc.highlight_first_swap(hbox_container)
 	# C: Restart timer
 	inactivity_timer.start()
 
@@ -278,7 +277,7 @@ func process_game_round():
 	Enums.debug_print("[process_game_round]: gem_cells = "+str(gem_cells), Enums.DEBUG_LEVEL.DEBUG)
 	if matches.size() > 0 and Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
 		CmnDbg.debug_print_ascii_table(hbox_container, gem_cells)
-
+	
 	# B:
 	var score = CmnFunc.calculate_score_for_matches(matches)
 	board_props_score += score
@@ -292,7 +291,7 @@ func process_game_round():
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A: TODO: check for "NO MORE MOVES"
 		var brent = CmnFunc.check_for_possible_moves(hbox_container)
-		print("CHECK FOR MOVES = ", str(brent))
+		#print("TODO: HANDLE NO MOVES = ", str(brent))
 		# TODO: Handle no-more-moves (show msg; explode all (Same as new game btn))
 		# B: Reset undo cells or perform other cleanup here.
 		if undo_cell_1 and undo_cell_2:
