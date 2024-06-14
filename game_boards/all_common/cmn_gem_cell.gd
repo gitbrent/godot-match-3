@@ -136,20 +136,20 @@ func highlight():
 	anim_player_fx.play("highlight")
 
 func unhighlight():
-	print("UNNNNNN")
-	anim_player_fx.stop()
 	highlight_rect.color = Color('ffffff00')
 
 func play_audio_gem_move():
 	audio_gem_move.play()
 
 func play_selected_anim(selected:bool):
+	# NOTE: stoping then starting this anim ensures two cells highlighted pulse in sync!
+	# A: reset first
+	anim_player_fx.stop()
+	sprite.scale = SPRITE_SCALE
+	label_points.visible = false
+	# B: show if needed
 	if selected:
 		anim_player_fx.play("selected")
-	else:
-		anim_player_fx.stop()
-		sprite.scale = SPRITE_SCALE
-		label_points.visible = false
 
 # @desc: both AnimPlayer & AnimExplode are 1-sec
 func play_anim_explode(points:int):

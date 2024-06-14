@@ -22,8 +22,7 @@ const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.
 const GEM_POINTS:int = 25
 const GEM_DICT:Enums.GemDict = Enums.GemDict.SPACE
 # VARS
-var drag_start_position = Vector2()
-var is_dragging = false
+var is_dragging:bool = false
 var is_new_game:bool = false
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
@@ -124,7 +123,12 @@ func _on_cell_click(gem_cell:CommonGemCell):
 	Enums.debug_print("[_on_cell_click] ---------------------------------------------", Enums.DEBUG_LEVEL.INFO)
 	
 	# A: *GAME SPECIFIC*: Locked cells
-	if (gem_cell.is_locked):
+	if gem_cell.is_locked:
+		return
+	
+	# TODO: Also block during `explode_refill_gems()`!!!
+	# A: Dont allow selection while tweens are running!
+	if tweens_running_cnt > 0:
 		return
 	
 	# A: Reset the inactivity_timer timer on any user input
@@ -168,7 +172,12 @@ func _on_cell_click(gem_cell:CommonGemCell):
 		swap_gem_cells(selected_cell_1, selected_cell_2)
 
 func _on_drag_start(_gem_cell:CommonGemCell, mouse_position:Vector2):
-	drag_start_position = mouse_position
+	# TODO: Also block during `explode_refill_gems()`!!!
+	# A: Dont allow selection while tweens are running!
+	if tweens_running_cnt > 0:
+		return
+	
+	# B: Set
 	is_dragging = true
 
 func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
@@ -180,6 +189,8 @@ func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
 			if current_target_cell and current_target_cell != target_cell and selected_cell_1 != current_target_cell:
 				current_target_cell.play_selected_anim(false)
 			current_target_cell = target_cell
+			if selected_cell_1:
+				selected_cell_1.play_selected_anim(true)
 			current_target_cell.play_selected_anim(true)
 		elif current_target_cell:
 			current_target_cell.play_selected_anim(false) # turn off previously anim cell as current cell is invalid choice
@@ -330,7 +341,7 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 			var score = match_scores[gem_cell]
 			gem_cell.explode_gem(gem_cell.gem_color, score)
 			CmnFunc.unlock_adjacent_locked_cells(hbox_container, gem_cell)
-			# TODO:
+			# WIP: locked cells
 			var prog = 16 - CmnFunc.count_locked_cells(hbox_container)
 			space_progress_bar.set_progbar(prog)
 	
