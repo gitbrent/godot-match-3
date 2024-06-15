@@ -678,7 +678,7 @@ color = Color(1, 1, 1, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(64, 64)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.4072, 0.4072)
 texture = ExtResource("2_nap56")
 
 [node name="SpecialRock" type="Sprite2D" parent="."]
@@ -719,8 +719,6 @@ position = Vector2(65, 64)
 scale = Vector2(3.5, 3.5)
 sprite_frames = SubResource("SpriteFrames_tvpu7")
 autoplay = "default"
-frame = 11
-frame_progress = 1.0
 
 [node name="AnimatedBurst3" type="AnimatedSprite2D" parent="."]
 visible = false

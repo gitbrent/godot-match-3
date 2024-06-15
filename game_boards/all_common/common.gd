@@ -437,13 +437,13 @@ func lock_bottom_two_rows(hbox:HBoxContainer):
 			var children = vbox.get_children()
 			var num_children = len(children)
 			for i in range(num_children - 2, num_children):
-				children[i].lock_cell(true)
+				children[i].lock_cell()
 
 func unlock_all_gems(hbox:HBoxContainer):
 	for vbox in hbox.get_children():
 		if vbox is VBoxContainer:
 			for gem_cell in vbox.get_children():
-				gem_cell.lock_cell(false)
+				gem_cell.unlock_cell()
 
 func count_locked_cells(hbox:HBoxContainer) -> int:
 	var locked_count = 0
@@ -473,4 +473,4 @@ func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
 			Enums.debug_print("[UALC] - adjacent cell at ("+ str(pos.x) +", "+ str(pos.y) +") is_locked = "+ str(adjacent_cell.is_locked), Enums.DEBUG_LEVEL.DEBUG)
 			if adjacent_cell.is_locked:
 				Enums.debug_print("[UALC] - unlocking adjacent locked cell at position: ("+ str(pos.x) +", "+ str(pos.y) +")", Enums.DEBUG_LEVEL.DEBUG)
-				adjacent_cell.lock_cell(false)
+				adjacent_cell.unlock_cell()

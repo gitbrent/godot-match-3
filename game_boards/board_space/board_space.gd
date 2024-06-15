@@ -19,16 +19,16 @@ var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 var CmnDbg = preload("res://game_boards/all_common/common_debug.gd").new()
 # CONST
 const GEM_COLOR_NAMES = [Enums.GemColor.RED, Enums.GemColor.ORG, Enums.GemColor.YLW, Enums.GemColor.GRN, Enums.GemColor.BLU, Enums.GemColor.PRP]
-const GEM_POINTS:int = 25
 const GEM_DICT:Enums.GemDict = Enums.GemDict.SPACE
+const GEM_POINTS:int = 25
 # VARS
 var is_dragging:bool = false
 var is_new_game:bool = false
 var selected_cell_1:CommonGemCell = null
 var selected_cell_2:CommonGemCell = null
+var current_target_cell:CommonGemCell = null
 var undo_cell_1:CommonGemCell = null
 var undo_cell_2:CommonGemCell = null
-var current_target_cell:CommonGemCell = null
 var tweens_running_cnt:int = 0
 var board_props_moves:int = 0
 var board_props_score:int = 0
@@ -171,7 +171,7 @@ func _on_cell_click(gem_cell:CommonGemCell):
 		undo_cell_2 = selected_cell_2
 		swap_gem_cells(selected_cell_1, selected_cell_2)
 
-func _on_drag_start(_gem_cell:CommonGemCell, mouse_position:Vector2):
+func _on_drag_start(_gem_cell:CommonGemCell, _mouse_position:Vector2):
 	# TODO: Also block during `explode_refill_gems()`!!!
 	# A: Dont allow selection while tweens are running!
 	if tweens_running_cnt > 0:

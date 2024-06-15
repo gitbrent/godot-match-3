@@ -93,7 +93,7 @@ func debug_unlock_cells(hbox:HBoxContainer):
 		if vbox is VBoxContainer:
 			for gem_cell in vbox.get_children():
 				if gem_cell.is_locked:
-					gem_cell.lock_cell(false)
+					gem_cell.unlock_cell()
 	
 	# Lock just one cell, so we can easily test WINNER scneario
-	hbox.get_child(3).get_child(3).lock_cell(true)
+	hbox.get_child(3).get_child(3).lock_cell()

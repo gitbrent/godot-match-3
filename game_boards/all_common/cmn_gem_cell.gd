@@ -126,9 +126,23 @@ func update_texture():
 		print("ERROR: Texture for gem color not found!")
 		print("gem_textures: ", gem_textures)
 
-func lock_cell(is_lock:bool):
-	is_locked = is_lock
-	overlay_lock.visible = is_lock
+func lock_cell():
+	# A:
+	is_locked = true
+	# B:
+	overlay_lock.visible = true
+
+func unlock_cell():
+	# A:
+	is_locked = false
+	# B: hide lock overlay
+	overlay_lock.visible = false
+	# C: explode animation
+	anim_sprite_explode.visible = true
+	anim_sprite_explode.play("default")
+	await get_tree().create_timer(Enums.EXPLODE_DELAY).timeout
+	# D: reset anim-player effects (after await above)
+	anim_sprite_explode.visible = false
 
 # =========================================================
 
@@ -181,7 +195,7 @@ func play_anim_explode(points:int):
 	anim_burst_1.visible = false
 	anim_player_fx.stop()
 	label_points.visible = false # anim_player_fx stop/reset above unhides it
-	
+
 # =========================================================
 
 func debug_show_selnum(num:int):
