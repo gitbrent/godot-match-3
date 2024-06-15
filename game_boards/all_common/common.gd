@@ -337,8 +337,8 @@ func extract_gem_cells_from_matches(matches: Array) -> Array:
 	return gem_cells
 
 func find_gem_indices(gem_cell:CommonGemCell) -> Dictionary:
-	var parent_vbox = gem_cell.get_parent()  # Assuming direct parent is a VBoxContainer
-	var hbox = parent_vbox.get_parent()      # Assuming direct parent of VBox is the HBoxContainer
+	var parent_vbox = gem_cell.get_parent()
+	var hbox = parent_vbox.get_parent()
 	
 	var vbox_index = -1
 	var gem_index = -1

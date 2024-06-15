@@ -15,7 +15,9 @@ signal show_game_winner()
 @onready var debug_cont_value:Label = $"../../ContDebug/VBoxContainer/ContDebugValue"
 @onready var debug_cell_value_1 = $"../../ContDebugCellSel/VBoxContainer/CellValue1"
 @onready var debug_cell_value_2 = $"../../ContDebugCellSel/VBoxContainer/CellValue2"
-@onready var debug_cell_value_t = $"../../ContDebugCellSel/VBoxContainer/CellValue3"
+@onready var debug_cell_value_tgt = $"../../ContDebugCellSel/VBoxContainer/CellValue3"
+@onready var debug_value_pos_x = $"../../ContDebugCellSel/VBoxContainer/ValuePosX"
+@onready var debug_value_pos_y = $"../../ContDebugCellSel/VBoxContainer/ValuePosY"
 @onready var space_progress_bar:SpaceProgressBar = $"../../ContTopBar/SpaceProgressBar"
 # PRELOAD
 var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
@@ -158,16 +160,15 @@ func _on_cell_click(gem_cell:CommonGemCell):
 	debug_cell_value_1.text = "-"
 	debug_cell_value_2.text = "-"
 	if selected_cell_1:
-		var indfind_1 = CmnFunc.find_gem_indices(selected_cell_1)
-		var formatd_1 = CmnFunc.format_gem_indices(indfind_1)
-		debug_cell_value_1.text = formatd_1
-		Enums.debug_print("[_on_cell_click] selected_cell_1: " + formatd_1, Enums.DEBUG_LEVEL.INFO)
+		var formated_1 = CmnFunc.format_gem_indices(CmnFunc.find_gem_indices(selected_cell_1))
+		debug_cell_value_1.text = formated_1
+		Enums.debug_print("[_on_cell_click] selected_cell_1: " + formated_1, Enums.DEBUG_LEVEL.INFO)
 		if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
 			selected_cell_1.debug_show_selnum(1)
 	if selected_cell_2:
-		var formatd_2 = CmnFunc.format_gem_indices(CmnFunc.find_gem_indices(selected_cell_2))
-		debug_cell_value_2.text = formatd_2
-		Enums.debug_print("[_on_cell_click] selected_cell_2: " + formatd_2, Enums.DEBUG_LEVEL.INFO)
+		var formated_2 = CmnFunc.format_gem_indices(CmnFunc.find_gem_indices(selected_cell_2))
+		debug_cell_value_2.text = formated_2
+		Enums.debug_print("[_on_cell_click] selected_cell_2: " + formated_2, Enums.DEBUG_LEVEL.INFO)
 		if Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
 			selected_cell_2.debug_show_selnum(2)
 	
@@ -194,7 +195,12 @@ func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
 	#print("[_on_drag_inprog] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)))
 	if is_dragging:
 		var target_cell = CmnFunc.get_gem_at_position(mouse_position, hbox_container)
-		debug_cell_value_t.text = CmnFunc.format_gem_indices(CmnFunc.find_gem_indices(target_cell))
+		if target_cell:
+			debug_cell_value_tgt.text = CmnFunc.format_gem_indices(CmnFunc.find_gem_indices(target_cell))
+		else:
+			debug_cell_value_tgt.text = "-"
+		debug_value_pos_x.text = str(round(mouse_position.x))
+		debug_value_pos_y.text = str(round(mouse_position.y))
 		#print("[_on_drag_inprog] target_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(target_cell)))
 		if target_cell and selected_cell_1 and CmnFunc.are_cells_adjacent(selected_cell_1, target_cell):
 			if current_target_cell and current_target_cell != target_cell and selected_cell_1 != current_target_cell:
@@ -223,7 +229,9 @@ func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
 			debug_cell_value_1.text = "-"
 	# DONE
 	is_dragging = false
-	debug_cell_value_t.text = "-"
+	debug_cell_value_tgt.text = "-"
+	debug_value_pos_x.text = "-"
+	debug_value_pos_y.text = "-"
 
 # STEP 2: Swap gems: capture current gems, move scenes via tween
 
