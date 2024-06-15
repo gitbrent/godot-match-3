@@ -18,16 +18,16 @@ func _gui_input(event):
 			emit_signal("drag_ended", get_parent(), get_global_mouse_position())
 	elif event is InputEventMouseMotion:
 		emit_signal("drag_in_prog", get_parent(), get_global_mouse_position())
-	elif event is InputEventScreenTouch:
-		if event.pressed:
-			emit_signal("cell_click", get_parent())
-			emit_signal("drag_start", get_parent(), _get_global_pos_from_touch(event.position))
-		else:
-			emit_signal("drag_ended", get_parent(), _get_global_pos_from_touch(event.position))
-	elif event is InputEventScreenDrag:
-		# Use touch delta for smoother dragging
-		var touch_delta = _get_global_pos_from_touch(event.position) - event.get_position_in_parent(self) 
-		emit_signal("drag_in_prog", get_parent(), touch_delta)
+	#elif event is InputEventScreenTouch:
+		#if event.pressed:
+			#emit_signal("cell_click", get_parent())
+			#emit_signal("drag_start", get_parent(), _get_global_pos_from_touch(event.position))
+		#else:
+			#emit_signal("drag_ended", get_parent(), _get_global_pos_from_touch(event.position))
+	#elif event is InputEventScreenDrag:
+		## Use touch delta for smoother dragging
+		#var touch_delta = _get_global_pos_from_touch(event.position) - event.get_position_in_parent(self) 
+		#emit_signal("drag_in_prog", get_parent(), touch_delta)
 
 func _get_global_pos_from_touch(event):
 	if not is_instance_of(event, InputEventScreenTouch):
