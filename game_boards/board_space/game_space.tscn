@@ -32,7 +32,7 @@
 bg_color = Color(0, 0, 0, 0.6)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k3sk6"]
-bg_color = Color(0, 0, 0, 0.6)
+bg_color = Color(0, 0.392157, 0, 0.6)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2xg0a"]
 shader = ExtResource("6_tywfq")
@@ -566,6 +566,89 @@ theme_override_font_sizes/font_size = 52
 text = "Cont
 Debug
 Value"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContDebugCellSel" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 90.0
+offset_top = 258.0
+offset_right = 380.0
+offset_bottom = 658.0
+
+[node name="ContDebugBkgd" type="Panel" parent="ContDebugCellSel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k3sk6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ContDebugCellSel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CellLabel1" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "selected_cell_1"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="CellValue1" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("16_donlk")
+theme_override_font_sizes/font_size = 60
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CellLabel2" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "selected_cell_2	"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="CellValue2" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("16_donlk")
+theme_override_font_sizes/font_size = 60
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CellLabel3" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "target_cell"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="CellValue3" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("16_donlk")
+theme_override_font_sizes/font_size = 60
+text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 

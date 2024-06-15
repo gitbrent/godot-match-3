@@ -384,6 +384,9 @@ func get_gem_at_position(position:Vector2, hbox:HBoxContainer) -> CommonGemCell:
 					return gem_cell
 	return null
 
+func format_gem_indices(indices: Dictionary) -> String:
+	return "C%d:R%d" % [indices["column"], indices["row"]]
+
 # =========================================================
 
 func calculate_score_for_matches(matches:Array) -> int:
