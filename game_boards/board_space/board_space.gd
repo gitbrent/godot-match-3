@@ -310,15 +310,13 @@ func process_game_round():
 	#     "count":3
 	#   }
 	#]
-	var matches = CmnFunc.get_all_matches(hbox_container)
-	var gem_cells = CmnFunc.extract_gem_cells_from_matches(matches)
-	Enums.debug_print("[process_game_round]: matches.. = "+JSON.stringify(matches), Enums.DEBUG_LEVEL.DEBUG)
-	Enums.debug_print("[process_game_round]: gem_cells = "+str(gem_cells), Enums.DEBUG_LEVEL.DEBUG)
-	if matches.size() > 0 and Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
-		CmnDbg.debug_print_ascii_table(hbox_container, gem_cells)
+	var all_matches = CmnFunc.get_all_matches(hbox_container)
+	Enums.debug_print("[process_game_round]: all_matches.. = "+CmnDbg.print_gem_matches(all_matches), Enums.DEBUG_LEVEL.DEBUG)
+	#if all_matches.size() > 0 and Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
+	#	CmnDbg.debug_print_ascii_table(hbox_container, all_matches)
 	
 	# B:
-	var score = CmnFunc.calculate_score_for_matches(matches)
+	var score = CmnFunc.calculate_score_for_matches(all_matches)
 	board_props_score += score
 	emit_signal("props_updated_score", board_props_score)
 	
@@ -326,7 +324,7 @@ func process_game_round():
 	signal_game_props_count_gems()
 	
 	# D: Handle resuolts: explode matches, or halt
-	if matches.size() == 0:
+	if all_matches.size() == 0:
 		Enums.debug_print("[check_board_explode_matches]: No more matches. Board stable.", Enums.DEBUG_LEVEL.INFO)
 		# A: TODO: check for "NO MORE MOVES"
 		var brent = CmnFunc.check_for_possible_moves(hbox_container)
@@ -353,8 +351,8 @@ func process_game_round():
 		board_props_moves += 1
 		emit_signal("props_updated_moves", board_props_moves)
 		# B: explode matched gems
-		var match_scores = CmnFunc.calculate_scores_for_each_match(matches)
-		explode_refill_gems(matches, match_scores)
+		var match_scores = CmnFunc.calculate_scores_for_each_match(all_matches)
+		explode_refill_gems(all_matches, match_scores)
 
 func explode_refill_gems(matches: Array, match_scores: Dictionary):
 	Enums.debug_print("[explode_refill_gems]: !!!!!!!!!!!=====================================", Enums.DEBUG_LEVEL.INFO)
@@ -368,7 +366,6 @@ func explode_refill_gems(matches: Array, match_scores: Dictionary):
 		for gem_cell in match["cells"]:
 			var score = match_scores[gem_cell]
 			gem_cell.explode_gem(gem_cell.gem_color, score)
-			CmnFunc.unlock_adjacent_locked_cells(hbox_container, gem_cell)
 			# WIP: locked cells
 			var prog = 16 - CmnFunc.count_locked_cells(hbox_container)
 			space_progress_bar.set_progbar(prog)

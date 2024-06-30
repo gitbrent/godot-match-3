@@ -265,11 +265,7 @@ func process_game_round():
 	#   }
 	#]
 	var matches = CmnFunc.get_all_matches(hbox_container)
-	var gem_cells = CmnFunc.extract_gem_cells_from_matches(matches)
 	Enums.debug_print("[process_game_round]: matches.. = "+JSON.stringify(matches), Enums.DEBUG_LEVEL.DEBUG)
-	Enums.debug_print("[process_game_round]: gem_cells = "+str(gem_cells), Enums.DEBUG_LEVEL.DEBUG)
-	if matches.size() > 0 and Enums.current_debug_level == Enums.DEBUG_LEVEL.DEBUG:
-		CmnDbg.debug_print_ascii_table(hbox_container, gem_cells)
 
 	# B:
 	var score = CmnFunc.calculate_score_for_matches(matches)

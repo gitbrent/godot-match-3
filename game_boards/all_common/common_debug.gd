@@ -81,19 +81,73 @@ func debug_make_gem_grid(hbox:HBoxContainer, gemDict:Enums.GemDict):
 		for j in range(size):
 			var gem = vbox.get_child(j)
 			# Load the appropriate scene based on the checkerboard pattern
-			gem.initialize(Enums.GemColor.PRP, gemDict)
+			gem.replace_gem(Enums.GemColor.BLU)
 			if (i + j) % 2 == 0:
-				gem.initialize(Enums.GemColor.YLW, gemDict)
-				gem.get_child(1).position = Enums.SRPITE_POS
+				gem.replace_gem(Enums.GemColor.ORG)
 
-# space/locked cells
+# GAME-SPECIFIC: Space Level: Locked Cells ====================================
 
 func debug_unlock_cells(hbox:HBoxContainer):
+	# STEP 1: unlock all
 	for vbox in hbox.get_children():
 		if vbox is VBoxContainer:
 			for gem_cell in vbox.get_children():
 				if gem_cell.is_locked:
 					gem_cell.unlock_cell()
 	
-	# Lock just one cell, so we can easily test WINNER scneario
-	hbox.get_child(3).get_child(3).lock_cell()
+	# STEP 2: checkerboad
+	debug_make_gem_grid(hbox,Enums.GemDict.SPACE)
+	
+	# WIP: DEBUG:
+	hbox.get_child(0).get_child(1).replace_gem(Enums.GemColor.RED)
+	hbox.get_child(2).get_child(1).replace_gem(Enums.GemColor.RED)
+	hbox.get_child(0).get_child(2).lock_cell()
+	
+	#hbox.get_child(4).get_child(1).replace_gem(Enums.GemColor.RED)
+	#hbox.get_child(6).get_child(1).replace_gem(Enums.GemColor.RED)
+	#hbox.get_child(5).get_child(1).replace_gem(Enums.GemColor.BLU)
+	#hbox.get_child(5).get_child(2).replace_gem(Enums.GemColor.ORG)
+	#hbox.get_child(4).get_child(2).lock_cell()
+	
+	# Lock btm-right to prevent game from insta-ending when we unlock above
+	hbox.get_child(7).get_child(7).lock_cell()
+	return
+	
+	# STEP 3: Set up horizontal test scenario
+	var horizontal_test_positions = [
+		Vector2(1, 2), # Locked red gem
+		Vector2(2, 2), # Locked red gem
+		Vector2(3, 2)  # Unlocked red gem
+	]
+	for pos in horizontal_test_positions:
+		var gem_cell = hbox.get_child(pos.x).get_child(pos.y)
+		if pos == horizontal_test_positions[2]: # Unlock the third cell for horizontal match
+			gem_cell.unlock_cell()
+		else:
+			gem_cell.lock_cell()
+		#gem_cell.replace_gem(Enums.GemColor.RED)
+	
+	# STEP 4: Set up vertical test scenario
+	var vertical_test_positions = [
+		Vector2(5, 2), # Locked red gem
+		Vector2(5, 3), # Locked red gem
+		Vector2(5, 4)  # Unlocked red gem
+	]
+	for pos in vertical_test_positions:
+		var gem_cell = hbox.get_child(pos.x).get_child(pos.y)
+		if pos == vertical_test_positions[2]: # Unlock the third cell for vertical match
+			gem_cell.unlock_cell()
+		else:
+			gem_cell.lock_cell()
+		#gem_cell.replace_gem(Enums.GemColor.RED)
+
+func print_gem_matches(matches):
+	var str_matches = ""
+	
+	if not matches or matches.size() == 0:
+		str_matches = "(empty)"
+	else:
+		for cell in matches[0].cells:
+			str_matches += CmnFunc.format_gem_indices(CmnFunc.find_gem_indices(cell)) + "; "
+	
+	return str_matches
