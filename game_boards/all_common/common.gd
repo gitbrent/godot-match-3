@@ -97,36 +97,31 @@ func check_match(board) -> bool:
 
 	return false
 
-func get_matches(hbox: HBoxContainer) -> Array:
+func get_all_matches(hbox: HBoxContainer) -> Array:
+	# GAME-RULE: [LOCKED-CELLS]: Handle locked cells here, unlock but dont add to match array (as these are the ones that will subsequently be exploded)
 	var matches = []
 	var num_columns = hbox.get_child_count()
 	var num_rows = hbox.get_child(0).get_child_count()
-
+	
+	# Check for horizontal matches
 	for row in range(num_rows):
 		var last_color = null
 		var streak = 0
 		var match_start = 0
 		for column in range(num_columns):
 			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
-			if gem_cell.is_locked:
-				if streak >= 3:
-					var match_cells = []
-					for i in range(match_start, column):
-						match_cells.append(hbox.get_child(i).get_child(row))
-					matches.append({
-						"cells": match_cells,
-						"count": streak
-					})
-				streak = 0
-				continue
-
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
 				if streak >= 3:
 					var match_cells = []
 					for i in range(match_start, column):
-						match_cells.append(hbox.get_child(i).get_child(row))
+						var cell:CommonGemCell = hbox.get_child(i).get_child(row)
+						if cell.is_locked:
+							cell.unlock_cell()
+							streak -= 1
+						else:
+							match_cells.append(cell)
 					matches.append({
 						"cells": match_cells,
 						"count": streak
@@ -134,41 +129,40 @@ func get_matches(hbox: HBoxContainer) -> Array:
 				streak = 1
 				match_start = column
 				last_color = gem_cell.gem_color
-
+		
 		if streak >= 3:
 			var match_cells = []
 			for i in range(match_start, num_columns):
-				match_cells.append(hbox.get_child(i).get_child(row))
+				var cell:CommonGemCell = hbox.get_child(i).get_child(row)
+				if cell.is_locked:
+					cell.unlock_cell()
+					streak -= 1
+				else:
+					match_cells.append(cell)
 			matches.append({
 				"cells": match_cells,
 				"count": streak
 			})
-
+	
+	# Check for vertical matches
 	for column in range(num_columns):
 		var last_color = null
 		var streak = 0
 		var match_start = 0
 		for row in range(num_rows):
 			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
-			if gem_cell.is_locked:
-				if streak >= 3:
-					var match_cells = []
-					for i in range(match_start, row):
-						match_cells.append(hbox.get_child(column).get_child(i))
-					matches.append({
-						"cells": match_cells,
-						"count": streak
-					})
-				streak = 0
-				continue
-
 			if gem_cell.gem_color == last_color:
 				streak += 1
 			else:
 				if streak >= 3:
 					var match_cells = []
 					for i in range(match_start, row):
-						match_cells.append(hbox.get_child(column).get_child(i))
+						var cell:CommonGemCell = hbox.get_child(column).get_child(i)
+						if cell.is_locked:
+							cell.unlock_cell()
+							streak -= 1
+						else:
+							match_cells.append(cell)
 					matches.append({
 						"cells": match_cells,
 						"count": streak
@@ -176,16 +170,21 @@ func get_matches(hbox: HBoxContainer) -> Array:
 				streak = 1
 				match_start = row
 				last_color = gem_cell.gem_color
-
+		
 		if streak >= 3:
 			var match_cells = []
 			for i in range(match_start, num_rows):
-				match_cells.append(hbox.get_child(column).get_child(i))
+				var cell:CommonGemCell = hbox.get_child(column).get_child(i)
+				if cell.is_locked:
+					cell.unlock_cell()
+					streak -= 1
+				else:
+					match_cells.append(cell)
 			matches.append({
 				"cells": match_cells,
 				"count": streak
 			})
-
+	
 	return matches
 
 func has_match_at(x:int, y:int, board:Array) -> bool:
@@ -237,103 +236,11 @@ func highlight_first_swap(hbox:HBoxContainer) -> void:
 
 # UTILS =========================================================
 
-func get_all_matches(hbox:HBoxContainer) -> Array:
-	var num_columns: int = hbox.get_child_count()
-	var num_rows: int = hbox.get_child(0).get_child_count()
-	var matches = []
-
-	for row in range(num_rows):
-		var last_color = null
-		var streak = 0
-		var match_start = 0
-		for column in range(num_columns):
-			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
-			if gem_cell.is_locked:
-				if streak >= 3:
-					var match_cells = []
-					for i in range(match_start, column):
-						match_cells.append(hbox.get_child(i).get_child(row))
-					matches.append({
-						"cells": match_cells,
-						"count": streak
-					})
-				streak = 0
-				continue
-
-			if gem_cell.gem_color == last_color:
-				streak += 1
-			else:
-				if streak >= 3:
-					var match_cells = []
-					for i in range(match_start, column):
-						match_cells.append(hbox.get_child(i).get_child(row))
-					matches.append({
-						"cells": match_cells,
-						"count": streak
-					})
-				streak = 1
-				match_start = column
-				last_color = gem_cell.gem_color
-
-		if streak >= 3:
-			var match_cells = []
-			for i in range(match_start, num_columns):
-				match_cells.append(hbox.get_child(i).get_child(row))
-			matches.append({
-				"cells": match_cells,
-				"count": streak
-			})
-
-	for column in range(num_columns):
-		var last_color = null
-		var streak = 0
-		var match_start = 0
-		for row in range(num_rows):
-			var gem_cell = hbox.get_child(column).get_child(row) as CommonGemCell
-			if gem_cell.is_locked:
-				if streak >= 3:
-					var match_cells = []
-					for i in range(match_start, row):
-						match_cells.append(hbox.get_child(column).get_child(i))
-					matches.append({
-						"cells": match_cells,
-						"count": streak
-					})
-				streak = 0
-				continue
-
-			if gem_cell.gem_color == last_color:
-				streak += 1
-			else:
-				if streak >= 3:
-					var match_cells = []
-					for i in range(match_start, row):
-						match_cells.append(hbox.get_child(column).get_child(i))
-					matches.append({
-						"cells": match_cells,
-						"count": streak
-					})
-				streak = 1
-				match_start = row
-				last_color = gem_cell.gem_color
-
-		if streak >= 3:
-			var match_cells = []
-			for i in range(match_start, num_rows):
-				match_cells.append(hbox.get_child(column).get_child(i))
-			matches.append({
-				"cells": match_cells,
-				"count": streak
-			})
-
-	return matches
-
 func extract_gem_cells_from_matches(matches: Array) -> Array:
 	var gem_cells = []
 	for match in matches:
 		for cell in match.cells:
-			if not cell.is_locked:
-				gem_cells.append(cell)
+			gem_cells.append(cell)
 	return gem_cells
 
 func find_gem_indices(gem_cell:CommonGemCell) -> Dictionary:
@@ -457,23 +364,3 @@ func count_locked_cells(hbox:HBoxContainer) -> int:
 					locked_count += 1
 	# Done
 	return locked_count
-
-func unlock_adjacent_locked_cells(hbox:HBoxContainer, gem_cell:CommonGemCell):
-	var indices = find_gem_indices(gem_cell)
-	var x = indices["column"]
-	var y = indices["row"]
-	
-	var adjacent_positions = [
-		Vector2(x + 1, y), Vector2(x - 1, y),
-		Vector2(x, y + 1), Vector2(x, y - 1)
-	]
-	
-	for pos in adjacent_positions:
-		Enums.debug_print("[UALC] Checking adjacent position: ("+ str(pos.x) +", "+ str(pos.y)+ ")", Enums.DEBUG_LEVEL.DEBUG)
-		if pos.x >= 0 and pos.y >= 0 and pos.x < hbox.get_child_count() and pos.y < hbox.get_child(0).get_child_count():
-			var adjacent_vbox = hbox.get_child(int(pos.x)) as VBoxContainer
-			var adjacent_cell = adjacent_vbox.get_child(int(pos.y)) as CommonGemCell
-			Enums.debug_print("[UALC] - adjacent cell at ("+ str(pos.x) +", "+ str(pos.y) +") is_locked = "+ str(adjacent_cell.is_locked), Enums.DEBUG_LEVEL.DEBUG)
-			if adjacent_cell.is_locked:
-				Enums.debug_print("[UALC] - unlocking adjacent locked cell at position: ("+ str(pos.x) +", "+ str(pos.y) +")", Enums.DEBUG_LEVEL.DEBUG)
-				adjacent_cell.unlock_cell()

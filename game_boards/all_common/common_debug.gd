@@ -97,3 +97,14 @@ func debug_unlock_cells(hbox:HBoxContainer):
 	
 	# Lock just one cell, so we can easily test WINNER scneario
 	hbox.get_child(3).get_child(3).lock_cell()
+
+func print_gem_matches(matches):
+	var str_matches = ""
+	
+	if not matches or matches.size() == 0:
+		str_matches = "(empty)"
+	else:
+		for cell in matches[0].cells:
+			str_matches += CmnFunc.format_gem_indices(CmnFunc.find_gem_indices(cell)) + "; "
+	
+	return str_matches
