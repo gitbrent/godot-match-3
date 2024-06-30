@@ -11,6 +11,7 @@ var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 @onready var label_msg_top:RichTextLabel = $ContMessages/CenterContainer/LabelMsgTop
 @onready var cont_winner:Control = $ContWinner
 @onready var audio_winner:AudioStreamPlayer = $AudioWinner
+@onready var cont_msg_howto_unlock:Control = $ContMsgHowtoUnlock
 
 func _ready():
 	# A:
@@ -75,7 +76,11 @@ func _on_btn_debug_pressed():
 func _on_btn_unlock_pressed():
 	game_board.debug_unlock_cells()
 
+func _on_btn_unlock_msg_ok_pressed():
+	cont_msg_howto_unlock.visible = false
+
 # =========================================================
 
 func init_game():
 	game_board.init_game()
+	cont_msg_howto_unlock.visible = true
