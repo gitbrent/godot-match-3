@@ -2751,7 +2751,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ContDebugCellSel" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = 90.0
@@ -3082,6 +3081,7 @@ scale = Vector2(0.42, 0.42)
 texture = ExtResource("27_s5rey")
 
 [node name="ContMsgHowtoUnlock" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 2000.0
@@ -3105,7 +3105,7 @@ offset_bottom = 1800.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("28_jj3er")
 
-[node name="Label" type="Label" parent="ContMsgHowtoUnlock/TextureRect"]
+[node name="Label1" type="Label" parent="ContMsgHowtoUnlock/TextureRect"]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
@@ -3117,8 +3117,22 @@ text = "Unlock Cells"
 horizontal_alignment = 1
 vertical_alignment = 2
 
+[node name="Label2" type="Label" parent="ContMsgHowtoUnlock/TextureRect"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 67.0
+offset_top = 300.0
+offset_right = -57.0
+offset_bottom = 600.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("16_donlk")
+theme_override_font_sizes/font_size = 96
+text = "Create a match with a locked cell to unlock it."
+autowrap_mode = 2
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ContMsgHowtoUnlock/TextureRect"]
-position = Vector2(768, 702)
+position = Vector2(768, 807)
 scale = Vector2(3.37029, 3.25949)
 sprite_frames = SubResource("SpriteFrames_0a2w1")
 autoplay = "default"
@@ -3127,11 +3141,11 @@ frame_progress = 0.303043
 
 [node name="BtnUnlockMsgOk" type="TextureButton" parent="ContMsgHowtoUnlock/TextureRect"]
 layout_mode = 0
-offset_left = 316.0
-offset_top = 1098.0
-offset_right = 1475.0
-offset_bottom = 1456.0
-scale = Vector2(0.8, 0.8)
+offset_left = 360.0
+offset_top = 1150.0
+offset_right = 1519.0
+offset_bottom = 1508.0
+scale = Vector2(0.7, 0.7)
 texture_normal = ExtResource("15_qjgsg")
 
 [node name="Label" type="Label" parent="ContMsgHowtoUnlock/TextureRect/BtnUnlockMsgOk"]
