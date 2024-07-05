@@ -16,6 +16,7 @@ signal show_game_winner()
 @onready var debug_cell_value_1 = $"../../ContDebugCellSel/VBoxContainer/CellValue1"
 @onready var debug_cell_value_2 = $"../../ContDebugCellSel/VBoxContainer/CellValue2"
 @onready var debug_cell_value_tgt = $"../../ContDebugCellSel/VBoxContainer/CellValue3"
+@onready var debug_cell_value_sts = $"../../ContDebugCellSel/VBoxContainer/CellValue4"
 @onready var debug_value_pos_x = $"../../ContDebugCellSel/VBoxContainer/ValuePosX"
 @onready var debug_value_pos_y = $"../../ContDebugCellSel/VBoxContainer/ValuePosY"
 @onready var space_progress_bar:SpaceProgressBar = $"../../ContTopBar/SpaceProgressBar"
@@ -126,12 +127,13 @@ func _on_inactivity_timer_timeout():
 func _on_cell_click(gem_cell:CommonGemCell):
 	Enums.debug_print("[_on_cell_click] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)), Enums.DEBUG_LEVEL.INFO)
 	Enums.debug_print("[_on_cell_click] ---------------------------------------------", Enums.DEBUG_LEVEL.INFO)
+	debug_cell_value_sts.text = "_on_cell_click"
 	
-	# A: *GAME SPECIFIC*: Locked cells
+	# A: [GAME-SPECIFIC]: Locked cells
 	if gem_cell.is_locked:
 		return
 	
-	# TODO: Also block during `explode_refill_gems()`!!!
+	# TODO: Also: add block clicks during `explode_refill_gems()`!!!
 	# A: Dont allow selection while tweens are running!
 	if tweens_running_cnt > 0:
 		return
@@ -183,6 +185,8 @@ func _on_cell_click(gem_cell:CommonGemCell):
 		swap_gem_cells(selected_cell_1, selected_cell_2)
 
 func _on_drag_start(_gem_cell:CommonGemCell, _mouse_position:Vector2):
+	debug_cell_value_sts.text = "_on_drag_start"
+
 	# TODO: Also block during `explode_refill_gems()`!!!
 	# A: Dont allow selection while tweens are running!
 	if tweens_running_cnt > 0:
@@ -192,6 +196,7 @@ func _on_drag_start(_gem_cell:CommonGemCell, _mouse_position:Vector2):
 	is_dragging = true
 
 func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
+	debug_cell_value_sts.text = "_on_drag_inprog"
 	#print("[_on_drag_inprog] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)))
 	if is_dragging:
 		var target_cell = CmnFunc.get_gem_at_position(mouse_position, hbox_container)
@@ -213,6 +218,7 @@ func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
 			current_target_cell.play_selected_anim(false) # turn off previously anim cell as current cell is invalid choice
 
 func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
+	debug_cell_value_sts.text = "_on_drag_ended"
 	if is_dragging:
 		if current_target_cell:
 			current_target_cell.play_selected_anim(false)

@@ -2860,6 +2860,24 @@ text = "-"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="CellLabel4" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 1, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "click/drag event"
+horizontal_alignment = 1
+vertical_alignment = 1
+text_overrun_behavior = 1
+
+[node name="CellValue4" type="Label" parent="ContDebugCellSel/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("16_donlk")
+theme_override_font_sizes/font_size = 60
+text = "-"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="BtnNewGame" type="TextureButton" parent="."]
 offset_left = 1600.0
 offset_top = 250.0
