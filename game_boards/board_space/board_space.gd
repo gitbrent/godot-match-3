@@ -236,10 +236,10 @@ func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
 			debug_cell_value_1.text = "-"
 	# DONE
 	is_dragging = false
-	debug_cell_value_tgt.text = "-"
-	debug_value_pos_x.text = "-"
-	debug_value_pos_y.text = "-"
-	debug_cell_value_isd.text = "-"
+	#debug_cell_value_tgt.text = "-"
+	#debug_value_pos_x.text = "-"
+	#debug_value_pos_y.text = "-"
+	#debug_cell_value_isd.text = "-"
 
 # STEP 2: Swap gems: capture current gems, move scenes via tween
 
@@ -288,11 +288,9 @@ func tween_completed():
 	
 	# B: clear selections
 	if selected_cell_1:
-		debug_cell_value_1.text = "-"
 		selected_cell_1.debug_show_selnum(0) # DEBUG
 		selected_cell_1 = null
 	if selected_cell_2:
-		debug_cell_value_2.text = "-"
 		selected_cell_2.debug_show_selnum(0) # DEBUG
 		selected_cell_2 = null
 	
