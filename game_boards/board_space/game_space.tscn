@@ -2756,7 +2756,7 @@ anchors_preset = 0
 offset_left = 90.0
 offset_top = 258.0
 offset_right = 380.0
-offset_bottom = 858.0
+offset_bottom = 958.0
 
 [node name="ContDebugBkgd" type="Panel" parent="ContDebugCellSel"]
 layout_mode = 1
