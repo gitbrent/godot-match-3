@@ -17,6 +17,7 @@ signal show_game_winner()
 @onready var debug_cell_value_2 = $"../../ContDebugCellSel/VBoxContainer/CellValue2"
 @onready var debug_cell_value_tgt = $"../../ContDebugCellSel/VBoxContainer/CellValue3"
 @onready var debug_cell_value_sts = $"../../ContDebugCellSel/VBoxContainer/CellValue4"
+@onready var debug_cell_value_isd = $"../../ContDebugCellSel/VBoxContainer/CellValue5"
 @onready var debug_value_pos_x = $"../../ContDebugCellSel/VBoxContainer/ValuePosX"
 @onready var debug_value_pos_y = $"../../ContDebugCellSel/VBoxContainer/ValuePosY"
 @onready var space_progress_bar:SpaceProgressBar = $"../../ContTopBar/SpaceProgressBar"
@@ -185,7 +186,7 @@ func _on_cell_click(gem_cell:CommonGemCell):
 		swap_gem_cells(selected_cell_1, selected_cell_2)
 
 func _on_drag_start(_gem_cell:CommonGemCell, _mouse_position:Vector2):
-	debug_cell_value_sts.text = "_on_drag_start"
+	debug_cell_value_sts.text += "\n_on_drag_start"
 
 	# TODO: Also block during `explode_refill_gems()`!!!
 	# A: Dont allow selection while tweens are running!
@@ -196,7 +197,7 @@ func _on_drag_start(_gem_cell:CommonGemCell, _mouse_position:Vector2):
 	is_dragging = true
 
 func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
-	debug_cell_value_sts.text = "_on_drag_inprog"
+	debug_cell_value_isd.text = str(is_dragging)
 	#print("[_on_drag_inprog] gem_cell.......: "+JSON.stringify(CmnFunc.find_gem_indices(gem_cell)))
 	if is_dragging:
 		var target_cell = CmnFunc.get_gem_at_position(mouse_position, hbox_container)
@@ -218,7 +219,7 @@ func _on_drag_inprog(_gem_cell:CommonGemCell, mouse_position:Vector2):
 			current_target_cell.play_selected_anim(false) # turn off previously anim cell as current cell is invalid choice
 
 func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
-	debug_cell_value_sts.text = "_on_drag_ended"
+	debug_cell_value_sts.text += "\n_on_drag_ended"
 	if is_dragging:
 		if current_target_cell:
 			current_target_cell.play_selected_anim(false)
@@ -238,6 +239,7 @@ func _on_drag_ended(gem_cell:CommonGemCell, mouse_position:Vector2):
 	debug_cell_value_tgt.text = "-"
 	debug_value_pos_x.text = "-"
 	debug_value_pos_y.text = "-"
+	debug_cell_value_isd.text = "-"
 
 # STEP 2: Swap gems: capture current gems, move scenes via tween
 

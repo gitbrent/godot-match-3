@@ -12,6 +12,8 @@ var CmnFunc = preload("res://game_boards/all_common/common.gd").new()
 @onready var cont_winner:Control = $ContWinner
 @onready var audio_winner:AudioStreamPlayer = $AudioWinner
 @onready var cont_msg_howto_unlock:Control = $ContMsgHowtoUnlock
+@onready var debug_cell_value_4 = $ContDebugCellSel/VBoxContainer/CellValue4
+@onready var debug_cell_value_5 = $ContDebugCellSel/VBoxContainer/CellValue5
 
 func _ready():
 	# A:
@@ -78,6 +80,10 @@ func _on_btn_unlock_pressed():
 
 func _on_btn_unlock_msg_ok_pressed():
 	cont_msg_howto_unlock.visible = false
+
+func _on_btn_clear_debug_cell_pressed():
+	debug_cell_value_4.text = "-"
+	debug_cell_value_5.text = "-"
 
 # =========================================================
 
