@@ -2898,7 +2898,7 @@ offset_top = 906.0
 offset_right = 1166.0
 offset_bottom = 1264.0
 scale = Vector2(0.25, 0.25)
-texture_normal = ExtResource("17_oxovp")
+texture_normal = ExtResource("16_20lur")
 
 [node name="Label" type="Label" parent="ContDebugCellSel/BtnClearDebugCell"]
 layout_mode = 1
