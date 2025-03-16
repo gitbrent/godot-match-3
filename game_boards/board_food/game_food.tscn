@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://b5bfm2244ywxk"]
 
-[ext_resource type="Script" path="res://game_boards/board_food/game_food.gd" id="1_ewnxx"]
+[ext_resource type="Script" uid="uid://dmid03epc35n3" path="res://game_boards/board_food/game_food.gd" id="1_ewnxx"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_h8otn"]
 [ext_resource type="PackedScene" uid="uid://x4qq2j3l7nvb" path="res://game_boards/board_food/board_food.tscn" id="2_2ltbx"]
 [ext_resource type="Texture2D" uid="uid://cwhjcn0y744nv" path="res://assets/gems/background-space.png" id="3_latsb"]
@@ -68,7 +68,7 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_htlur"]
 _data = {
-"show_msg_amazing": SubResource("Animation_3xeuw")
+&"show_msg_amazing": SubResource("Animation_3xeuw")
 }
 
 [node name="GameFood" type="Node2D"]

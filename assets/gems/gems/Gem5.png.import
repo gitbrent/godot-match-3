@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dhrwau2byrgig"
-path="res://.godot/imported/gem5.png-b800eeaaed2e1c8b114351ef5e5d6858.ctex"
+path="res://.godot/imported/Gem5.png-6dedc65a4af7aadcc23c1bcee016ae4d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gems/gems/gem5.png"
-dest_files=["res://.godot/imported/gem5.png-b800eeaaed2e1c8b114351ef5e5d6858.ctex"]
+source_file="res://assets/gems/gems/Gem5.png"
+dest_files=["res://.godot/imported/Gem5.png-6dedc65a4af7aadcc23c1bcee016ae4d.ctex"]
 
 [params]
 

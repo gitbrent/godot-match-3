@@ -22,7 +22,7 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5m8mq"]
 _data = {
-"move_cloud": SubResource("Animation_0x8pj")
+&"move_cloud": SubResource("Animation_0x8pj")
 }
 
 [node name="AnimatedCloud" type="Node2D"]

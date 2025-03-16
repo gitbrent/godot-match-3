@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://mu2k87xf3lma"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_73dvc"]
+[ext_resource type="Script" uid="uid://ye86ym028re8" path="res://main.gd" id="1_73dvc"]
 [ext_resource type="Texture2D" uid="uid://cnlqirgwr8d4" path="res://assets/bkgd/Background.png" id="1_t1b1c"]
 [ext_resource type="FontFile" uid="uid://dlhwrp5jwkrll" path="res://assets/fonts/Acme-Regular.ttf" id="2_j1i6k"]
 [ext_resource type="Texture2D" uid="uid://27rcw10bp2xt" path="res://assets/gui/ButtonText_Large_Green_Round.png" id="3_nqt0h"]
